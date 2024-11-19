@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!-- ^always add to show its current level-->
+<html lang="en">
+  <head>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"
+    <title>tinos tree service</title>
+    <link href="styles.css" rel="stylesheet"/>
+  </head>
+  
+  
+  <body>
+    <div class="tree" >
+    <main>
+      <h1 class="middle" >Tinos tree service</h1> <!-- h1 makes tittles from 1-etc 1 being biggest most important to lower-->
+      <section class="middle">
+        <h2 class="middle">established 2022</h2>
+        <!-- <a> turns words into links and href is the link attribute -->
+        <h2 class="middle">we can provide all the tree service you need.</h2>
+        <a class="middle" href="https://freecatphotoapp.com"><img src="https://assets.onecompiler.app/42vedv2gg/42vekb2q2/20241118_080024644_iOS.jpg" alt="A cute orange cat lying on its back."></a>
+      </section> <!-- sections better seperate colums to not stay bunched together-->
+      
+      
+      
+      <section class="middle" >
+        <h2 class="middle" >services that we provide:</h2>
+        <ul class="font"> <!-- ul makes bulletpoint lists-->
+          <p>-Tree pruning</p>
+          <p>-tree trimming</p>
+          <p>-Tree removal</p>
+          <p>-Stump removal</p>
+          <p>-hazardous tree removal</p>
+          <p>-full clean</p>
+          <p>-And many more!</p>
+          
+        </ul>
+        <figure> <!--figure is its own photo colum and figcaptions lets you add captions to photos-->
+          <img src="https://tse2.mm.bing.net/th?id=OIP.Xm95WTgHrmDf7CyDr6_P_gHaJ4&pid=Api&P=0&h=220" alt="A slice of lasagna on a plate.">
+          <figcaption>this is a<em>tree</em> removal.</figcaption>  
+        </figure>
+        
+        
+        <h3>Top 3 things cats hate:</h3>
+        <ol> <!-- ol creates number lists -->
+          <li>flea treatment</li>
+          <li>thunder</li>
+          <li>other cats</li>
+        </ol>
+        <figure> <!-- add photo in src -->
+          <img src="" alt="Five cats looking around a field.">
+          <figcaption>Cats <strong>hate</strong> other cats.</figcaption>  
+        </figure>
+      </section>
+      
+      
+      
+      <section>
+        <h2>request an estimate</h2>
+        <form action="https://freecatphotoapp.com/submit-cat-photo"> <!--forms create well forms for choices -->
+          <fieldset>
+            <legend>Is your cat an indoor or outdoor cat?</legend><!-- legend lets you write questions in the form boxes-->
+            <label><input id="indoor" type="radio" name="indoor-outdoor" value="indoor" checked> Indoor</label><!--id are just the names or what it goes by the types are either radio for bubble buttons and checkbox for boxes-->
+            <label><input id="outdoor" type="radio" name="indoor-outdoor" value="outdoor"> Outdoor</label>
+          </fieldset>
+          <fieldset>
+            <legend>What's your cat's personality?</legend>
+            <input id="loving" type="checkbox" name="personality" value="loving" checked> <label for="loving">Loving</label><!-- checked just leaves them chosen by default-->
+            <input id="lazy" type="checkbox" name="personality" value="lazy"> <label for="lazy">Lazy</label>
+            <input id="energetic" type="checkbox" name="personality" value="energetic"> <label for="energetic">Energetic</label>
+          </fieldset><!--fieldset is just where you can submit written answers input is the writing box, type is for the writing box, placeholder is what describes what you should write-->
+          <input type="text" name="catphotourl" placeholder="cat photo URL" required><!-- required is just that if youd like to submit something you must write in that box-->
+          <button type="submit">Submit</button><!--this colum creates buttons-->
+        </form>
+      </section>
+    </main>
+    <footer>
+      <p>
+        No Copyright - <a href="https://www.freecodecamp.org">freeCodeCamp.org</a>
+      </p>
+    </footer>
+    </div>
+  </body>
+</html>
