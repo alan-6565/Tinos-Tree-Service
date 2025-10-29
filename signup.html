@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta Tags for SEO -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tinos Tree Service</title>
+    <meta
+      name="description"
+      content="Experience the next generation of technology with NEXT. Discover AI-powered solutions and innovative products."
+    />
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
+      integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc"
+      crossorigin="anonymous"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpg" href="images/hero-pic-1.jpg">
+  </head>
+  <body>
+    <!-- Header Section -->
+    <header>
+      <nav class="navbar" role="navigation" aria-label="Main Navigation">
+        <div class="navbar__container">
+          <!-- Logo on the Left -->
+          <a href="/" id="navbar-logo">Tinos Tree Service</a>
+
+          <!-- Menu Items in the Middle -->
+          <ul class="navbar__menu">
+            <li class="navbar__item">
+              <a href="/" class="navbar__links">Home</a>
+            </li>
+            <li class="navbar__item">
+              <a href="/services.html" class="navbar__links">Why us</a>
+            </li>
+            <li class="navbar__item">
+              <a href="/pricing.html" class="navbar__links">Services</a>
+            </li>
+            <!-- Sign Up Button for Mobile -->
+            <li class="navbar__btn mobile">
+              <a href="/signup.html" class="button">Contact Us</a>
+            </li>
+          </ul>
+
+          <!-- Sign Up Button on the Right (Desktop) -->
+          <div class="navbar__btn desktop">
+            <a href="/signup.html" class="button">Contact Us</a>
+          </div>
+
+          <!-- Mobile Menu Toggle Button -->
+          <button
+            class="navbar__toggle"
+            id="mobile-menu"
+            aria-label="Toggle Navigation"
+            aria-expanded="false"
+          >
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </nav>
+    </header>
+    <div class="signup-wrapper">
+      <div class="signup-container">
+        <h2>Submit Estimate Form</h2>
+        <form action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="8dbf660e-f3d9-43a4-8d37-9e658577ea96">
+          <div class="form-group">
+            <label for="fullname">Full Name</label>
+            <input
+             name='first_name'
+              type="text"
+              id="fullname"
+              placeholder="Enter your full name"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input
+              name="email"
+              type="email"
+              id="email"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input
+            name="phone"
+              type="tel"
+              id="phone"
+              placeholder="Enter your phone number"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Details</label>
+            <input
+              name="message"
+              type="message"
+              id="password"
+              placeholder="please type what you need done"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="account-type"></label>
+            
+          </div>
+
+          <button type="submit" class="signup-button">Submit Estimate</button>
+
+          <div class="terms">
+             <a href="#"></a>.
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer__container">
+          <div class="footer__links">
+            <div class="footer__link-wrapper">
+              <div class="footer__link-items">
+                <h2>About Us</h2>
+                <a>For over 25 years, Tino's Tree Service has been proudly serving our community with trusted, high-quality tree care. As a family-owned and operated business, we’ve built our reputation on honesty, safety, and expert craftsmanship. From tree removal and pruning to stump grinding and emergency storm cleanup, our team is committed to keeping your trees healthy and your property safe. With decades of hands-on experience and a deep respect for nature, Tino’s Tree Service is the name you can count on — every season, every time</a>
+                
+              </div>
+
+              <div class="footer__link-items">
+                <h2>Contact Us</h2>
+                <a >(510)932-3088
+                  juventinocrisostomo-
+                  33@gmail.com
+                </a>
+                
+              </div>
+            </div>
+
+            
+          </div>
+
+          <section class="social__media">
+            <div class="social__media-wrap">
+              <div class="footer__logo">
+                <a href="/" id="footer-logo">Tinos Tree Service</a>
+              </div>
+              <p class="website__rights">
+                © Tinos Tree Service <span id="year"></span> All rights reserved
+              </p>
+              
+            </div>
+          </section>
+        </div>
+      </footer>
+
+    <!-- External JavaScript -->
+    <script src="app.js" defer></script>
+  </body>
+</html>
