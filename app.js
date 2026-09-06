@@ -1,9 +1,10 @@
 /**
- * Tino's Tree Service – App Script (Refactored)
+ * Tino's Tree Service – App Script
  * - Mobile nav toggle with proper aria-expanded
  * - Safe rotating logos duplication (idempotent)
  * - Auto year in footer
- * - Pricing toggle (if present)
+ * - Gallery filter buttons (our-work page)
+ * - File upload label feedback (signup page)
  */
 (function () {
   'use strict';
@@ -52,26 +53,46 @@
     if (el) el.textContent = String(new Date().getFullYear());
   }
 
-  // Pricing toggle (exists on pricing/services page)
-  function initPricingToggle() {
-    const checkbox = $("#pricing-toggle-checkbox");
-    if (!checkbox) return;
+  // Gallery filter buttons (our-work.html)
+  function initGalleryFilters() {
+    const filters = $(".gallery__filters");
+    if (!filters) return;
 
-    const monthlyPrices = $$(".monthly-price");
-    const yearlyPrices = $$(".yearly-price");
-    const yearlyDiscount = $(".save-percentage");
+    const buttons = $$("button", filters);
+    const items = $$(".gallery__item");
 
-    function applyState() {
-      const yearly = checkbox.checked;
-      monthlyPrices.forEach((el) => el.classList.toggle("hidden", yearly));
-      yearlyPrices.forEach((el) => el.classList.toggle("hidden", !yearly));
-      if (yearlyDiscount) {
-        yearlyDiscount.style.display = yearly ? "inline" : "none";
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        buttons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        const filter = btn.textContent.trim();
+        items.forEach((item) => {
+          const tag = $(".tag", item);
+          const matches = filter === "All Projects" || (tag && tag.textContent.trim() === filter);
+          item.style.display = matches ? "" : "none";
+        });
+      });
+    });
+  }
+
+  // File upload label feedback (signup.html)
+  function initFileDrop() {
+    const input = $("#photo-upload");
+    const drop = $("#file-drop");
+    const label = $("#file-drop-label");
+    if (!input || !drop || !label) return;
+
+    input.addEventListener("change", function () {
+      if (input.files && input.files.length > 0) {
+        drop.classList.add("has-file");
+        label.textContent = input.files.length === 1
+          ? input.files[0].name
+          : input.files.length + " photos selected";
+      } else {
+        drop.classList.remove("has-file");
+        label.textContent = "Photos help us understand the job before we call";
       }
-    }
-
-    checkbox.addEventListener("change", applyState);
-    applyState(); // set initial view
+    });
   }
 
   // Defer init until DOM ready
@@ -79,6 +100,7 @@
     initMobileMenu();
     initRotatingLogos();
     initYear();
-    initPricingToggle();
+    initGalleryFilters();
+    initFileDrop();
   });
 })();

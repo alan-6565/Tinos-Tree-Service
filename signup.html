@@ -3,25 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Request a Free Estimate | Tino’s Tree Service</title>
-  <meta name="description" content="Send us your details for a fast, no‑obligation tree service estimate.">
-  <link rel="icon" type="image/jpg" href="images/hero-pic-1.jpg">
+  <title>Request a Free Estimate | Tino's Tree Service</title>
+  <meta name="description" content="Send us your details for a fast, no-obligation tree service estimate. Serving the East Bay Area, CA.">
+  <link rel="icon" type="image/jpg" href="/images/hero-pic-1.jpg">
   <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a4ccdfdc17.js" crossorigin="anonymous" defer></script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <a href="#main" class="visually-hidden">Skip to content</a>
   <header>
     <nav class="navbar" role="navigation" aria-label="Main">
       <div class="navbar__container">
-        <a href="/" id="navbar-logo"><i class="fa-solid fa-tree" aria-hidden="true"></i> Tino’s Tree Service</a>
+        <a href="/" id="navbar-logo"><i class="fa-solid fa-tree" aria-hidden="true"></i> Tino's Tree Service</a>
         <ul class="navbar__menu" id="nav-menu">
           <li class="navbar__item"><a class="navbar__links" href="/">Home</a></li>
-          <li class="navbar__item"><a class="navbar__links" href="/services.html">Why us</a></li>
-          <li class="navbar__item"><a class="navbar__links" href="/pricing.html">Services</a></li>
-          <li class="navbar__btn mobile"><a class="button" href="/signup.html">Contact us</a></li>
+          <li class="navbar__item"><a class="navbar__links" href="/services.html">Services</a></li>
+          <li class="navbar__item"><a class="navbar__links" href="/our-work.html">Our Work</a></li>
+          <li class="navbar__item"><a class="navbar__links active" href="/signup.html">Contact</a></li>
+          <li class="navbar__btn mobile"><a class="button" href="tel:+15109323088">Call Now</a></li>
         </ul>
-        <div class="navbar__btn desktop"><a class="button" href="/signup.html">Contact us</a></div>
+        <a class="navbar__phone" href="tel:+15109323088"><i class="fa-solid fa-phone" aria-hidden="true"></i> (510) 932-3088</a>
+        <div class="navbar__btn desktop"><a class="button" href="tel:+15109323088">Call Now</a></div>
         <button class="navbar__toggle" id="mobile-menu" aria-label="Toggle navigation" aria-expanded="false">
           <i class="fa-solid fa-bars" aria-hidden="true"></i>
         </button>
@@ -29,38 +32,134 @@
     </nav>
   </header>
 
-  <main class="signup-wrapper">
-    <div class="signup-container" role="form">
-      <h2>Submit estimate form</h2>
-      <form action="https://api.web3forms.com/submit" method="POST">
-        <input type="hidden" name="access_key" value="8dbf660e-f3d9-43a4-8d37-9e658577ea96">
-        <input type="hidden" name="subject" value="New Estimate Request - Tino’s Tree Service">
-        <!-- Honeypot -->
-        <input type="checkbox" name="botcheck" class="visually-hidden" tabindex="-1" autocomplete="off">
+  <main id="main">
+    <section class="signup-hero">
+      <h1>Tell us about your tree project</h1>
+      <p>We make it easy to get professional, safe, and reliable tree care. Fill out the form below and we'll get back to you to schedule your estimate.</p>
+    </section>
 
-        <div class="form-group">
-          <label for="fullname">Full name</label>
-          <input id="fullname" name="name" type="text" placeholder="Enter your full name" required autocomplete="name">
+    <div class="signup-wrapper">
+      <div class="signup-layout">
+
+        <aside class="signup-side">
+          <h2>Other ways to reach us</h2>
+          <a class="signup-side__item" href="tel:+15109323088" style="text-decoration:none;color:inherit;">
+            <i class="fa-solid fa-phone" aria-hidden="true"></i>
+            <div><strong>Call us</strong><span>(510) 932-3088</span></div>
+          </a>
+          <a class="signup-side__item" href="mailto:juventinocrisostomo-33@gmail.com" style="text-decoration:none;color:inherit;">
+            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+            <div><strong>Email us</strong><span>juventinocrisostomo-33@gmail.com</span></div>
+          </a>
+          <div class="signup-side__item">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <div><strong>Emergency service</strong><span>For hazardous trees and urgent situations, call us directly.</span></div>
+          </div>
+          <div class="signup-side__item">
+            <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+            <div><strong>Your information stays private</strong><span>We respect your privacy and never share your details.</span></div>
+          </div>
+          <div class="signup-side__item">
+            <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+            <div><strong>Proudly serving</strong><span>East Bay Area, CA and surrounding areas</span></div>
+          </div>
+        </aside>
+
+        <div class="signup-container" role="form">
+          <h2>Request your free estimate</h2>
+          <p>No obligation. Honest advice you can trust.</p>
+          <form action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="access_key" value="8dbf660e-f3d9-43a4-8d37-9e658577ea96">
+            <input type="hidden" name="subject" value="New Estimate Request - Tino's Tree Service">
+            <!-- Honeypot -->
+            <input type="checkbox" name="botcheck" class="visually-hidden" tabindex="-1" autocomplete="off">
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fullname">Full name</label>
+                <input id="fullname" name="name" type="text" placeholder="Enter your full name" required autocomplete="name">
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone number</label>
+                <input id="phone" name="phone" type="tel" placeholder="(###) ###-####" inputmode="tel" pattern="[\d\-\+\(\)\s]{7,}" required autocomplete="tel">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Email address</label>
+                <input id="email" name="email" type="email" placeholder="you@example.com" required autocomplete="email">
+              </div>
+              <div class="form-group">
+                <label for="address">Property address</label>
+                <input id="address" name="address" type="text" placeholder="Street, city, CA" autocomplete="street-address">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="service">Service needed</label>
+              <select id="service" name="service">
+                <option value="">Select the service you need</option>
+                <option value="Tree Removal">Tree Removal</option>
+                <option value="Trimming & Pruning">Trimming &amp; Pruning</option>
+                <option value="Stump Grinding & Cleanup">Stump Grinding &amp; Cleanup</option>
+                <option value="Emergency / Storm Damage">Emergency / Storm Damage</option>
+                <option value="Not sure yet">Not sure yet</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="details">Tell us what you need</label>
+              <textarea id="details" name="message" rows="5" placeholder="Tell us what you need done (tree type, location, urgency)&hellip;" required></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Upload tree photos <span style="font-weight:400;color:var(--muted);">(optional)</span></label>
+                <div class="file-drop" id="file-drop">
+                  <i class="fa-solid fa-camera" aria-hidden="true"></i>
+                  <span id="file-drop-label">Photos help us understand the job before we call</span>
+                  <input type="file" name="attachment" id="photo-upload" accept="image/*" multiple>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>How urgent is this?</label>
+                <div class="choice-group">
+                  <div class="choice-pill">
+                    <input type="radio" name="urgency" id="urgency-standard" value="Standard Service" checked>
+                    <label for="urgency-standard"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Standard</label>
+                  </div>
+                  <div class="choice-pill">
+                    <input type="radio" name="urgency" id="urgency-emergency" value="Emergency / Hazard">
+                    <label for="urgency-emergency"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Emergency</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Preferred contact method</label>
+              <div class="choice-group">
+                <div class="choice-pill">
+                  <input type="radio" name="preferred_contact" id="contact-call" value="Call" checked>
+                  <label for="contact-call"><i class="fa-solid fa-phone" aria-hidden="true"></i> Call</label>
+                </div>
+                <div class="choice-pill">
+                  <input type="radio" name="preferred_contact" id="contact-text" value="Text">
+                  <label for="contact-text"><i class="fa-solid fa-comment" aria-hidden="true"></i> Text</label>
+                </div>
+                <div class="choice-pill">
+                  <input type="radio" name="preferred_contact" id="contact-email" value="Email">
+                  <label for="contact-email"><i class="fa-solid fa-envelope" aria-hidden="true"></i> Email</label>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="signup-button button button--block">Send my estimate request</button>
+            <p class="terms"><i class="fa-solid fa-lock" aria-hidden="true"></i> We respect your privacy. Your information will never be shared. By submitting, you agree we may contact you about this request.</p>
+          </form>
         </div>
-
-        <div class="form-group">
-          <label for="email">Email address</label>
-          <input id="email" name="email" type="email" placeholder="Enter your email" required autocomplete="email">
-        </div>
-
-        <div class="form-group">
-          <label for="phone">Phone number</label>
-          <input id="phone" name="phone" type="tel" placeholder="(###) ###-####" inputmode="tel" pattern="[\d\-\+\(\)\s]{7,}" required>
-        </div>
-
-        <div class="form-group">
-          <label for="details">Project details</label>
-          <textarea id="details" name="message" rows="5" placeholder="Tell us what you need done (tree type, location, urgency)…" required></textarea>
-        </div>
-
-        <button type="submit" class="signup-button">Submit estimate</button>
-        <p class="terms">By submitting, you agree we may contact you about this request.</p>
-      </form>
+      </div>
     </div>
   </main>
 
@@ -70,18 +169,22 @@
         <div class="footer__link-wrapper">
           <div class="footer__link-items">
             <h2>About us</h2>
-            <p>For over 25 years, Tino’s Tree Service has delivered safe, high‑quality tree care. Family‑owned, community‑trusted.</p>
+            <p>For over 25 years, Tino's Tree Service has delivered safe, high&#8209;quality tree care to the East Bay Area. Family&#8209;owned, community&#8209;trusted.</p>
           </div>
           <div class="footer__link-items">
             <h2>Contact</h2>
-            <p>(510) 932-3088<br>juventinocrisostomo-33@gmail.com</p>
+            <p><a href="tel:+15109323088">(510) 932-3088</a><br><a href="mailto:juventinocrisostomo-33@gmail.com">juventinocrisostomo-33@gmail.com</a></p>
+          </div>
+          <div class="footer__link-items">
+            <h2>Explore</h2>
+            <p><a href="/">Home</a><br><a href="/services.html">Services</a><br><a href="/our-work.html">Our Work</a></p>
           </div>
         </div>
       </div>
       <div class="social__media">
         <div class="social__media-wrap">
-          <div class="footer__logo"><a id="footer-logo" href="/">Tino’s Tree Service</a></div>
-          <p class="website__rights">© <span id="year"></span> Tino’s Tree Service. All rights reserved.</p>
+          <div class="footer__logo"><a id="footer-logo" href="/"><i class="fa-solid fa-tree" aria-hidden="true"></i> Tino's Tree Service</a></div>
+          <p class="website__rights">&copy; <span id="year"></span> Tino's Tree Service. All rights reserved.</p>
         </div>
       </div>
     </div>
