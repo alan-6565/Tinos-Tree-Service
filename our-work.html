@@ -15,7 +15,32 @@
   <header>
     <nav class="navbar" role="navigation" aria-label="Main">
       <div class="navbar__container">
-        <a href="/" id="navbar-logo"><i class="fa-solid fa-tree" aria-hidden="true"></i> Tino's Tree Service</a>
+        <a href="/" id="navbar-logo">
+          <svg class="badge-logo" viewBox="0 0 200 200" width="46" height="46" aria-hidden="true">
+            <defs>
+              <path id="topArc" d="M 32,100 A 68,68 0 1 1 168,100" fill="none"/>
+              <path id="bottomArc" d="M 32,100 A 68,68 0 1 0 168,100" fill="none"/>
+            </defs>
+            <circle cx="100" cy="100" r="94" fill="none" stroke="#f6f2e8" stroke-width="3"/>
+            <circle cx="100" cy="100" r="82" fill="none" stroke="#f6f2e8" stroke-width="1"/>
+            <g fill="#0e8c31" transform="translate(100,104)">
+              <polygon points="0,-34 16,-8 9,-8 22,10 13,10 24,26 -24,26 -13,10 -22,10 -9,-8 -16,-8"/>
+              <rect x="-4" y="26" width="8" height="10"/>
+            </g>
+            <text font-family="Georgia, serif" font-size="14" letter-spacing="2.5" fill="#f6f2e8">
+              <textPath href="#topArc" startOffset="50%" text-anchor="middle">TINO'S TREE SERVICE</textPath>
+            </text>
+            <text font-family="Georgia, serif" font-size="11" letter-spacing="2" fill="#f6f2e8">
+              <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">FAMILY OWNED &amp; OPERATED</textPath>
+            </text>
+            <circle cx="32" cy="100" r="2" fill="#f6f2e8"/>
+            <circle cx="168" cy="100" r="2" fill="#f6f2e8"/>
+          </svg>
+          <span class="navbar__wordmark">
+            <strong>Tino's Tree Service</strong>
+            <small>Family Owned &amp; Operated</small>
+          </span>
+        </a>
         <ul class="navbar__menu" id="nav-menu">
           <li class="navbar__item"><a class="navbar__links" href="/">Home</a></li>
           <li class="navbar__item"><a class="navbar__links" href="/services.html">Services</a></li>
