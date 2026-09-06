@@ -182,6 +182,45 @@ body{
 }
 .services__foot{text-align:center; margin-top:40px;}
 
+/* Photo service tiles (home services grid) */
+.services-grid-photo{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:1180px; margin:0 auto; padding:0 20px;}
+.service-tile{
+  position:relative; display:block; border-radius:16px; overflow:hidden; text-decoration:none;
+  aspect-ratio:5/3.1; background:#0c1f13 url('/images/hero-crew.jpg') center / cover no-repeat;
+  box-shadow:0 12px 26px rgba(23,35,23,.14); transition:transform .2s ease, box-shadow .2s ease;
+}
+.service-tile:hover{transform:translateY(-4px); box-shadow:0 18px 34px rgba(23,35,23,.2);}
+.service-tile:nth-of-type(1){background-position:20% 30%;}
+.service-tile:nth-of-type(2){background-position:60% 40%;}
+.service-tile:nth-of-type(3){background-position:80% 20%;}
+.service-tile:nth-of-type(4){background-position:35% 60%;}
+.service-tile:nth-of-type(5){background-position:70% 65%;}
+.service-tile:nth-of-type(6){background-position:50% 50%;}
+.service-tile__info{
+  position:absolute; left:0; right:0; bottom:0; background:rgba(9,20,13,.92);
+  padding:14px 16px; display:flex; align-items:center; gap:14px;
+}
+.service-tile__icon{
+  width:44px; height:44px; border-radius:50%; border:1.5px solid rgba(255,255,255,.45);
+  display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.05rem; flex-shrink:0;
+}
+.service-tile__body{flex:1; min-width:0;}
+.service-tile__body h3{color:#fff; font-size:1rem; margin-bottom:2px;}
+.service-tile__body p{color:var(--muted-on-dark); font-size:.8rem; line-height:1.35;}
+.service-tile__arrow{
+  width:36px; height:36px; border-radius:50%; border:1.5px solid rgba(255,255,255,.45);
+  display:flex; align-items:center; justify-content:center; color:#fff; flex-shrink:0;
+  transition:background .2s ease, border-color .2s ease;
+}
+.service-tile:hover .service-tile__arrow{background:var(--brand); border-color:var(--brand);}
+@media (max-width: 900px){
+  .services-grid-photo{grid-template-columns:1fr 1fr;}
+}
+@media (max-width: 600px){
+  .services-grid-photo{grid-template-columns:1fr;}
+  .service-tile{aspect-ratio:5/3.6;}
+}
+
 /* Process steps */
 .process{background:var(--dark); color:#fff; padding:72px 0;}
 .process__grid{display:grid; grid-template-columns:repeat(4,1fr); gap:22px; max-width:1180px; margin:0 auto; padding:0 20px;}
