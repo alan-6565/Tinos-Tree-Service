@@ -58,41 +58,38 @@
   </header>
 
   <main id="main">
-    <section class="signup-hero">
-      <h1>Tell us about your tree project</h1>
-      <p>We make it easy to get professional, safe, and reliable tree care. Fill out the form below and we'll get back to you to schedule your estimate.</p>
-    </section>
-
-    <div class="signup-wrapper">
-      <div class="signup-layout">
+    <section class="signup-split">
+      <div class="signup-split__photo">
+        <span class="hero__eyebrow">Request an Estimate</span>
+        <h1>Tell Us About Your<br>Tree Project.</h1>
+        <p>We make it easy to get professional, safe, and reliable tree care.</p>
 
         <aside class="signup-side">
-          <h2>Other ways to reach us</h2>
-          <a class="signup-side__item" href="tel:+15109323088" style="text-decoration:none;color:inherit;">
-            <i class="fa-solid fa-phone" aria-hidden="true"></i>
-            <div><strong>Call us</strong><span>(510) 932-3088</span></div>
+          <a class="signup-side__item" href="tel:+15109323088">
+            <span class="ico"><i class="fa-solid fa-phone" aria-hidden="true"></i></span>
+            <span><strong>Call Us</strong><span>(510) 932-3088</span></span>
+            <i class="fa-solid fa-chevron-right chev" aria-hidden="true"></i>
           </a>
-          <a class="signup-side__item" href="mailto:juventinocrisostomo-33@gmail.com" style="text-decoration:none;color:inherit;">
-            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-            <div><strong>Email us</strong><span>juventinocrisostomo-33@gmail.com</span></div>
+          <a class="signup-side__item" href="sms:+15109323088">
+            <span class="ico"><i class="fa-solid fa-comment" aria-hidden="true"></i></span>
+            <span><strong>Text Photos</strong><span>Quick photos. Fast response.</span></span>
+            <i class="fa-solid fa-chevron-right chev" aria-hidden="true"></i>
+          </a>
+          <a class="signup-side__item" href="tel:+15109323088">
+            <span class="ico"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span>
+            <span><strong>Emergency Service</strong><span>For hazardous trees and urgent situations.</span></span>
+            <i class="fa-solid fa-chevron-right chev" aria-hidden="true"></i>
           </a>
           <div class="signup-side__item">
-            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
-            <div><strong>Emergency service</strong><span>For hazardous trees and urgent situations, call us directly.</span></div>
-          </div>
-          <div class="signup-side__item">
-            <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
-            <div><strong>Your information stays private</strong><span>We respect your privacy and never share your details.</span></div>
-          </div>
-          <div class="signup-side__item">
-            <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-            <div><strong>Proudly serving</strong><span>East Bay Area, CA and surrounding areas</span></div>
+            <span class="ico"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></span>
+            <span><strong>Proudly Serving</strong><span>East Bay Area, CA and surrounding areas</span></span>
           </div>
         </aside>
+      </div>
 
-        <div class="signup-container" role="form">
-          <h2>Request your free estimate</h2>
-          <p>No obligation. Honest advice you can trust.</p>
+      <div class="signup-split__form">
+          <h2>Request Your Free Estimate</h2>
+          <p>Fill out the form below and we'll get back to you to schedule your estimate.</p>
           <form action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="access_key" value="8dbf660e-f3d9-43a4-8d37-9e658577ea96">
             <input type="hidden" name="subject" value="New Estimate Request - Tino's Tree Service">
@@ -180,12 +177,55 @@
               </div>
             </div>
 
-            <button type="submit" class="signup-button button button--block">Send my estimate request</button>
-            <p class="terms"><i class="fa-solid fa-lock" aria-hidden="true"></i> We respect your privacy. Your information will never be shared. By submitting, you agree we may contact you about this request.</p>
+            <button type="submit" class="signup-button button button--block">Send My Estimate Request</button>
+            <p class="terms"><i class="fa-solid fa-lock" aria-hidden="true"></i> We respect your privacy. Your information will never be shared.</p>
           </form>
+      </div>
+    </section>
+
+    <section class="contact-trust">
+      <div class="contact-trust__grid">
+        <div class="contact-trust__item">
+          <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+          <span><strong>Licensed &amp; Insured</strong><span>Fully licensed and insured for your protection.</span></span>
+        </div>
+        <div class="contact-trust__item">
+          <i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i>
+          <span><strong>Free Estimates</strong><span>No obligation. Honest advice you can trust.</span></span>
+        </div>
+        <div class="contact-trust__item">
+          <i class="fa-solid fa-lock" aria-hidden="true"></i>
+          <span><strong>Your Information Stays Private</strong><span>We respect your privacy and will never share it.</span></span>
         </div>
       </div>
-    </div>
+    </section>
+
+    <section class="next-steps">
+      <div class="next-steps__inner">
+        <div class="next-steps__heading">
+          <h2>What Happens Next?</h2>
+          <p>We keep it simple and stress-free.</p>
+        </div>
+        <div class="next-steps__items">
+          <div class="next-steps__item">
+            <span class="circle">1</span>
+            <span><strong>We Review</strong><span>We'll review your information and photos.</span></span>
+          </div>
+          <div class="next-steps__item">
+            <span class="circle">2</span>
+            <span><strong>We Contact You</strong><span>We'll reach out to learn more and answer questions.</span></span>
+          </div>
+          <div class="next-steps__item">
+            <span class="circle">3</span>
+            <span><strong>On-Site Estimate</strong><span>We visit your property and provide a clear, no-obligation estimate.</span></span>
+          </div>
+        </div>
+        <div class="next-steps__area">
+          <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+          <span><strong>Proudly Serving East Bay Area, CA</strong><span>Local expertise. Reliable service.</span></span>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
