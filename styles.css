@@ -153,12 +153,12 @@ body{
 }
 
 /* Rotating logos */
-.rotating-logos{overflow:hidden; padding:22px 0; background:var(--dark-2); border-bottom:1px solid var(--line);}
+.rotating-logos{overflow:hidden; padding:22px 0; background:var(--dark-2); border-bottom:1px solid var(--line); white-space:nowrap;}
 .rotating-logos__track{display:inline-block; animation:rotate 16s linear infinite; white-space:nowrap;}
 .rotating-logos:hover .rotating-logos__track{animation-play-state:paused;}
 .logo-text{font-size:1.1rem; font-weight:700; letter-spacing:.06em; margin:0 24px; color:var(--muted-on-dark);}
 .logo-text::after{content:"•"; margin-left:24px; color:var(--brand-2);}
-@keyframes rotate{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+@keyframes rotate{0%{transform:translateX(0);}100%{transform:translateX(-100%);}}
 
 /* Trust strip */
 .trust-strip{background:var(--cream); padding:36px 0; border-bottom:1px solid var(--line-on-cream);}
