@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin | Tino's Tree Service</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a4ccdfdc17.js" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js" defer></script>
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+
+  <!-- Login screen -->
+  <section id="login-screen" class="login-screen hidden">
+    <form id="login-form" class="login-card">
+      <h1>Admin Login</h1>
+      <p>Tino's Tree Service &mdash; Invoices &amp; Proposals</p>
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" required autocomplete="current-password">
+      <p id="login-error" class="login-error hidden">Incorrect password. Try again.</p>
+      <button type="submit" class="button">Log In</button>
+    </form>
+  </section>
+
+  <!-- Main app -->
+  <div id="app" class="app hidden">
+    <header class="app__header">
+      <div class="app__brand">
+        <i class="fa-solid fa-tree" aria-hidden="true"></i>
+        <span>Tino's Tree Service &mdash; Admin</span>
+      </div>
+      <button id="logout-btn" class="button button--ghost" type="button">Log Out</button>
+    </header>
+
+    <main class="app__main">
+      <section class="doc-form">
+        <h2>Create New Document</h2>
+        <p class="muted">Quick and simple. Tino's Tree Service is always included.</p>
+
+        <div class="field-group">
+          <label>1. Document Type</label>
+          <div class="radio-row">
+            <label class="radio-pill"><input type="radio" name="docType" value="invoice" checked> Invoice</label>
+            <label class="radio-pill"><input type="radio" name="docType" value="proposal"> Proposal</label>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>2. Client Information</label>
+          <input id="client-name" type="text" placeholder="Client name" required>
+          <input id="client-address" type="text" placeholder="Address (optional)">
+          <input id="client-email" type="email" placeholder="Email (optional)">
+          <input id="client-phone" type="tel" placeholder="Phone (optional)">
+        </div>
+
+        <div class="field-group">
+          <label>3. Services</label>
+          <div id="line-items"></div>
+          <button id="add-line-item" type="button" class="button button--outline button--small">
+            <i class="fa-solid fa-plus" aria-hidden="true"></i> Add Another Service
+          </button>
+        </div>
+
+        <p id="form-error" class="form-error hidden"></p>
+        <button id="generate-btn" type="button" class="button button--block">
+          <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Generate Document
+        </button>
+      </section>
+
+      <section class="doc-preview-wrap">
+        <div id="doc-preview" class="doc-preview">
+          <div class="doc-preview__head">
+            <div class="doc-preview__brand">
+              <svg viewBox="0 0 200 200" width="72" height="72" aria-hidden="true">
+                <defs>
+                  <path id="pdfTopArc" d="M 32,100 A 68,68 0 1 1 168,100" fill="none"/>
+                  <path id="pdfBottomArc" d="M 32,100 A 68,68 0 1 0 168,100" fill="none"/>
+                </defs>
+                <circle cx="100" cy="100" r="94" fill="none" stroke="#0c1f13" stroke-width="3"/>
+                <circle cx="100" cy="100" r="82" fill="none" stroke="#0c1f13" stroke-width="1"/>
+                <g fill="#0b7a2a" transform="translate(100,104)">
+                  <polygon points="0,-34 16,-8 9,-8 22,10 13,10 24,26 -24,26 -13,10 -22,10 -9,-8 -16,-8"/>
+                  <rect x="-4" y="26" width="8" height="10"/>
+                </g>
+                <text font-family="Georgia, serif" font-size="14" letter-spacing="2.5" fill="#0c1f13">
+                  <textPath href="#pdfTopArc" startOffset="50%" text-anchor="middle">TINO'S TREE SERVICE</textPath>
+                </text>
+                <text font-family="Georgia, serif" font-size="11" letter-spacing="2" fill="#0c1f13">
+                  <textPath href="#pdfBottomArc" startOffset="50%" text-anchor="middle">FAMILY OWNED &amp; OPERATED</textPath>
+                </text>
+              </svg>
+              <div>
+                <strong>Tino's Tree Service</strong>
+                <span>(510) 932-3088</span>
+                <span>juventinocrisostomo-33@gmail.com</span>
+              </div>
+            </div>
+            <div class="doc-preview__meta">
+              <h2 id="preview-doc-title">INVOICE</h2>
+              <span id="preview-doc-number">#&mdash;</span>
+              <span id="preview-doc-date"></span>
+            </div>
+          </div>
+
+          <div class="doc-preview__bill-to">
+            <strong>Bill To:</strong>
+            <div id="preview-client-name">&mdash;</div>
+            <div id="preview-client-address"></div>
+            <div id="preview-client-email"></div>
+            <div id="preview-client-phone"></div>
+          </div>
+
+          <table class="doc-preview__table">
+            <thead><tr><th>Description</th><th>Price</th></tr></thead>
+            <tbody id="preview-line-items"></tbody>
+          </table>
+
+          <div class="doc-preview__total">
+            <span>Total</span>
+            <strong id="preview-total">$0.00</strong>
+          </div>
+
+          <p class="doc-preview__footer">Thank you for choosing <strong>Tino's Tree Service</strong>!<em>Quality Service. Stronger Communities.</em></p>
+        </div>
+      </section>
+    </main>
+
+    <section class="history">
+      <h2>History</h2>
+      <table class="history__table">
+        <thead><tr><th>#</th><th>Type</th><th>Client</th><th>Total</th><th>Date</th></tr></thead>
+        <tbody id="history-body"><tr><td colspan="5" class="muted">No documents yet.</td></tr></tbody>
+      </table>
+    </section>
+  </div>
+
+  <script src="/admin/admin.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+:root{
+  --dark:#0c1f13; --dark-2:#122a19; --brand:#0b7a2a; --brand-2:#0e8c31;
+  --cream:#f6f2e8; --ink:#172317; --muted:#5c6b5f; --line:rgba(23,35,23,.12);
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{
+  font-family:"Kumbh Sans", system-ui, -apple-system, sans-serif;
+  background:var(--cream); color:var(--ink); line-height:1.5;
+}
+.hidden{display:none !important;}
+
+.button{
+  display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+  padding:.7rem 1.1rem; border-radius:10px; border:1px solid transparent;
+  background:var(--brand); color:#fff; font-weight:700; font-size:.92rem;
+  cursor:pointer; text-decoration:none;
+}
+.button:hover{background:var(--brand-2);}
+.button--ghost{background:transparent; border-color:var(--line); color:var(--ink);}
+.button--ghost:hover{background:rgba(0,0,0,.05);}
+.button--outline{background:transparent; border-color:var(--brand); color:var(--brand);}
+.button--outline:hover{background:var(--brand); color:#fff;}
+.button--small{padding:.5rem .8rem; font-size:.85rem;}
+.button--block{width:100%;}
+.button:disabled{opacity:.6; cursor:not-allowed;}
+
+/* Login */
+.login-screen{min-height:100vh; display:flex; align-items:center; justify-content:center; background:var(--dark); padding:20px;}
+.login-card{background:#fff; border-radius:16px; padding:36px; width:100%; max-width:360px; box-shadow:0 20px 50px rgba(0,0,0,.3);}
+.login-card h1{font-size:1.4rem; margin-bottom:6px;}
+.login-card > p{color:var(--muted); font-size:.9rem; margin-bottom:20px;}
+.login-card label{display:block; font-weight:700; font-size:.85rem; margin-bottom:6px;}
+.login-card input{width:100%; padding:.7rem .9rem; border-radius:10px; border:1px solid var(--line); margin-bottom:14px; font-family:inherit; font-size:.95rem;}
+.login-error{color:#b3261e; font-size:.85rem; margin-bottom:12px;}
+
+/* App shell */
+.app__header{
+  background:var(--dark); color:#fff; padding:16px 28px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.app__brand{display:flex; align-items:center; gap:.6rem; font-weight:700;}
+.app__brand i{color:var(--brand-2);}
+.app__main{
+  display:grid; grid-template-columns:1fr 1fr; gap:28px;
+  max-width:1200px; margin:0 auto; padding:28px 20px;
+}
+@media (max-width:900px){ .app__main{grid-template-columns:1fr;} }
+
+/* Form */
+.doc-form{background:#fff; border-radius:16px; padding:28px; border:1px solid var(--line); align-self:start;}
+.doc-form h2{font-size:1.3rem;}
+.doc-form > .muted{color:var(--muted); font-size:.88rem; margin-top:4px; margin-bottom:20px;}
+.field-group{margin-bottom:22px;}
+.field-group > label{display:block; font-weight:700; font-size:.9rem; margin-bottom:10px;}
+.field-group input{
+  width:100%; padding:.7rem .9rem; border-radius:10px; border:1px solid var(--line);
+  font-family:inherit; font-size:.92rem; margin-bottom:10px;
+}
+.field-group input:focus{outline:2px solid var(--brand); outline-offset:1px;}
+.radio-row{display:flex; gap:10px;}
+.radio-pill{position:relative; flex:1; text-align:center; border:1px solid var(--line); border-radius:10px; padding:.65rem; font-weight:600; font-size:.9rem; cursor:pointer;}
+.radio-pill input{position:absolute; opacity:0; inset:0; width:100%; margin:0; cursor:pointer;}
+.radio-pill:has(input:checked){border-color:var(--brand); background:rgba(11,122,42,.08); color:var(--brand);}
+
+.line-item{display:grid; grid-template-columns:1fr 110px auto; gap:8px; margin-bottom:8px; align-items:center;}
+.line-item input{margin-bottom:0;}
+.line-item .remove-line{background:none; border:none; color:var(--muted); cursor:pointer; font-size:1rem; padding:.4rem;}
+.line-item .remove-line:hover{color:#b3261e;}
+
+.form-error{color:#b3261e; font-size:.85rem; margin-bottom:12px;}
+
+/* Preview */
+.doc-preview-wrap{align-self:start; position:sticky; top:20px;}
+.doc-preview{background:#fff; border-radius:4px; padding:36px; border:1px solid var(--line); box-shadow:0 10px 30px rgba(0,0,0,.08); font-size:.92rem;}
+.doc-preview__head{display:flex; justify-content:space-between; align-items:flex-start; border-bottom:2px solid var(--dark); padding-bottom:20px; margin-bottom:24px;}
+.doc-preview__brand{display:flex; align-items:center; gap:14px;}
+.doc-preview__brand strong{display:block; font-size:1.1rem;}
+.doc-preview__brand span{display:block; color:var(--muted); font-size:.78rem; margin-top:2px;}
+.doc-preview__meta{text-align:right;}
+.doc-preview__meta h2{font-size:1.6rem; letter-spacing:.04em; font-weight:800;}
+.doc-preview__meta span{display:block; color:var(--muted); font-size:.82rem; margin-top:4px;}
+.doc-preview__bill-to{margin-bottom:24px; font-size:.9rem;}
+.doc-preview__bill-to strong{display:block; margin-bottom:6px; font-size:.95rem;}
+.doc-preview__table{width:100%; border-collapse:collapse; margin-bottom:0;}
+.doc-preview__table th{background:var(--dark); color:#fff; text-align:left; padding:10px 12px; font-size:.82rem;}
+.doc-preview__table th:last-child, .doc-preview__table td:last-child{text-align:right;}
+.doc-preview__table td{padding:10px 12px; border-bottom:1px solid var(--line); font-size:.9rem;}
+.doc-preview__total{display:flex; justify-content:space-between; align-items:center; padding:12px 16px; margin:0 0 28px; background:#eef0ec;}
+.doc-preview__total span{color:var(--ink); font-size:.95rem; font-weight:700;}
+.doc-preview__total strong{font-size:1.25rem;}
+.doc-preview__footer{text-align:center; color:var(--ink); font-size:.9rem; padding-top:8px;}
+.doc-preview__footer em{display:block; color:var(--muted); font-style:italic; font-size:.82rem; margin-top:4px;}
+
+/* History */
+.history{max-width:1200px; margin:0 auto 40px; padding:0 20px;}
+.history h2{font-size:1.1rem; margin-bottom:12px;}
+.history__table{width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; border:1px solid var(--line);}
+.history__table th{background:var(--dark-2); color:#fff; text-align:left; padding:10px 14px; font-size:.8rem;}
+.history__table td{padding:10px 14px; border-bottom:1px solid var(--line); font-size:.88rem;}
+.muted{color:var(--muted);}
