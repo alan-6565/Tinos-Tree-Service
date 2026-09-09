@@ -90,7 +90,7 @@
       <div class="signup-split__form">
           <h2>Request Your Free Estimate</h2>
           <p>Fill out the form below and we'll get back to you to schedule your estimate.</p>
-          <form action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data">
+          <form action="https://api.web3forms.com/submit" method="POST">
             <input type="hidden" name="access_key" value="8dbf660e-f3d9-43a4-8d37-9e658577ea96">
             <input type="hidden" name="subject" value="New Estimate Request - Tino's Tree Service">
             <!-- Honeypot -->
@@ -137,12 +137,11 @@
 
             <div class="form-row">
               <div class="form-group">
-                <label>Upload tree photos <span style="font-weight:400;color:var(--muted);">(optional)</span></label>
-                <div class="file-drop" id="file-drop">
-                  <i class="fa-solid fa-camera" aria-hidden="true"></i>
-                  <span id="file-drop-label">Photos help us understand the job before we call</span>
-                  <input type="file" name="attachment" id="photo-upload" accept="image/*" multiple>
-                </div>
+                <label>Have tree photos? <span style="font-weight:400;color:var(--muted);">(optional)</span></label>
+                <a class="file-drop" href="sms:+15109323088" style="text-decoration:none; display:block;">
+                  <i class="fa-solid fa-comment" aria-hidden="true"></i>
+                  <span>Text them to (510) 932-3088 for the fastest response</span>
+                </a>
               </div>
               <div class="form-group">
                 <label>How urgent is this?</label>

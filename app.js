@@ -4,7 +4,6 @@
  * - Safe rotating logos duplication (idempotent)
  * - Auto year in footer
  * - Gallery filter buttons (our-work page)
- * - File upload label feedback (signup page)
  */
 (function () {
   'use strict';
@@ -75,32 +74,11 @@
     });
   }
 
-  // File upload label feedback (signup.html)
-  function initFileDrop() {
-    const input = $("#photo-upload");
-    const drop = $("#file-drop");
-    const label = $("#file-drop-label");
-    if (!input || !drop || !label) return;
-
-    input.addEventListener("change", function () {
-      if (input.files && input.files.length > 0) {
-        drop.classList.add("has-file");
-        label.textContent = input.files.length === 1
-          ? input.files[0].name
-          : input.files.length + " photos selected";
-      } else {
-        drop.classList.remove("has-file");
-        label.textContent = "Photos help us understand the job before we call";
-      }
-    });
-  }
-
   // Defer init until DOM ready
   document.addEventListener("DOMContentLoaded", function () {
     initMobileMenu();
     initRotatingLogos();
     initYear();
     initGalleryFilters();
-    initFileDrop();
   });
 })();

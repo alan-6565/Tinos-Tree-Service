@@ -437,10 +437,9 @@ footer{background:var(--dark);}
 .choice-pill label{display:flex; align-items:center; gap:.5rem; border:1px solid var(--line-on-cream); border-radius:10px; padding:.7rem 1rem; font-weight:600; font-size:.9rem; cursor:pointer; background:#fff;}
 .choice-pill input:checked + label{border-color:var(--brand); background:rgba(11,122,42,.08); color:var(--brand);}
 .choice-pill input:focus-visible + label{outline:2px solid var(--brand); outline-offset:1px;}
-.file-drop{border:1.5px dashed var(--line-on-cream); border-radius:12px; padding:20px; text-align:center; color:var(--muted); font-size:.88rem; position:relative;}
+.file-drop{border:1.5px dashed var(--line-on-cream); border-radius:12px; padding:20px; text-align:center; color:var(--muted); font-size:.88rem;}
 .file-drop i{font-size:1.3rem; color:var(--brand); display:block; margin-bottom:6px;}
-.file-drop input[type="file"]{position:absolute; inset:0; opacity:0; cursor:pointer;}
-.file-drop.has-file{border-color:var(--brand); color:var(--ink);}
+.file-drop:hover{border-color:var(--brand); color:var(--ink);}
 .terms{margin-top:12px; color:var(--muted); font-size:.8rem; text-align:center;}
 @media (max-width: 900px){
   .signup-layout{grid-template-columns:1fr;}
