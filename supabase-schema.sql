@@ -18,13 +18,19 @@ create table if not exists counters (
   next_number integer not null
 );
 
-insert into counters (type, next_number) values ('invoice', 1001)
-  on conflict (type) do nothing;
-insert into counters (type, next_number) values ('proposal', 101)
-  on conflict (type) do nothing;
+insert into counters (type, next_number)
+values ('invoice', 1001)
+on conflict (type) do nothing;
 
--- Atomically returns the next number for a document type and advances the counter.
-create or replace function next_document_number(doc_type text)
+insert into counters (type, next_number)
+values ('proposal', 101)
+on conflict (type) do nothing;
+
+-- Atomically returns the next number for a document type
+-- and advances the counter.
+create or replace function next_document_number(
+  doc_type text
+)
 returns integer
 language plpgsql
 as $$
@@ -32,9 +38,9 @@ declare
   result integer;
 begin
   update counters
-    set next_number = next_number + 1
-    where type = doc_type
-    returning next_number - 1 into result;
+  set next_number = next_number + 1
+  where type = doc_type
+  returning next_number - 1 into result;
 
   if result is null then
     raise exception 'Unknown document type: %', doc_type;
@@ -44,8 +50,5 @@ begin
 end;
 $$;
 
--- This table is only ever accessed via the service-role key from serverless
--- functions (never directly from the browser), so Row Level Security can stay
--- enabled with no public policies -- the service role bypasses RLS entirely.
 alter table documents enable row level security;
 alter table counters enable row level security;
