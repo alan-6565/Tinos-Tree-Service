@@ -85,6 +85,10 @@ body{
 .button--outline{background:transparent; border-color:var(--brand); color:var(--brand);}
 .button--outline:hover{background:var(--brand); color:#fff;}
 .button--block{width:100%;}
+.button--cream{background:var(--cream); color:var(--ink); border-color:var(--cream);}
+.button--cream:hover{background:#fff; color:var(--ink);}
+.button--outline-cream{background:transparent; border-color:rgba(246,242,232,.55); color:var(--cream);}
+.button--outline-cream:hover{background:rgba(246,242,232,.12);}
 
 /* mobile toggle */
 .navbar__toggle{display:none; background:none; border:0; color:#fff; font-size:1.4rem;}
@@ -221,19 +225,42 @@ body{
   .service-tile{aspect-ratio:5/3.6;}
 }
 
-/* Process steps */
-.process{background:var(--dark); color:#fff; padding:72px 0;}
-.process__grid{display:grid; grid-template-columns:repeat(4,1fr); gap:22px; max-width:1180px; margin:0 auto; padding:0 20px;}
-.process__step{background:var(--dark-2); border:1px solid var(--line); border-radius:16px; padding:24px;}
-.process__step .num{color:var(--brand-2); font-weight:800; font-size:1.4rem;}
-.process__step h3{margin-top:8px; font-size:1.1rem;}
-.process__step p{margin-top:6px; color:var(--muted-on-dark); font-size:.92rem;}
+/* Split hero: dark text panel + edge-to-edge photo (services / our-work pages) */
+.split-hero{display:grid; grid-template-columns:1fr 1.1fr; background:var(--dark); min-height:420px;}
+.split-hero__text{padding:60px 44px; display:flex; flex-direction:column; justify-content:center;}
+.split-hero__text h1{color:#fff; font-size:clamp(2rem,4vw,2.9rem); line-height:1.12;}
+.split-hero__text h1 .accent{color:var(--brand-2);}
+.split-hero__text p{color:var(--muted-on-dark); margin-top:14px; max-width:48ch; font-size:1.05rem;}
+.split-hero__photo{background-size:cover; background-repeat:no-repeat; min-height:280px;}
+@media (max-width: 860px){
+  .split-hero{grid-template-columns:1fr;}
+  .split-hero__text{padding:44px 24px; text-align:center; align-items:center;}
+  .split-hero__photo{min-height:220px;}
+}
+
+/* Process steps: icon badge + number, horizontal row on dark green */
+.process{background:var(--dark-2); color:#fff; padding:48px 0;}
+.process__inner{max-width:1180px; margin:0 auto; padding:0 20px; display:flex; align-items:center; gap:40px; flex-wrap:wrap;}
+.process__heading{flex-shrink:0;}
+.process__heading h2{font-size:1.5rem; color:#fff;}
+.process__heading .rule{width:44px; height:3px; background:var(--brand-2); margin-top:10px;}
+.process__steps{display:flex; flex:1; gap:28px; flex-wrap:wrap;}
+.process__step{display:flex; align-items:center; gap:14px; min-width:200px;}
+.process__step .badge{position:relative; flex-shrink:0; width:52px; height:52px; border-radius:50%; border:1.5px solid rgba(255,255,255,.35); display:flex; align-items:center; justify-content:center; font-size:1.1rem; color:#fff;}
+.process__step .badge .num{position:absolute; top:-8px; left:-8px; background:var(--brand); color:#fff; font-size:.68rem; font-weight:800; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid var(--dark-2);}
+.process__step h3{font-size:1rem; color:#fff;}
+.process__step p{margin-top:2px; color:var(--muted-on-dark); font-size:.82rem; line-height:1.3;}
 @media (max-width: 900px){
-  .process__grid{grid-template-columns:1fr 1fr;}
+  .process__inner{flex-direction:column; align-items:flex-start;}
 }
-@media (max-width: 560px){
-  .process__grid{grid-template-columns:1fr;}
-}
+
+/* Bottom CTA band: black background, two buttons */
+.cta-black{background:#0a140d; color:#fff; padding:44px 0;}
+.cta-black__inner{max-width:1180px; margin:0 auto; padding:0 20px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;}
+.cta-black h2{font-size:clamp(1.3rem,3vw,1.8rem);}
+.cta-black p{color:var(--muted-on-dark); margin-top:6px; font-size:.92rem;}
+.cta-black__actions{display:flex; gap:.75rem; flex-wrap:wrap;}
+.cta-black__brand{display:flex; align-items:center; gap:16px;}
 
 /* Why choose us */
 .why-choose-us{background:var(--brand); color:#fff; padding:80px 20px;}
