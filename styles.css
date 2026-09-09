@@ -254,6 +254,26 @@ body{
   .process__inner{flex-direction:column; align-items:flex-start;}
 }
 
+/* Local crew band (Our Work page) */
+.crew-band{background:var(--dark-2); padding:0;}
+.crew-band__grid{display:grid; grid-template-columns:1fr 1.4fr 1fr; gap:0; align-items:stretch; padding:0; max-width:1180px; margin:0 auto;}
+.crew-band__photo{min-height:220px;}
+.crew-band__photo img{width:100%; height:100%; object-fit:cover; display:block; min-height:220px;}
+.crew-band__text{padding:32px; color:#fff;}
+.crew-band__text h2{font-size:1.5rem;}
+.crew-band__text p{margin-top:10px; color:var(--muted-on-dark); font-size:.92rem; line-height:1.5;}
+.crew-band__badges{display:flex; flex-wrap:wrap; gap:18px; margin-top:18px;}
+.crew-band__badges span{display:flex; align-items:center; gap:.4rem; font-size:.82rem; color:var(--muted-on-dark);}
+.crew-band__badges i{color:var(--brand-2);}
+.crew-band__quote{background:var(--dark); color:#fff; padding:32px; display:flex; flex-direction:column; justify-content:center;}
+.crew-band__quote .stars{color:#f2b705; margin-bottom:10px;}
+.crew-band__quote blockquote{font-size:.98rem; line-height:1.5; color:var(--muted-on-dark);}
+.crew-band__quote figcaption{margin-top:12px; font-weight:700; font-size:.88rem;}
+@media (max-width: 900px){
+  .crew-band__grid{grid-template-columns:1fr;}
+  .crew-band__photo{min-height:200px;}
+}
+
 /* Bottom CTA band: black background, two buttons */
 .cta-black{background:#0a140d; color:#fff; padding:44px 0;}
 .cta-black__inner{max-width:1180px; margin:0 auto; padding:0 20px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;}

@@ -58,12 +58,13 @@
   </header>
 
   <main id="main">
-    <section class="hero" style="padding-bottom:0;">
-      <div class="container" style="padding:56px 20px 40px; text-align:center;">
+    <section class="split-hero">
+      <div class="split-hero__text">
         <span class="hero__eyebrow">Our Work</span>
-        <h1 style="color:#fff; font-size:clamp(2rem,4vw,2.8rem);">Real crew. Real standards.</h1>
-        <p style="color:var(--muted-on-dark); max-width:60ch; margin:14px auto 0;">See how we help East Bay homeowners protect their property and improve their outdoor space.</p>
+        <h1>Real Work.<br>Real Results.</h1>
+        <p>See how we help East Bay homeowners protect their property and improve their outdoor space.</p>
       </div>
+      <div class="split-hero__photo" style="background-image:url('/images/hero-crew.jpg'); background-position:center 30%;"></div>
     </section>
 
     <!--
@@ -83,20 +84,16 @@
           <button class="active" type="button">All Projects</button>
           <button type="button">Trimming</button>
           <button type="button">Removal</button>
-          <button type="button">Stump Grinding</button>
           <button type="button">Cleanup</button>
+          <button type="button">Emergency</button>
         </div>
         <div class="gallery__grid">
-          <div class="gallery__item">
-            <span class="tag">Removal</span>
-            <div class="placeholder"><i class="fa-solid fa-camera" aria-hidden="true"></i><span>Photo coming soon</span></div>
-          </div>
           <div class="gallery__item">
             <span class="tag">Trimming</span>
             <div class="placeholder"><i class="fa-solid fa-camera" aria-hidden="true"></i><span>Photo coming soon</span></div>
           </div>
           <div class="gallery__item">
-            <span class="tag">Stump Grinding</span>
+            <span class="tag">Removal</span>
             <div class="placeholder"><i class="fa-solid fa-camera" aria-hidden="true"></i><span>Photo coming soon</span></div>
           </div>
           <div class="gallery__item">
@@ -104,6 +101,10 @@
             <div class="placeholder"><i class="fa-solid fa-camera" aria-hidden="true"></i><span>Photo coming soon</span></div>
           </div>
           <div class="gallery__item">
+            <span class="tag">Emergency</span>
+            <div class="placeholder"><i class="fa-solid fa-camera" aria-hidden="true"></i><span>Photo coming soon</span></div>
+          </div>
+          <div class="gallery__item">
             <span class="tag">Removal</span>
             <div class="placeholder"><i class="fa-solid fa-camera" aria-hidden="true"></i><span>Photo coming soon</span></div>
           </div>
@@ -115,78 +116,45 @@
       </div>
     </section>
 
-    <section class="why-choose-us">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow" style="color:#e8f5ea;">Why Choose Us</span>
-          <h2>Local crew, professional standards</h2>
-          <p>We're a locally owned and operated team dedicated to safe, reliable, and affordable tree care&mdash;removal, pruning, stump grinding, and emergency services.</p>
+    <section class="crew-band">
+      <div class="container crew-band__grid">
+        <div class="crew-band__photo">
+          <img src="/images/crew-team.jpg" alt="Tree service crew" loading="lazy">
         </div>
-        <div class="features-grid">
-          <div class="feature-item">
-            <i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i>
-            <h3>Honest, upfront pricing</h3>
-            <p>Free estimates and transparent quotes. No hidden fees&mdash;ever.</p>
+        <div class="crew-band__text">
+          <h2>Local Crew. Professional Standards.</h2>
+          <p>Tino's Tree Service is a local, family-run company built on hard work and honest service. We follow strict safety standards, communicate clearly, and treat every property with respect&mdash;just like it's our own.</p>
+          <div class="crew-band__badges">
+            <span><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Licensed &amp; Insured</span>
+            <span><i class="fa-solid fa-user-check" aria-hidden="true"></i> Experienced Crew</span>
+            <span><i class="fa-solid fa-leaf" aria-hidden="true"></i> Cleanup Guaranteed</span>
           </div>
-          <div class="feature-item">
-            <i class="fa-solid fa-certificate" aria-hidden="true"></i>
-            <h3>Certified tree experts</h3>
-            <p>ISA-informed best practices, professional-grade equipment, and decades of experience.</p>
-          </div>
-          <div class="feature-item">
-            <i class="fa-solid fa-clock" aria-hidden="true"></i>
-            <h3>Reliable local service</h3>
-            <p>On-time arrivals and clean work sites. Emergency help available.</p>
-          </div>
-          <div class="feature-item">
-            <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
-            <h3>Safety first</h3>
-            <p>Strict safety standards and full insurance for your peace of mind.</p>
-          </div>
+        </div>
+        <div class="crew-band__quote">
+          <div class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote>&ldquo;Fast, professional, and left the yard spotless. We'll definitely call again.&rdquo;</blockquote>
+          <figcaption>&mdash; Maria G.</figcaption>
         </div>
       </div>
     </section>
 
-    <section class="testimonials" aria-labelledby="testimonials-heading">
-      <div class="testimonials__container">
-        <div class="section-head">
-          <span class="eyebrow">Reviews</span>
-          <h2 id="testimonials-heading" style="color:#fff;">What neighbors say</h2>
+    <section class="cta-black">
+      <div class="cta-black__inner">
+        <div class="cta-black__brand">
+          <svg class="badge-logo" viewBox="0 0 200 200" width="52" height="52" aria-hidden="true">
+            <circle cx="100" cy="100" r="94" fill="none" stroke="#f6f2e8" stroke-width="3"/>
+            <circle cx="100" cy="100" r="82" fill="none" stroke="#f6f2e8" stroke-width="1"/>
+            <g fill="#0e8c31" transform="translate(100,104)">
+              <polygon points="0,-34 16,-8 9,-8 22,10 13,10 24,26 -24,26 -13,10 -22,10 -9,-8 -16,-8"/>
+              <rect x="-4" y="26" width="8" height="10"/>
+            </g>
+          </svg>
+          <h2>Have a Tree Project in Mind?</h2>
         </div>
-        <div class="testimonials__grid">
-          <figure class="testimonial">
-            <div class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <blockquote>
-              &ldquo;Fast, professional, and left the yard spotless. We'll definitely call again.&rdquo;
-            </blockquote>
-            <figcaption>&mdash; Maria G.</figcaption>
-          </figure>
-          <figure class="testimonial">
-            <div class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <blockquote>
-              &ldquo;They safely removed a dangerous oak leaning over our fence. Fair price and great communication.&rdquo;
-            </blockquote>
-            <figcaption>&mdash; Kevin L.</figcaption>
-          </figure>
-          <figure class="testimonial">
-            <div class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <blockquote>
-              &ldquo;Super friendly crew. The pruning made our trees look healthier and let in more light.&rdquo;
-            </blockquote>
-            <figcaption>&mdash; April S.</figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <section class="cta-band">
-      <div class="cta-band__inner">
-        <div>
-          <h2>Have a tree project in mind?</h2>
-          <p>Send us a few details and a photo if you have one&mdash;we'll take a look and get back to you fast.</p>
-        </div>
-        <div class="cta-band__actions">
-          <a class="button button--ghost" style="background:#fff;color:var(--brand);" href="/signup.html">Request estimate</a>
+        <p>Send us photos and a quick description. We'll take a look and get back to you fast.</p>
+        <div class="cta-black__actions">
+          <a class="button button--outline-cream" href="/signup.html"><i class="fa-solid fa-image" aria-hidden="true"></i> Send Us Photos</a>
+          <a class="button button--cream" href="/signup.html">Request Estimate</a>
         </div>
       </div>
     </section>
