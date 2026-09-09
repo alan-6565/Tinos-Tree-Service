@@ -127,12 +127,17 @@
 
   async function checkSession() {
     const res = await fetch("/api/admin/documents");
+    if (res.status === 401) {
+      showLogin();
+      return;
+    }
+    showApp();
     if (res.ok) {
       const { documents } = await res.json();
       renderHistory(documents);
-      showApp();
     } else {
-      showLogin();
+      const err = await res.json().catch(() => ({}));
+      historyBody.innerHTML = `<tr><td colspan="5" class="form-error">Could not load history: ${escapeHtml(err.error || "server error")}</td></tr>`;
     }
   }
 
