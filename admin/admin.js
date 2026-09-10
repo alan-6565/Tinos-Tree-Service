@@ -201,14 +201,38 @@
       renderPreview(state, doc);
       addHistoryRow(doc);
 
-      const previewEl = $("#doc-preview");
       const filename = `${doc.type}-${doc.number}.pdf`;
-      await window.html2pdf().from(previewEl).set({
-        margin: 0.4,
-        filename,
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-      }).save();
+      // Render a detached clone appended in normal document flow (html2canvas
+      // renders position:fixed elements as blank). html2canvas captures
+      // relative to document (0,0), so rather than compute scroll
+      // compensation, just force scroll to the top for the capture and
+      // restore the admin's actual scroll position afterward.
+      const previewEl = $("#doc-preview");
+      const clone = previewEl.cloneNode(true);
+      clone.removeAttribute("id");
+      clone.style.margin = "0";
+      // SVG ids must be unique in the document; give the clone's its own.
+      clone.querySelectorAll("[id]").forEach((el) => {
+        const newId = `${el.id}-clone`;
+        clone.querySelectorAll(`[href="#${el.id}"]`).forEach((ref) => ref.setAttribute("href", `#${newId}`));
+        el.id = newId;
+      });
+      document.body.appendChild(clone);
+      const restoreScrollX = window.scrollX;
+      const restoreScrollY = window.scrollY;
+      window.scrollTo(0, 0);
+      try {
+        await window.html2pdf().from(clone).set({
+          margin: 0.4,
+          filename,
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+          pagebreak: { mode: ["css", "legacy"], avoid: "tr" },
+        }).save();
+      } finally {
+        clone.remove();
+        window.scrollTo(restoreScrollX, restoreScrollY);
+      }
     } catch (err) {
       formError.textContent = err.message || "Something went wrong.";
       formError.classList.remove("hidden");

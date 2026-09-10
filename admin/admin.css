@@ -70,8 +70,14 @@ body{
 .form-error{color:#b3261e; font-size:.85rem; margin-bottom:12px;}
 
 /* Preview */
-.doc-preview-wrap{align-self:start; position:sticky; top:20px;}
-.doc-preview{background:#fff; border-radius:4px; padding:36px; border:1px solid var(--line); box-shadow:0 10px 30px rgba(0,0,0,.08); font-size:.92rem;}
+.doc-preview-wrap{align-self:start; position:sticky; top:20px; overflow-x:auto;}
+.doc-preview{
+  position:relative;
+  background:#fff; border-radius:4px; padding:36px; border:1px solid var(--line);
+  box-shadow:0 10px 30px rgba(0,0,0,.08); font-size:.92rem;
+  width:7.7in; height:10.2in; box-sizing:border-box;
+}
+.doc-preview__bottom{position:absolute; left:36px; right:36px; bottom:36px;}
 .doc-preview__head{display:flex; justify-content:space-between; align-items:flex-start; border-bottom:2px solid var(--dark); padding-bottom:20px; margin-bottom:24px;}
 .doc-preview__brand{display:flex; align-items:center; gap:14px;}
 .doc-preview__brand strong{display:block; font-size:1.1rem;}
