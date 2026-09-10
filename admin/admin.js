@@ -288,6 +288,7 @@
       const previewEl = $("#doc-preview");
       const clone = previewEl.cloneNode(true);
       clone.removeAttribute("id");
+      clone.classList.add("doc-preview--export");
       clone.style.margin = "0";
       // SVG ids must be unique in the document; give the clone's its own.
       clone.querySelectorAll("[id]").forEach((el) => {
