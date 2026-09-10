@@ -14,6 +14,10 @@
   const generateBtn = $("#generate-btn");
   const formError = $("#form-error");
   const historyBody = $("#history-body");
+  const clientSearchInput = $("#client-search");
+  const clientSearchResults = $("#client-search-results");
+
+  let allDocuments = [];
 
   const money = (n) => `$${Number(n || 0).toFixed(2)}`;
 
@@ -134,6 +138,7 @@
     showApp();
     if (res.ok) {
       const { documents } = await res.json();
+      allDocuments = documents || [];
       renderHistory(documents);
     } else {
       const err = await res.json().catch(() => ({}));
@@ -173,6 +178,78 @@
     $(`#${id}`).addEventListener("input", updatePreview);
   });
 
+  // Returning-client lookup: dedupe past documents into a client list
+  // (by email, else phone, else name) so a repeat customer can be found
+  // and the form autofilled instead of retyped.
+  function uniqueClients() {
+    const seen = new Map();
+    allDocuments.forEach((doc) => {
+      const key = (doc.client_email || doc.client_phone || doc.client_name || "").trim().toLowerCase();
+      if (!key || seen.has(key)) return;
+      seen.set(key, {
+        name: doc.client_name || "",
+        address: doc.client_address || "",
+        email: doc.client_email || "",
+        phone: doc.client_phone || "",
+      });
+    });
+    return Array.from(seen.values());
+  }
+
+  function renderClientResults(matches) {
+    if (matches.length === 0) {
+      clientSearchResults.innerHTML = `<div class="client-search__empty">No matching clients yet</div>`;
+    } else {
+      clientSearchResults.innerHTML = matches.map((c, i) => `
+        <div class="client-search__item" data-index="${i}">
+          <strong>${escapeHtml(c.name || "(no name)")}</strong>
+          <span>${escapeHtml([c.phone, c.email, c.address].filter(Boolean).join(" · "))}</span>
+        </div>
+      `).join("");
+    }
+    clientSearchResults.classList.remove("hidden");
+  }
+
+  function hideClientResults() {
+    clientSearchResults.classList.add("hidden");
+  }
+
+  clientSearchInput.addEventListener("input", () => {
+    const query = clientSearchInput.value.trim().toLowerCase();
+    if (!query) {
+      hideClientResults();
+      return;
+    }
+    const matches = uniqueClients().filter((c) =>
+      [c.name, c.email, c.phone].some((field) => field.toLowerCase().includes(query))
+    );
+    renderClientResults(matches);
+    clientSearchResults.dataset.matches = JSON.stringify(matches);
+  });
+
+  clientSearchInput.addEventListener("focus", () => {
+    if (clientSearchInput.value.trim()) clientSearchInput.dispatchEvent(new Event("input"));
+  });
+
+  clientSearchResults.addEventListener("click", (e) => {
+    const item = e.target.closest(".client-search__item");
+    if (!item || item.dataset.index === undefined) return;
+    const matches = JSON.parse(clientSearchResults.dataset.matches || "[]");
+    const client = matches[Number(item.dataset.index)];
+    if (!client) return;
+    $("#client-name").value = client.name;
+    $("#client-address").value = client.address;
+    $("#client-email").value = client.email;
+    $("#client-phone").value = client.phone;
+    clientSearchInput.value = "";
+    hideClientResults();
+    updatePreview();
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".client-search")) hideClientResults();
+  });
+
   generateBtn.addEventListener("click", async () => {
     formError.classList.add("hidden");
     const state = getFormState();
@@ -200,6 +277,7 @@
       const { document: doc } = await res.json();
       renderPreview(state, doc);
       addHistoryRow(doc);
+      allDocuments.unshift(doc);
 
       const filename = `${doc.type}-${doc.number}.pdf`;
       // Render a detached clone appended in normal document flow (html2canvas

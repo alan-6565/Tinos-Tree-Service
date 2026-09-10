@@ -49,6 +49,10 @@
 
         <div class="field-group">
           <label>2. Client Information</label>
+          <div class="client-search">
+            <input id="client-search" type="text" placeholder="Search returning client by name, phone, or email&hellip;" autocomplete="off">
+            <div id="client-search-results" class="client-search__results hidden"></div>
+          </div>
           <input id="client-name" type="text" placeholder="Client name" required>
           <input id="client-address" type="text" placeholder="Address (optional)">
           <input id="client-email" type="email" placeholder="Email (optional)">
