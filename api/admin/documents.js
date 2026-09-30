@@ -1,8 +1,26 @@
 const { requireAuth } = require("../../lib/auth");
 const { getSupabase } = require("../../lib/supabase");
 
-function computeTotal(lineItems) {
-  return lineItems.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
+function computeTotal(jobs) {
+  return jobs.reduce((sum, job) => sum + (Number(job.price) || 0), 0);
+}
+
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+// Each job: its own date/range, optional address, a list of work items,
+// and one price for the whole job. Stored in the line_items column.
+function normalizeJobs(jobs) {
+  if (!Array.isArray(jobs)) return [];
+  return jobs
+    .filter((job) => job && Array.isArray(job.tasks))
+    .map((job) => ({
+      date: DATE_RE.test(job.date) ? job.date : null,
+      endDate: DATE_RE.test(job.endDate) ? job.endDate : null,
+      address: job.address ? String(job.address) : null,
+      tasks: job.tasks.map((t) => String(t).trim()).filter(Boolean),
+      price: Number(job.price) || 0,
+    }))
+    .filter((job) => job.tasks.length > 0);
 }
 
 module.exports = async function handler(req, res) {
@@ -28,14 +46,10 @@ module.exports = async function handler(req, res) {
   if (req.method === "POST") {
     const body = req.body || {};
     const type = body.type === "proposal" ? "proposal" : "invoice";
-    const lineItems = Array.isArray(body.lineItems)
-      ? body.lineItems
-          .filter((item) => item && item.description)
-          .map((item) => ({ description: String(item.description), price: Number(item.price) || 0 }))
-      : [];
+    const jobs = normalizeJobs(body.jobs);
 
-    if (!body.clientName || lineItems.length === 0) {
-      res.status(400).json({ error: "Client name and at least one line item are required" });
+    if (!body.clientName || jobs.length === 0) {
+      res.status(400).json({ error: "Client name and at least one job are required" });
       return;
     }
 
@@ -54,8 +68,8 @@ module.exports = async function handler(req, res) {
       client_address: body.clientAddress || null,
       client_email: body.clientEmail || null,
       client_phone: body.clientPhone || null,
-      line_items: lineItems,
-      total: computeTotal(lineItems),
+      line_items: jobs,
+      total: computeTotal(jobs),
     };
 
     const { data, error } = await supabase.from("documents").insert(row).select().single();

@@ -60,10 +60,11 @@
         </div>
 
         <div class="field-group">
-          <label>3. Services</label>
-          <div id="line-items"></div>
-          <button id="add-line-item" type="button" class="button button--outline button--small">
-            <i class="fa-solid fa-plus" aria-hidden="true"></i> Add Another Service
+          <label>3. Jobs</label>
+          <p class="field-hint">One card per job day. Put each piece of work on its own line and one price for the whole job.</p>
+          <div id="jobs"></div>
+          <button id="add-job" type="button" class="button button--outline button--small">
+            <i class="fa-solid fa-plus" aria-hidden="true"></i> Add Another Job
           </button>
         </div>
 
@@ -97,6 +98,7 @@
               </svg>
               <div>
                 <strong>Tino's Tree Service</strong>
+                <span>2530 McBryde Ave, Richmond, CA 94804</span>
                 <span>(510) 932-3088</span>
                 <span>juventinocrisostomo-33@gmail.com</span>
               </div>
@@ -117,8 +119,8 @@
           </div>
 
           <table class="doc-preview__table">
-            <thead><tr><th>Description</th><th>Price</th></tr></thead>
-            <tbody id="preview-line-items"></tbody>
+            <thead><tr><th>Work Performed</th><th>Amount</th></tr></thead>
+            <tbody id="preview-jobs"></tbody>
           </table>
 
           <div class="doc-preview__bottom">

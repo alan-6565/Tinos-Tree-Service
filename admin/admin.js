@@ -9,8 +9,8 @@
   const loginForm = $("#login-form");
   const loginError = $("#login-error");
   const logoutBtn = $("#logout-btn");
-  const lineItemsEl = $("#line-items");
-  const addLineItemBtn = $("#add-line-item");
+  const jobsEl = $("#jobs");
+  const addJobBtn = $("#add-job");
   const generateBtn = $("#generate-btn");
   const formError = $("#form-error");
   const historyBody = $("#history-body");
@@ -21,27 +21,73 @@
 
   const money = (n) => `$${Number(n || 0).toFixed(2)}`;
 
-  function lineItemRow(description = "", price = "") {
-    const row = document.createElement("div");
-    row.className = "line-item";
-    row.innerHTML = `
-      <input type="text" class="li-desc" placeholder="e.g. Tree Removal, Trimming, Stump Grinding, etc." value="${description}">
-      <input type="number" class="li-price" placeholder="0.00" min="0" step="0.01" value="${price}">
-      <button type="button" class="remove-line" aria-label="Remove"><i class="fa-solid fa-xmark"></i></button>
+  // A job is one visit/work day: its own date (or date range), an optional
+  // address when it's not at the client's address, the work done (one item
+  // per line), and a single price for the whole job.
+  function jobCard(job = {}) {
+    const card = document.createElement("div");
+    card.className = "job-card";
+    card.innerHTML = `
+      <div class="job-card__head">
+        <strong class="job-card__title"></strong>
+        <button type="button" class="remove-job" aria-label="Remove job"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="job-card__dates">
+        <label>Date<input type="date" class="job-date"></label>
+        <label>Through <span class="muted">(optional)</span><input type="date" class="job-end-date"></label>
+      </div>
+      <input type="text" class="job-address" placeholder="Job address (leave blank if same as client)">
+      <textarea class="job-tasks" rows="3" placeholder="One per line, e.g.&#10;Complete pruning on a magnolia tree&#10;Remove a bottlebrush tree and grind the stump"></textarea>
+      <label class="job-card__price">Price for this job
+        <input type="number" class="job-price" placeholder="0.00" min="0" step="0.01">
+      </label>
     `;
-    row.querySelector(".remove-line").addEventListener("click", () => {
-      if (lineItemsEl.children.length > 1) row.remove();
+    card.querySelector(".job-date").value = job.date || "";
+    card.querySelector(".job-end-date").value = job.endDate || "";
+    card.querySelector(".job-address").value = job.address || "";
+    card.querySelector(".job-tasks").value = (job.tasks || []).join("\n");
+    card.querySelector(".job-price").value = job.price ?? "";
+    card.querySelector(".remove-job").addEventListener("click", () => {
+      if (jobsEl.children.length > 1) card.remove();
       updatePreview();
     });
-    row.querySelectorAll("input").forEach((el) => el.addEventListener("input", updatePreview));
-    return row;
+    card.querySelectorAll("input, textarea").forEach((el) => el.addEventListener("input", updatePreview));
+    return card;
+  }
+
+  function renumberJobs() {
+    $$(".job-card", jobsEl).forEach((card, i) => {
+      card.querySelector(".job-card__title").textContent = `Job ${i + 1}`;
+    });
+  }
+
+  // Parse "YYYY-MM-DD" as a local date (new Date("2026-09-23") is UTC and
+  // can show as the previous day here).
+  function parseDate(str) {
+    const [y, m, d] = str.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  }
+
+  function formatJobDate(date, endDate) {
+    if (!date) return "";
+    const start = parseDate(date);
+    const full = { year: "numeric", month: "short", day: "numeric" };
+    if (!endDate || endDate <= date) return start.toLocaleDateString(undefined, full);
+    const end = parseDate(endDate);
+    if (start.getFullYear() === end.getFullYear() && start.getMonth() === end.getMonth()) {
+      return `${start.toLocaleDateString(undefined, { month: "short" })} ${start.getDate()}–${end.getDate()}, ${end.getFullYear()}`;
+    }
+    return `${start.toLocaleDateString(undefined, full)} – ${end.toLocaleDateString(undefined, full)}`;
   }
 
   function getFormState() {
     const docType = $('input[name="docType"]:checked').value;
-    const lineItems = $$(".line-item", lineItemsEl).map((row) => ({
-      description: row.querySelector(".li-desc").value.trim(),
-      price: parseFloat(row.querySelector(".li-price").value) || 0,
+    const jobs = $$(".job-card", jobsEl).map((card) => ({
+      date: card.querySelector(".job-date").value,
+      endDate: card.querySelector(".job-end-date").value,
+      address: card.querySelector(".job-address").value.trim(),
+      tasks: card.querySelector(".job-tasks").value.split("\n").map((t) => t.trim()).filter(Boolean),
+      price: parseFloat(card.querySelector(".job-price").value) || 0,
     }));
     return {
       docType,
@@ -49,7 +95,7 @@
       clientAddress: $("#client-address").value.trim(),
       clientEmail: $("#client-email").value.trim(),
       clientPhone: $("#client-phone").value.trim(),
-      lineItems,
+      jobs,
     };
   }
 
@@ -64,17 +110,24 @@
     $("#preview-client-email").textContent = state.clientEmail || "";
     $("#preview-client-phone").textContent = state.clientPhone || "";
 
-    const tbody = $("#preview-line-items");
+    const tbody = $("#preview-jobs");
     tbody.innerHTML = "";
     let total = 0;
-    const items = state.lineItems.filter((i) => i.description);
-    if (items.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="2" class="muted">No services added yet</td></tr>`;
+    const jobs = state.jobs.filter((j) => j.tasks.length);
+    if (jobs.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="2" class="muted">No jobs added yet</td></tr>`;
     } else {
-      items.forEach((item) => {
-        total += item.price;
+      jobs.forEach((job) => {
+        total += job.price;
+        const heading = [formatJobDate(job.date, job.endDate), job.address].filter(Boolean).join(" · ");
         const tr = document.createElement("tr");
-        tr.innerHTML = `<td>${escapeHtml(item.description)}</td><td>${money(item.price)}</td>`;
+        tr.className = "job-row";
+        tr.innerHTML = `
+          <td>
+            ${heading ? `<div class="job-row__head">${escapeHtml(heading)}</div>` : ""}
+            <ul class="job-row__tasks">${job.tasks.map((t) => `<li>${escapeHtml(t)}</li>`).join("")}</ul>
+          </td>
+          <td>${money(job.price)}</td>`;
         tbody.appendChild(tr);
       });
     }
@@ -88,6 +141,7 @@
   }
 
   function updatePreview() {
+    renumberJobs();
     renderPreview(getFormState());
   }
 
@@ -168,9 +222,11 @@
     showLogin();
   });
 
-  addLineItemBtn.addEventListener("click", () => {
-    lineItemsEl.appendChild(lineItemRow());
+  addJobBtn.addEventListener("click", () => {
+    const card = jobCard();
+    jobsEl.appendChild(card);
     updatePreview();
+    card.querySelector(".job-date").focus();
   });
 
   $$('input[name="docType"]').forEach((el) => el.addEventListener("change", updatePreview));
@@ -253,10 +309,10 @@
   generateBtn.addEventListener("click", async () => {
     formError.classList.add("hidden");
     const state = getFormState();
-    state.lineItems = state.lineItems.filter((i) => i.description);
+    state.jobs = state.jobs.filter((j) => j.tasks.length);
 
-    if (!state.clientName || state.lineItems.length === 0) {
-      formError.textContent = "Please enter a client name and at least one service.";
+    if (!state.clientName || state.jobs.length === 0) {
+      formError.textContent = "Please enter a client name and at least one job with work listed.";
       formError.classList.remove("hidden");
       return;
     }
@@ -322,7 +378,7 @@
   });
 
   // Init
-  lineItemsEl.appendChild(lineItemRow());
+  jobsEl.appendChild(jobCard());
   updatePreview();
   checkSession();
 })();
