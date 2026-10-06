@@ -321,21 +321,36 @@
     generateBtn.textContent = "Generating…";
 
     try {
-      const res = await fetch("/api/admin/documents", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: state.docType, ...state }),
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || "Could not save document");
+      // Save to the database for a number + history. If the database is
+      // unreachable (e.g. paused), still produce the PDF without a number.
+      let doc = null;
+      let saveError = null;
+      try {
+        const res = await fetch("/api/admin/documents", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ type: state.docType, ...state }),
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || "Could not save document");
+        }
+        doc = (await res.json()).document;
+      } catch (err) {
+        saveError = err;
       }
-      const { document: doc } = await res.json();
-      renderPreview(state, doc);
-      addHistoryRow(doc);
-      allDocuments.unshift(doc);
 
-      const filename = `${doc.type}-${doc.number}.pdf`;
+      let filename;
+      if (doc) {
+        renderPreview(state, doc);
+        addHistoryRow(doc);
+        allDocuments.unshift(doc);
+        filename = `${doc.type}-${doc.number}.pdf`;
+      } else {
+        renderPreview(state, null);
+        const safeName = state.clientName.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "");
+        filename = `${state.docType}-${safeName}-${new Date().toISOString().slice(0, 10)}.pdf`;
+      }
       // Render a detached clone appended in normal document flow (html2canvas
       // renders position:fixed elements as blank). html2canvas captures
       // relative to document (0,0), so rather than compute scroll
@@ -367,6 +382,11 @@
       } finally {
         clone.remove();
         window.scrollTo(restoreScrollX, restoreScrollY);
+      }
+
+      if (saveError) {
+        formError.textContent = `PDF downloaded, but it was not saved to History (no number assigned): ${saveError.message}`;
+        formError.classList.remove("hidden");
       }
     } catch (err) {
       formError.textContent = err.message || "Something went wrong.";
