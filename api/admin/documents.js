@@ -81,5 +81,43 @@ module.exports = async function handler(req, res) {
     return;
   }
 
+  const id = req.query && req.query.id;
+  const UUID_RE = /^[0-9a-f-]{36}$/i;
+
+  // Mark an invoice paid / unpaid.
+  if (req.method === "PATCH") {
+    if (!UUID_RE.test(id || "")) {
+      res.status(400).json({ error: "Missing document id" });
+      return;
+    }
+    const body = req.body || {};
+    const { data, error } = await supabase
+      .from("documents")
+      .update({ paid_at: body.paid ? new Date().toISOString() : null })
+      .eq("id", id)
+      .select()
+      .single();
+    if (error) {
+      res.status(500).json({ error: error.message });
+      return;
+    }
+    res.status(200).json({ document: data });
+    return;
+  }
+
+  if (req.method === "DELETE") {
+    if (!UUID_RE.test(id || "")) {
+      res.status(400).json({ error: "Missing document id" });
+      return;
+    }
+    const { error } = await supabase.from("documents").delete().eq("id", id);
+    if (error) {
+      res.status(500).json({ error: error.message });
+      return;
+    }
+    res.status(204).end();
+    return;
+  }
+
   res.status(405).json({ error: "Method not allowed" });
 };

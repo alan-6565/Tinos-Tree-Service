@@ -145,27 +145,78 @@
     renderPreview(getFormState());
   }
 
+  function statusCell(doc) {
+    if (doc.type === "proposal") return `<span class="muted">&mdash;</span>`;
+    return doc.paid_at
+      ? `<button type="button" class="status-btn status-btn--paid" data-action="unpay" title="Click to mark unpaid">Paid</button>`
+      : `<button type="button" class="status-btn status-btn--unpaid" data-action="pay" title="Click to mark paid">Unpaid</button>`;
+  }
+
+  function historyRowHtml(doc) {
+    const date = new Date(doc.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+    return `
+      <td>${doc.number}</td>
+      <td>${doc.type === "proposal" ? "Proposal" : "Invoice"}</td>
+      <td>${escapeHtml(doc.client_name)}</td>
+      <td>${money(doc.total)}</td>
+      <td>${date}</td>
+      <td>${statusCell(doc)}</td>
+      <td><button type="button" class="delete-btn" data-action="delete" aria-label="Delete ${doc.type} #${doc.number}" title="Delete"><i class="fa-solid fa-trash" aria-hidden="true"></i></button></td>
+    `;
+  }
+
   function addHistoryRow(doc) {
     if (historyBody.dataset.empty === "true") {
       historyBody.innerHTML = "";
       historyBody.dataset.empty = "false";
     }
     const tr = document.createElement("tr");
-    const date = new Date(doc.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
-    tr.innerHTML = `
-      <td>${doc.number}</td>
-      <td>${doc.type === "proposal" ? "Proposal" : "Invoice"}</td>
-      <td>${escapeHtml(doc.client_name)}</td>
-      <td>${money(doc.total)}</td>
-      <td>${date}</td>
-    `;
+    tr.dataset.id = doc.id;
+    tr.innerHTML = historyRowHtml(doc);
     historyBody.prepend(tr);
   }
+
+  historyBody.addEventListener("click", async (e) => {
+    const btn = e.target.closest("button[data-action]");
+    if (!btn) return;
+    const tr = btn.closest("tr");
+    const doc = allDocuments.find((d) => d.id === tr.dataset.id);
+    if (!doc) return;
+    const action = btn.dataset.action;
+    const label = `${doc.type === "proposal" ? "proposal" : "invoice"} #${doc.number} for ${doc.client_name}`;
+
+    if (action === "delete" && !confirm(`Delete ${label}? This can't be undone.`)) return;
+
+    btn.disabled = true;
+    try {
+      const res = await fetch(`/api/admin/documents?id=${encodeURIComponent(doc.id)}`, {
+        method: action === "delete" ? "DELETE" : "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: action === "delete" ? undefined : JSON.stringify({ paid: action === "pay" }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "server error");
+      }
+      if (action === "delete") {
+        allDocuments = allDocuments.filter((d) => d.id !== doc.id);
+        tr.remove();
+        if (allDocuments.length === 0) renderHistory([]);
+      } else {
+        const updated = (await res.json()).document;
+        Object.assign(doc, updated);
+        tr.innerHTML = historyRowHtml(doc);
+      }
+    } catch (err) {
+      alert(`Could not update ${label}: ${err.message}`);
+      btn.disabled = false;
+    }
+  });
 
   function renderHistory(documents) {
     if (!documents || documents.length === 0) {
       historyBody.dataset.empty = "true";
-      historyBody.innerHTML = `<tr><td colspan="5" class="muted">No documents yet.</td></tr>`;
+      historyBody.innerHTML = `<tr><td colspan="7" class="muted">No documents yet.</td></tr>`;
       return;
     }
     historyBody.dataset.empty = "false";
@@ -196,7 +247,7 @@
       renderHistory(documents);
     } else {
       const err = await res.json().catch(() => ({}));
-      historyBody.innerHTML = `<tr><td colspan="5" class="form-error">Could not load history: ${escapeHtml(err.error || "server error")}</td></tr>`;
+      historyBody.innerHTML = `<tr><td colspan="7" class="form-error">Could not load history: ${escapeHtml(err.error || "server error")}</td></tr>`;
     }
   }
 

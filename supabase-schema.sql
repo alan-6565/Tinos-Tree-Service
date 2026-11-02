@@ -10,6 +10,7 @@ create table if not exists documents (
   client_phone text,
   line_items jsonb not null default '[]'::jsonb,
   total numeric not null default 0,
+  paid_at timestamptz,
   created_at timestamptz not null default now()
 );
 
@@ -52,3 +53,8 @@ $$;
 
 alter table documents enable row level security;
 alter table counters enable row level security;
+
+-- Added Nov 2026: paid / unpaid status for invoices.
+-- Safe to run on an existing database.
+alter table documents
+  add column if not exists paid_at timestamptz;
