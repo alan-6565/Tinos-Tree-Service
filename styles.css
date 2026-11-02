@@ -199,7 +199,7 @@ body{
 .service-tile:nth-of-type(3){background-image:url('/images/work-1.jpg');}
 .service-tile:nth-of-type(4){background-image:url('/images/work-3.jpg');}
 .service-tile:nth-of-type(5){background-image:url('/images/work-11.jpg');}
-.service-tile:nth-of-type(6){background-image:url('/images/work-4.jpg');}
+.service-tile:nth-of-type(6){background-image:url('/images/work-13.jpg');}
 .service-tile__info{
   position:absolute; left:0; right:0; bottom:0; background:rgba(9,20,13,.92);
   padding:14px 16px; display:flex; align-items:center; gap:14px;
