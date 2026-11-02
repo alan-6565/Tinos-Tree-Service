@@ -336,6 +336,7 @@ footer{background:var(--dark);}
 .testimonials{background:var(--dark); padding:80px 20px;}
 .testimonials__container{max-width:1100px; margin:0 auto;}
 .testimonials__grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+.testimonials__more{text-align:center; margin-top:28px;}
 .testimonial{background:var(--dark-2); color:#fff; border:1px solid var(--line); border-radius:16px; padding:26px; box-shadow:0 10px 24px rgba(0,0,0,.18);}
 .testimonial .stars{color:#f2b705; margin-bottom:12px; font-size:.9rem;}
 .testimonial blockquote{font-size:1.02rem; line-height:1.6; color:var(--muted-on-dark);}

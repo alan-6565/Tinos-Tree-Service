@@ -1,51 +1,43 @@
-# 🌲 Tino’s Tree Service Website  
-[![Website Status](https://img.shields.io/badge/Status-Live-brightgreen.svg)](#)  
-[![SEO Optimized](https://img.shields.io/badge/SEO-Optimized-blue.svg)](#)  
-[![Mobile Responsive](https://img.shields.io/badge/Mobile-Responsive-lightgrey.svg)](#)
+# Tino's Tree Service
 
----
+Website and admin tools for Tino's Tree Service, a family-owned, licensed and insured tree care business serving the East Bay (Richmond / Contra Costa County, CA).
 
-![Tino’s Tree Service Banner](./images/preview-banner.jpg)  
-*Professional Tree Care & Emergency Service – Serving Contra Costa County, CA.*
+Live site: https://www.tinostreeservice.net/
 
----
+## What's here
 
-## 🌳 Overview
+### Public website
+| Page | File |
+|------|------|
+| Home | `index.html` |
+| Services | `services.html` (`pricing.html` redirects here) |
+| Our Work (photo gallery with filters) | `our-work.html` |
+| Request an Estimate | `signup.html` |
 
-**Tino’s Tree Service** is a modern, responsive website designed to showcase the professional tree care, trimming, and removal services offered by a family-owned business serving Contra Costa County.  
+- Plain HTML, CSS (`styles.css`) and vanilla JS (`app.js`), no build step.
+- The estimate form submits through [Web3Forms](https://web3forms.com) and is emailed to the business.
+- SEO: page titles and descriptions, `LocalBusiness` JSON-LD, Open Graph share image (`images/og-share.jpg`), `sitemap.xml`, `robots.txt`.
 
-The site is optimized for **SEO**, **mobile responsiveness**, and **local visibility**, with sections for services, pricing, contact forms, and real customer testimonials.
+### Admin tool (`/admin`)
+Password-protected tool for creating **invoices** and **proposals**:
+- Multiple jobs per document (date or date range, optional job address, work list, one price per job)
+- Returning-client search (by name, phone, or email) to autofill client details
+- Auto-numbered documents and a history list, stored in Supabase
+- PDF export (still downloads, without a number, if the database is unreachable)
 
----
+Files: `admin/` (UI), `api/admin/` (Vercel serverless functions: `login`, `logout`, `documents`), `lib/` (auth + Supabase client).
 
-## 🚀 Features
+## Hosting & setup
 
-- **Responsive Design:** Optimized for desktop, tablet, and mobile.
-- **Modern Aesthetic:** Clean UI with bold typography and hero imagery.
-- **Service Pages:** Tree trimming, pruning, stump grinding, and fire-hazard cleanup.
-- **Pricing Section:** Transparent pricing table with clear CTAs for quotes.
-- **Contact & Signup Form:** Connects clients directly to the team for free estimates.
-- **Testimonials:** Builds trust through authentic client feedback.
-- **Local SEO Optimization:**
-  - Structured `LocalBusiness` JSON-LD
-  - Meta titles & descriptions
-  - Geo-targeted keywords (Richmond CA, Contra Costa County)
-- **Accessibility:** Aria labels, keyboard navigation, high-contrast colors.
+Hosted on **Vercel**. Pushing to `main` deploys automatically.
 
----
+1. **Database:** create a Supabase project and run `supabase-schema.sql` once in the SQL editor.
+2. **Environment variables:** set these in Vercel (and in `.env.local` for `vercel dev`; see `.env.local.example`):
+   - `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`
+   - `ADMIN_PASSWORD`: shared password for `/admin`
+   - `SESSION_SECRET`: long random string (`openssl rand -hex 32`)
+3. **Local development:** `npm install`, then `vercel dev`.
 
-## 🧱 Tech Stack
+## Updating gallery photos
 
-| Layer | Technologies |
-|--------|---------------|
-| **Frontend** | HTML5, CSS3, JavaScript (Vanilla) |
-| **Styling** | CSS Grid & Flexbox, CSS Variables |
-| **SEO/Schema** | LocalBusiness JSON-LD |
-| **Hosting** | GitHub Pages / Netlify / Vercel |
-| **Tools** | VSCode, Lighthouse (Performance Testing) |
-
----
-
-## Website Link
-
--https://www.tinostreeservice.net/
+Resize photos to about 1200px on the long side, save them as `images/work-N.jpg`, and add a `.gallery__item` block in `our-work.html`. The tag text (`Trimming`, `Removal`, `Cleanup`, `Emergency`) controls which filter shows the photo.
