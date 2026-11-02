@@ -134,7 +134,7 @@ body{
   position:relative; color:#fff;
   background:
     linear-gradient(90deg, rgba(9,20,13,.95) 0%, rgba(9,20,13,.82) 32%, rgba(9,20,13,.4) 62%, rgba(9,20,13,.12) 100%),
-    url('/images/hero-crew.jpg') center 30% / cover no-repeat;
+    url('/images/hero-real.jpg') center 40% / cover no-repeat;
 }
 .home-hero__container{
   max-width:1180px; margin:0 auto; padding:120px 20px 100px; min-height:640px;
@@ -145,7 +145,7 @@ body{
   .home-hero{
     background:
       linear-gradient(180deg, rgba(9,20,13,.5) 0%, rgba(9,20,13,.88) 55%, rgba(9,20,13,.96) 100%),
-      url('/images/hero-crew.jpg') center 22% / cover no-repeat;
+      url('/images/hero-real.jpg') 68% 35% / cover no-repeat;
   }
   .home-hero__container{padding:90px 20px 56px; min-height:auto; text-align:center;}
   .home-hero .hero__cta, .home-hero .hero__trust{justify-content:center;}
