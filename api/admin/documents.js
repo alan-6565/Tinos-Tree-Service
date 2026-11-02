@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const { requireAuth } = require("../../lib/auth");
 const { getSupabase } = require("../../lib/supabase");
 
@@ -6,6 +7,11 @@ function computeTotal(jobs) {
 }
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+// Unguessable token for a proposal's public approval link.
+function newShareToken() {
+  return crypto.randomBytes(18).toString("base64url");
+}
 
 // Each job: its own date/range, optional address, a list of work items,
 // and one price for the whole job. Stored in the line_items column.
@@ -70,6 +76,7 @@ module.exports = async function handler(req, res) {
       client_phone: body.clientPhone || null,
       line_items: jobs,
       total: computeTotal(jobs),
+      share_token: type === "proposal" ? newShareToken() : null,
     };
 
     const { data, error } = await supabase.from("documents").insert(row).select().single();
@@ -84,16 +91,21 @@ module.exports = async function handler(req, res) {
   const id = req.query && req.query.id;
   const UUID_RE = /^[0-9a-f-]{36}$/i;
 
-  // Mark an invoice paid / unpaid.
+  // Mark an invoice paid / unpaid, or create a proposal's approval link
+  // (for proposals made before links existed).
   if (req.method === "PATCH") {
     if (!UUID_RE.test(id || "")) {
       res.status(400).json({ error: "Missing document id" });
       return;
     }
     const body = req.body || {};
-    const { data, error } = await supabase
-      .from("documents")
-      .update({ paid_at: body.paid ? new Date().toISOString() : null })
+    let query = supabase.from("documents");
+    if (body.share) {
+      query = query.update({ share_token: newShareToken() }).is("share_token", null);
+    } else {
+      query = query.update({ paid_at: body.paid ? new Date().toISOString() : null });
+    }
+    const { data, error } = await query
       .eq("id", id)
       .select()
       .single();

@@ -145,8 +145,34 @@
     renderPreview(getFormState());
   }
 
+  const shortDate = (iso) => new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+
+  function proposalLink(doc) {
+    return `${location.origin}/proposal.html?t=${encodeURIComponent(doc.share_token)}`;
+  }
+
+  // Proposals: approval status from the client's link, plus a button to
+  // share the link and, once approved, to turn it into an invoice.
+  function proposalStatusCell(doc) {
+    if (!doc.share_token) {
+      return `<button type="button" class="link-btn" data-action="share">Create link</button>`;
+    }
+    let pill;
+    if (doc.approved_at) {
+      pill = `<span class="status-pill status-pill--approved" title="Approved by ${escapeHtml(doc.approved_name || "")} on ${shortDate(doc.approved_at)}">Approved</span>`;
+    } else if (doc.viewed_at) {
+      pill = `<span class="status-pill status-pill--viewed" title="Opened ${shortDate(doc.viewed_at)}">Viewed</span>`;
+    } else {
+      pill = `<span class="status-pill">Not opened</span>`;
+    }
+    const action = doc.approved_at
+      ? `<button type="button" class="link-btn" data-action="to-invoice">Make invoice</button>`
+      : `<button type="button" class="link-btn" data-action="copy">Send link</button>`;
+    return `${pill} ${action}`;
+  }
+
   function statusCell(doc) {
-    if (doc.type === "proposal") return `<span class="muted">&mdash;</span>`;
+    if (doc.type === "proposal") return proposalStatusCell(doc);
     return doc.paid_at
       ? `<button type="button" class="status-btn status-btn--paid" data-action="unpay" title="Click to mark unpaid">Paid</button>`
       : `<button type="button" class="status-btn status-btn--unpaid" data-action="pay" title="Click to mark paid">Unpaid</button>`;
@@ -176,6 +202,52 @@
     historyBody.prepend(tr);
   }
 
+  // Text/email the approval link: the phone's share sheet when available,
+  // otherwise copy to the clipboard (or show it to copy by hand).
+  async function shareLink(doc, btn) {
+    const url = proposalLink(doc);
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `Proposal #${doc.number} from Tino's Tree Service`,
+          text: `Hi ${doc.client_name}, here is your proposal from Tino's Tree Service. You can review and approve it here:`,
+          url,
+        });
+        return;
+      } catch (err) {
+        if (err.name === "AbortError") return;
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      const original = btn.textContent;
+      btn.textContent = "Link copied!";
+      setTimeout(() => { btn.textContent = original; }, 2000);
+    } catch {
+      prompt("Copy this link and send it to the client:", url);
+    }
+  }
+
+  // Fill the form from a past document (e.g. an approved proposal -> invoice).
+  function loadIntoForm(doc, docType) {
+    $(`input[name="docType"][value="${docType}"]`).checked = true;
+    $("#client-name").value = doc.client_name || "";
+    $("#client-address").value = doc.client_address || "";
+    $("#client-email").value = doc.client_email || "";
+    $("#client-phone").value = doc.client_phone || "";
+    jobsEl.innerHTML = "";
+    const jobs = Array.isArray(doc.line_items) && doc.line_items.length ? doc.line_items : [{}];
+    jobs.forEach((job) => jobsEl.appendChild(jobCard({
+      date: job.date || "",
+      endDate: job.endDate || "",
+      address: job.address || "",
+      tasks: job.tasks || [],
+      price: job.price,
+    })));
+    updatePreview();
+    $(".doc-form").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   historyBody.addEventListener("click", async (e) => {
     const btn = e.target.closest("button[data-action]");
     if (!btn) return;
@@ -185,6 +257,15 @@
     const action = btn.dataset.action;
     const label = `${doc.type === "proposal" ? "proposal" : "invoice"} #${doc.number} for ${doc.client_name}`;
 
+    if (action === "copy") {
+      shareLink(doc, btn);
+      return;
+    }
+    if (action === "to-invoice") {
+      loadIntoForm(doc, "invoice");
+      return;
+    }
+
     if (action === "delete" && !confirm(`Delete ${label}? This can't be undone.`)) return;
 
     btn.disabled = true;
@@ -192,7 +273,8 @@
       const res = await fetch(`/api/admin/documents?id=${encodeURIComponent(doc.id)}`, {
         method: action === "delete" ? "DELETE" : "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: action === "delete" ? undefined : JSON.stringify({ paid: action === "pay" }),
+        body: action === "delete" ? undefined
+          : JSON.stringify(action === "share" ? { share: true } : { paid: action === "pay" }),
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));

@@ -58,3 +58,14 @@ alter table counters enable row level security;
 -- Safe to run on an existing database.
 alter table documents
   add column if not exists paid_at timestamptz;
+
+-- Added Nov 2026: online proposal approval links.
+-- Safe to run on an existing database.
+alter table documents
+  add column if not exists share_token text unique;
+alter table documents
+  add column if not exists viewed_at timestamptz;
+alter table documents
+  add column if not exists approved_at timestamptz;
+alter table documents
+  add column if not exists approved_name text;
