@@ -24,7 +24,6 @@ Password-protected tool for creating **invoices** and **proposals**:
 - Returning-client search (by name, phone, or email) to autofill client details
 - Auto-numbered documents and a history list, stored in Supabase
 - PDF export (still downloads, without a number, if the database is unreachable)
-
 - Paid / Unpaid status for invoices, delete from History
 - **Online proposal approval:** each proposal gets a private link (`/proposal.html?t=…`) where the client approves by typing their name; History shows Not opened / Viewed / Approved, and an approved proposal can be turned into an invoice in one click
 - **Email (via [Resend](https://resend.com))**: send invoices/proposals with the PDF attached (right after generating or from History), thank-you + Google review request when an invoice is marked paid, an alert to the owner when a proposal is approved, and one automatic reminder for invoices still unpaid 7 days after being emailed (daily Vercel cron)
