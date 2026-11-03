@@ -101,6 +101,8 @@
 
   function renderPreview(state, meta) {
     $("#preview-doc-title").textContent = state.docType === "proposal" ? "PROPOSAL" : "INVOICE";
+    $("#preview-bill-to-label").textContent = state.docType === "proposal" ? "Proposal To:" : "Bill To:";
+    $("#preview-work-label").textContent = state.docType === "proposal" ? "Work Proposed" : "Work Performed";
     $("#preview-doc-number").textContent = meta && meta.number ? `#${meta.number}` : "#—";
     $("#preview-doc-date").textContent = new Date(meta && meta.created_at ? meta.created_at : Date.now())
       .toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
