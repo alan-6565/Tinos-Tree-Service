@@ -1,4 +1,6 @@
 const { getSupabase } = require("../lib/supabase");
+const business = require("../lib/business");
+const { isEmailConfigured, sendEmail, approvalNoticeEmail } = require("../lib/email");
 
 // Public (no login) endpoint behind a proposal's approval link. The share
 // token is the only key, so only safe, client-facing fields are returned.
@@ -41,9 +43,20 @@ module.exports = async function handler(req, res) {
       return;
     }
     const now = new Date().toISOString();
-    await supabase.from("documents")
+    const { data: justApproved } = await supabase.from("documents")
       .update({ approved_at: now, approved_name: name })
-      .eq("share_token", token).eq("type", "proposal").is("approved_at", null);
+      .eq("share_token", token).eq("type", "proposal").is("approved_at", null)
+      .select("number, client_name, total, approved_name");
+
+    // Let Tino know right away (only on the first approval). A failed
+    // notice must not block the client's approval.
+    if (justApproved && justApproved.length && isEmailConfigured()) {
+      try {
+        await sendEmail({ to: business.email, ...approvalNoticeEmail(justApproved[0], `${business.siteUrl}/admin/`) });
+      } catch (err) {
+        console.error("Approval notice failed:", err.message);
+      }
+    }
 
     const { data, error } = await base().maybeSingle();
     if (error || !data) {

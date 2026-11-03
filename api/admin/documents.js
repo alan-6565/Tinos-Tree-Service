@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const { requireAuth } = require("../../lib/auth");
 const { getSupabase } = require("../../lib/supabase");
+const { isEmailConfigured } = require("../../lib/email");
 
 function computeTotal(jobs) {
   return jobs.reduce((sum, job) => sum + (Number(job.price) || 0), 0);
@@ -45,7 +46,7 @@ module.exports = async function handler(req, res) {
       res.status(500).json({ error: error.message });
       return;
     }
-    res.status(200).json({ documents: data });
+    res.status(200).json({ documents: data, emailEnabled: isEmailConfigured() });
     return;
   }
 

@@ -69,3 +69,12 @@ alter table documents
   add column if not exists approved_at timestamptz;
 alter table documents
   add column if not exists approved_name text;
+
+-- Added Nov 2026: emailing documents, review requests, payment reminders.
+-- Safe to run on an existing database.
+alter table documents
+  add column if not exists emailed_at timestamptz;
+alter table documents
+  add column if not exists review_requested_at timestamptz;
+alter table documents
+  add column if not exists reminder_sent_at timestamptz;

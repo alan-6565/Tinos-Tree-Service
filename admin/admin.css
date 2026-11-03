@@ -164,3 +164,12 @@ body{
 .status-pill--approved{background:#e3f2e5; color:#1f6b2c;}
 .link-btn{border:0; background:none; color:var(--brand); font:inherit; font-size:.8rem; font-weight:700; cursor:pointer; text-decoration:underline; padding:.2rem .3rem; white-space:nowrap;}
 .link-btn:disabled{opacity:.5; cursor:wait;}
+.row-actions{white-space:nowrap;}
+.icon-btn{border:0; background:none; color:var(--brand); cursor:pointer; padding:.25rem .4rem; font-size:.95rem;}
+.icon-btn:hover{color:var(--brand-2);}
+.icon-btn:disabled{opacity:.5; cursor:wait;}
+.sent-note{display:block; color:var(--muted); font-size:.72rem;}
+.send-toggle{display:flex; align-items:center; gap:.5rem; font-size:.88rem; font-weight:600; margin-bottom:12px; cursor:pointer;}
+.send-toggle input{width:16px; height:16px;}
+.send-toggle .muted{color:var(--muted); font-weight:400;}
+.form-success{color:#1f6b2c; font-size:.85rem; margin-bottom:12px;}

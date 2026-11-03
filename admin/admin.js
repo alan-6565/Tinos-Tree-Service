@@ -189,7 +189,11 @@
       <td>${money(doc.total)}</td>
       <td>${date}</td>
       <td>${statusCell(doc)}</td>
-      <td><button type="button" class="delete-btn" data-action="delete" aria-label="Delete ${doc.type} #${doc.number}" title="Delete"><i class="fa-solid fa-trash" aria-hidden="true"></i></button></td>
+      <td class="row-actions">
+        <button type="button" class="icon-btn" data-action="email" aria-label="Email ${doc.type} #${doc.number} to client" title="${doc.client_email ? `Email to ${escapeHtml(doc.client_email)}` : "No client email on file"}"><i class="fa-solid fa-envelope" aria-hidden="true"></i></button>
+        <button type="button" class="delete-btn" data-action="delete" aria-label="Delete ${doc.type} #${doc.number}" title="Delete"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>
+        ${doc.emailed_at ? `<span class="sent-note">Emailed ${shortDate(doc.emailed_at)}</span>` : ""}
+      </td>
     `;
   }
 
@@ -230,6 +234,52 @@
     }
   }
 
+  // POST to the email endpoint; returns the updated document, or null after
+  // telling the user what went wrong.
+  async function sendEmailRequest(payload) {
+    try {
+      const res = await fetch("/api/admin/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Email could not be sent");
+      return data.document;
+    } catch (err) {
+      alert(err.message);
+      return null;
+    }
+  }
+
+  // Email an invoice/proposal with its PDF attached (rebuilt from the saved
+  // document so it matches what was generated).
+  async function emailDocument(doc, btn, tr) {
+    if (!doc.client_email) {
+      alert(`${doc.client_name} has no email address on file. Make a new document with their email to send it.`);
+      return;
+    }
+    const label = `${doc.type === "proposal" ? "Proposal" : "Invoice"} #${doc.number}`;
+    const again = doc.emailed_at ? ` (already emailed ${shortDate(doc.emailed_at)})` : "";
+    if (!confirm(`Email ${label} to ${doc.client_email}${again}?`)) return;
+
+    btn.disabled = true;
+    const formState = getFormState();
+    try {
+      renderPreview(docToState(doc), doc);
+      const pdf = await exportPdf({ filename: `${doc.type}-${doc.number}.pdf`, asBase64: true });
+      const updated = await sendEmailRequest({ id: doc.id, kind: "document", pdf });
+      if (updated) {
+        Object.assign(doc, updated);
+        tr.innerHTML = historyRowHtml(doc);
+        alert(`${label} emailed to ${doc.client_email}.`);
+      }
+    } finally {
+      renderPreview(formState);
+      btn.disabled = false;
+    }
+  }
+
   // Fill the form from a past document (e.g. an approved proposal -> invoice).
   function loadIntoForm(doc, docType) {
     $(`input[name="docType"][value="${docType}"]`).checked = true;
@@ -267,6 +317,10 @@
       loadIntoForm(doc, "invoice");
       return;
     }
+    if (action === "email") {
+      emailDocument(doc, btn, tr);
+      return;
+    }
 
     if (action === "delete" && !confirm(`Delete ${label}? This can't be undone.`)) return;
 
@@ -290,6 +344,11 @@
         const updated = (await res.json()).document;
         Object.assign(doc, updated);
         tr.innerHTML = historyRowHtml(doc);
+        if (action === "pay" && doc.client_email && !doc.review_requested_at &&
+            confirm(`Marked paid. Send ${doc.client_name} a thank-you email asking for a Google review?`)) {
+          const sent = await sendEmailRequest({ id: doc.id, kind: "review" });
+          if (sent) Object.assign(doc, sent);
+        }
       }
     } catch (err) {
       alert(`Could not update ${label}: ${err.message}`);
@@ -326,8 +385,14 @@
     }
     showApp();
     if (res.ok) {
-      const { documents } = await res.json();
+      const { documents, emailEnabled } = await res.json();
       allDocuments = documents || [];
+      if (!emailEnabled) {
+        const toggle = $("#send-after-generate");
+        toggle.checked = false;
+        toggle.disabled = true;
+        toggle.closest("label").querySelector(".muted").textContent = "(email isn't set up yet)";
+      }
       renderHistory(documents);
     } else {
       const err = await res.json().catch(() => ({}));
@@ -441,8 +506,71 @@
     if (!e.target.closest(".client-search")) hideClientResults();
   });
 
+  // Render the current preview to a PDF: downloads it, or (asBase64) returns
+  // it as a data URI for emailing.
+  async function exportPdf({ filename, asBase64 = false }) {
+    // Render a detached clone appended in normal document flow (html2canvas
+    // renders position:fixed elements as blank). html2canvas captures
+    // relative to document (0,0), so rather than compute scroll
+    // compensation, just force scroll to the top for the capture and
+    // restore the admin's actual scroll position afterward.
+    const previewEl = $("#doc-preview");
+    const clone = previewEl.cloneNode(true);
+    clone.removeAttribute("id");
+    clone.classList.add("doc-preview--export");
+    clone.style.margin = "0";
+    // SVG ids must be unique in the document; give the clone's its own.
+    clone.querySelectorAll("[id]").forEach((el) => {
+      const newId = `${el.id}-clone`;
+      clone.querySelectorAll(`[href="#${el.id}"]`).forEach((ref) => ref.setAttribute("href", `#${newId}`));
+      el.id = newId;
+    });
+    document.body.appendChild(clone);
+    const restoreScrollX = window.scrollX;
+    const restoreScrollY = window.scrollY;
+    window.scrollTo(0, 0);
+    try {
+      const worker = window.html2pdf().from(clone).set({
+        margin: 0.4,
+        filename,
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+        pagebreak: { mode: ["css", "legacy"], avoid: "tr" },
+      });
+      return asBase64 ? await worker.outputPdf("datauristring") : await worker.save();
+    } finally {
+      clone.remove();
+      window.scrollTo(restoreScrollX, restoreScrollY);
+    }
+  }
+
+  function formSuccess(message) {
+    const el = $("#form-success");
+    el.textContent = message;
+    el.classList.remove("hidden");
+  }
+
+  // State for the form/preview from a saved document.
+  function docToState(doc) {
+    return {
+      docType: doc.type,
+      clientName: doc.client_name || "",
+      clientAddress: doc.client_address || "",
+      clientEmail: doc.client_email || "",
+      clientPhone: doc.client_phone || "",
+      jobs: (Array.isArray(doc.line_items) ? doc.line_items : []).map((job) => ({
+        date: job.date || "",
+        endDate: job.endDate || "",
+        address: job.address || "",
+        tasks: job.tasks || [],
+        price: Number(job.price) || 0,
+      })),
+    };
+  }
+
   generateBtn.addEventListener("click", async () => {
     formError.classList.add("hidden");
+    $("#form-success").classList.add("hidden");
     const state = getFormState();
     state.jobs = state.jobs.filter((j) => j.tasks.length);
 
@@ -486,37 +614,21 @@
         const safeName = state.clientName.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "");
         filename = `${state.docType}-${safeName}-${new Date().toISOString().slice(0, 10)}.pdf`;
       }
-      // Render a detached clone appended in normal document flow (html2canvas
-      // renders position:fixed elements as blank). html2canvas captures
-      // relative to document (0,0), so rather than compute scroll
-      // compensation, just force scroll to the top for the capture and
-      // restore the admin's actual scroll position afterward.
-      const previewEl = $("#doc-preview");
-      const clone = previewEl.cloneNode(true);
-      clone.removeAttribute("id");
-      clone.classList.add("doc-preview--export");
-      clone.style.margin = "0";
-      // SVG ids must be unique in the document; give the clone's its own.
-      clone.querySelectorAll("[id]").forEach((el) => {
-        const newId = `${el.id}-clone`;
-        clone.querySelectorAll(`[href="#${el.id}"]`).forEach((ref) => ref.setAttribute("href", `#${newId}`));
-        el.id = newId;
-      });
-      document.body.appendChild(clone);
-      const restoreScrollX = window.scrollX;
-      const restoreScrollY = window.scrollY;
-      window.scrollTo(0, 0);
-      try {
-        await window.html2pdf().from(clone).set({
-          margin: 0.4,
-          filename,
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-          pagebreak: { mode: ["css", "legacy"], avoid: "tr" },
-        }).save();
-      } finally {
-        clone.remove();
-        window.scrollTo(restoreScrollX, restoreScrollY);
+      await exportPdf({ filename });
+
+      // Send it straight to the email typed in the form.
+      if (doc && doc.client_email && $("#send-after-generate").checked) {
+        generateBtn.textContent = "Emailing…";
+        const pdf = await exportPdf({ filename, asBase64: true });
+        const sent = await sendEmailRequest({ id: doc.id, kind: "document", pdf });
+        if (sent) {
+          Object.assign(doc, sent);
+          const row = historyBody.querySelector(`tr[data-id="${doc.id}"]`);
+          if (row) row.innerHTML = historyRowHtml(doc);
+          formSuccess(`Saved, downloaded, and emailed to ${doc.client_email}.`);
+        }
+      } else if (doc && !doc.client_email && $("#send-after-generate").checked) {
+        formSuccess("Saved and downloaded. Not emailed because no client email was entered.");
       }
 
       if (saveError) {
