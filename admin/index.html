@@ -9,7 +9,7 @@
   <script src="https://kit.fontawesome.com/a4ccdfdc17.js" crossorigin="anonymous" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" defer></script>
-  <link rel="stylesheet" href="/admin/admin.css?v=20261103c">
+  <link rel="stylesheet" href="/admin/admin.css?v=20261103d">
 </head>
 <body>
 
@@ -86,7 +86,8 @@
 
         <p id="form-error" class="form-error hidden"></p>
         <p id="form-success" class="form-success hidden"></p>
-        <label class="send-toggle"><input id="send-after-generate" type="checkbox" checked> Also email it to the client <span class="muted">(uses the email above)</span></label>
+        <label class="send-toggle"><input id="send-after-generate" type="checkbox" checked> Email it to the client <span class="muted">(uses the email above; you get a copy)</span></label>
+        <label class="send-toggle"><input id="download-copy" type="checkbox"> Also download a copy to this device</label>
         <button id="generate-btn" type="button" class="button button--block">
           <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Generate Document
         </button>
@@ -177,6 +178,6 @@
     </section>
   </div>
 
-  <script src="/admin/admin.js?v=20261103c" defer></script>
+  <script src="/admin/admin.js?v=20261103d" defer></script>
 </body>
 </html>

@@ -49,6 +49,8 @@ module.exports = async function handler(req, res) {
         : null;
       await sendEmail({
         to: doc.client_email,
+        // Tino gets the same email (hidden copy) as a sent receipt + backup.
+        bcc: doc.client_email.toLowerCase() === business.email.toLowerCase() ? undefined : [business.email],
         ...documentEmail(doc, { approvalUrl }),
         attachments: [{ filename: `${doc.type}-${doc.number}.pdf`, content: pdf }],
       });

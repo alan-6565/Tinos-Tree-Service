@@ -213,6 +213,7 @@
       <td>${date}</td>
       <td>${statusCell(doc)}</td>
       <td class="row-actions">
+        <button type="button" class="icon-btn" data-action="download" aria-label="Download ${doc.type} #${doc.number} PDF" title="Download PDF"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i></button>
         <button type="button" class="icon-btn" data-action="email" aria-label="Email ${doc.type} #${doc.number} to client" title="${doc.client_email ? `Email to ${escapeHtml(doc.client_email)}` : "No client email on file"}"><i class="fa-solid fa-envelope" aria-hidden="true"></i></button>
         <button type="button" class="delete-btn" data-action="delete" aria-label="Delete ${doc.type} #${doc.number}" title="Delete"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>
         ${doc.emailed_at ? `<span class="sent-note">Emailed ${shortDate(doc.emailed_at)}</span>` : ""}
@@ -272,6 +273,19 @@
     } catch (err) {
       alert(err.message);
       return null;
+    }
+  }
+
+  // Re-download any saved document's PDF from History.
+  async function downloadDocument(doc, btn) {
+    btn.disabled = true;
+    const formState = getFormState();
+    try {
+      renderPreview(docToState(doc), doc);
+      await exportPdf({ filename: `${doc.type}-${doc.number}.pdf` });
+    } finally {
+      renderPreview(formState);
+      btn.disabled = false;
     }
   }
 
@@ -343,6 +357,10 @@
     }
     if (action === "email") {
       emailDocument(doc, btn, tr);
+      return;
+    }
+    if (action === "download") {
+      downloadDocument(doc, btn);
       return;
     }
 
@@ -647,7 +665,7 @@
         const safeName = state.clientName.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "");
         filename = `${state.docType}-${safeName}-${new Date().toISOString().slice(0, 10)}.pdf`;
       }
-      await exportPdf({ filename });
+      if (!doc || $("#download-copy").checked) await exportPdf({ filename });
 
       // Send it straight to the email typed in the form.
       if (doc && doc.client_email && $("#send-after-generate").checked) {
@@ -658,10 +676,12 @@
           Object.assign(doc, sent);
           const row = historyBody.querySelector(`tr[data-id="${doc.id}"]`);
           if (row) row.innerHTML = historyRowHtml(doc);
-          formSuccess(`Saved, downloaded, and emailed to ${doc.client_email}.`);
+          formSuccess(`Sent to ${doc.client_email}. A copy went to your email, and it's saved in History.`);
         }
-      } else if (doc && !doc.client_email && $("#send-after-generate").checked) {
-        formSuccess("Saved and downloaded. Not emailed because no client email was entered.");
+      } else if (doc) {
+        const downloaded = $("#download-copy").checked ? " and downloaded" : "";
+        const why = $("#send-after-generate").checked && !doc.client_email ? " Not emailed because no client email was entered." : "";
+        formSuccess(`${doc.type === "proposal" ? "Proposal" : "Invoice"} #${doc.number} saved to History${downloaded}.${why}`);
       }
 
       if (saveError) {
@@ -746,15 +766,20 @@
   function updateGenerateLabel() {
     if (generateBtn.disabled) return;
     const willEmail = $("#send-after-generate").checked && !$("#send-after-generate").disabled && $("#client-email").value.trim();
+    const willDownload = $("#download-copy").checked;
     generateBtn.innerHTML = willEmail
-      ? '<i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Generate &amp; Email to Client'
-      : '<i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Generate Document';
+      ? '<i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Send to Client'
+      : willDownload
+        ? '<i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Save &amp; Download'
+        : '<i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save Document';
   }
   $("#send-after-generate").addEventListener("change", updateGenerateLabel);
+  $("#download-copy").addEventListener("change", updateGenerateLabel);
   $("#client-email").addEventListener("input", updateGenerateLabel);
 
   // Init
   jobsEl.appendChild(jobCard());
   updatePreview();
+  updateGenerateLabel();
   checkSession();
 })();
