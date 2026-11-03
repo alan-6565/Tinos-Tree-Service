@@ -320,6 +320,7 @@
       price: job.price,
     })));
     updatePreview();
+    updateGenerateLabel();
     $(".doc-form").scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
@@ -416,6 +417,7 @@
         toggle.disabled = true;
         toggle.closest("label").querySelector(".muted").textContent = "(email isn't set up yet)";
       }
+      updateGenerateLabel();
       renderHistory(documents);
     } else {
       const err = await res.json().catch(() => ({}));
@@ -523,6 +525,7 @@
     clientSearchInput.value = "";
     hideClientResults();
     updatePreview();
+    updateGenerateLabel();
   });
 
   document.addEventListener("click", (e) => {
@@ -603,6 +606,13 @@
       return;
     }
 
+    const willEmail = $("#send-after-generate").checked && !$("#send-after-generate").disabled && state.clientEmail;
+    if (willEmail) {
+      const label = state.docType === "proposal" ? "proposal" : "invoice";
+      const total = money(state.jobs.reduce((sum, j) => sum + j.price, 0));
+      if (!confirm(`Ready to send?\n\nThis ${label} for ${total} will be emailed to ${state.clientName} at ${state.clientEmail}.`)) return;
+    }
+
     generateBtn.disabled = true;
     generateBtn.textContent = "Generating…";
 
@@ -663,9 +673,85 @@
       formError.classList.remove("hidden");
     } finally {
       generateBtn.disabled = false;
-      generateBtn.innerHTML = '<i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Generate Document';
+      updateGenerateLabel();
     }
   });
+
+  // AI quick fill: send Tino's note to the server, then fill the form with
+  // the draft so he can check the preview before generating/sending.
+  const aiBtn = $("#ai-fill-btn");
+  const aiBtnHtml = aiBtn.innerHTML;
+
+  function localToday() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  }
+
+  function applyDraft(draft) {
+    $(`input[name="docType"][value="${draft.docType}"]`).checked = true;
+    const c = draft.client || {};
+    if (c.name) $("#client-name").value = c.name;
+    if (c.address) $("#client-address").value = c.address;
+    if (c.email) $("#client-email").value = c.email;
+    if (c.phone) $("#client-phone").value = c.phone;
+    const jobs = (draft.jobs || []).filter((j) => j.tasks && j.tasks.length);
+    if (jobs.length) {
+      jobsEl.innerHTML = "";
+      jobs.forEach((job) => jobsEl.appendChild(jobCard({
+        date: job.date || "",
+        endDate: job.endDate || "",
+        address: job.address || "",
+        tasks: job.tasks,
+        price: job.price || "",
+      })));
+    }
+    updatePreview();
+    updateGenerateLabel();
+  }
+
+  aiBtn.addEventListener("click", async () => {
+    const note = $("#ai-note").value.trim();
+    const errorEl = $("#ai-error");
+    errorEl.classList.add("hidden");
+    $("#ai-result").classList.add("hidden");
+    if (note.length < 5) {
+      errorEl.textContent = "Type a few details about the job first. / Escribe algunos detalles primero.";
+      errorEl.classList.remove("hidden");
+      return;
+    }
+    aiBtn.disabled = true;
+    aiBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Writing it up&hellip;';
+    try {
+      const res = await fetch("/api/admin/ai-draft", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ note, today: localToday(), docType: $('input[name="docType"]:checked').value }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "The AI had a problem. Please try again.");
+      applyDraft(data.draft);
+      $("#ai-notes").innerHTML = (data.draft.notes || []).map((n) => `<li>${escapeHtml(n)}</li>`).join("");
+      $("#ai-result").classList.remove("hidden");
+      $("#doc-preview").scrollIntoView({ behavior: "smooth", block: "start" });
+    } catch (err) {
+      errorEl.textContent = err.message;
+      errorEl.classList.remove("hidden");
+    } finally {
+      aiBtn.disabled = false;
+      aiBtn.innerHTML = aiBtnHtml;
+    }
+  });
+
+  // The main button says exactly what will happen.
+  function updateGenerateLabel() {
+    if (generateBtn.disabled) return;
+    const willEmail = $("#send-after-generate").checked && !$("#send-after-generate").disabled && $("#client-email").value.trim();
+    generateBtn.innerHTML = willEmail
+      ? '<i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Generate &amp; Email to Client'
+      : '<i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Generate Document';
+  }
+  $("#send-after-generate").addEventListener("change", updateGenerateLabel);
+  $("#client-email").addEventListener("input", updateGenerateLabel);
 
   // Init
   jobsEl.appendChild(jobCard());

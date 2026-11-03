@@ -9,7 +9,7 @@
   <script src="https://kit.fontawesome.com/a4ccdfdc17.js" crossorigin="anonymous" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" defer></script>
-  <link rel="stylesheet" href="/admin/admin.css?v=20261103b">
+  <link rel="stylesheet" href="/admin/admin.css?v=20261103c">
 </head>
 <body>
 
@@ -39,6 +39,21 @@
       <section class="doc-form">
         <h2>Create New Document</h2>
         <p class="muted">Quick and simple. Tino's Tree Service is always included.</p>
+
+        <div class="ai-box">
+          <label for="ai-note"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Quick fill with AI <span class="muted">/ Llenar con IA</span></label>
+          <p class="field-hint">Type or say the job details in English or Spanish. The AI fills in everything below and makes it sound professional. / Escribe o dicta los detalles en inglés o español.</p>
+          <textarea id="ai-note" rows="4" placeholder="Robert Bagany, 925 330 8983, rbagany@contracosta.edu, 2600 Mission Bell Dr San Pablo. Cut 4 oaks away from the house and trimmed 3 trees in front. $1800"></textarea>
+          <p id="ai-error" class="form-error hidden"></p>
+          <button id="ai-fill-btn" type="button" class="button button--block button--ai">
+            <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Fill it in for me
+          </button>
+          <div id="ai-result" class="ai-result hidden">
+            <strong><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Ready to check</strong>
+            <span>Look over the preview. Fix anything below if needed, then tap the green button.</span>
+            <ul id="ai-notes"></ul>
+          </div>
+        </div>
 
         <div class="field-group">
           <label>1. Document Type</label>
@@ -162,6 +177,6 @@
     </section>
   </div>
 
-  <script src="/admin/admin.js?v=20261103b" defer></script>
+  <script src="/admin/admin.js?v=20261103c" defer></script>
 </body>
 </html>

@@ -24,6 +24,7 @@ Password-protected tool for creating **invoices** and **proposals**:
 - Returning-client search (by name, phone, or email) to autofill client details
 - Auto-numbered documents and a history list, stored in Supabase
 - PDF export (still downloads, without a number, if the database is unreachable)
+- **AI quick fill:** type the job in plain English or Spanish (client info, what was done, price) and Claude (`api/admin/ai-draft.js`) fills in the form with professional wording for review before sending
 - Paid / Unpaid status for invoices, delete from History
 - **Online proposal approval:** each proposal gets a private link (`/proposal.html?t=…`) where the client approves by typing their name; History shows Not opened / Viewed / Approved, and an approved proposal can be turned into an invoice in one click
 - **Email (via [Resend](https://resend.com))**: send invoices/proposals with the PDF attached (right after generating or from History), thank-you + Google review request when an invoice is marked paid, an alert to the owner when a proposal is approved, and one automatic reminder for invoices still unpaid 7 days after being emailed (daily Vercel cron)
@@ -43,6 +44,7 @@ Hosted on **Vercel**. Pushing to `main` deploys automatically. The domain is reg
    - `SESSION_SECRET`: long random string (`openssl rand -hex 32`)
    - `RESEND_API_KEY`, `EMAIL_FROM`: email sending (the domain is verified in Resend; its DNS records are in Netlify DNS)
    - `CRON_SECRET`: protects the daily reminder job
+   - `ANTHROPIC_API_KEY`: turns on the AI quick fill
 3. **Local development:** `npm install`, then `vercel dev`.
 
 ## Updating gallery photos

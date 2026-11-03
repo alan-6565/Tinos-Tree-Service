@@ -3,6 +3,8 @@
   "private": true,
   "version": "1.0.0",
   "dependencies": {
-    "@supabase/supabase-js": "^2.45.4"
+    "@anthropic-ai/sdk": "^1.4.0",
+    "@supabase/supabase-js": "^2.45.4",
+    "zod": "^4.6.7"
   }
 }
