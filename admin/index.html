@@ -8,7 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a4ccdfdc17.js" crossorigin="anonymous" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js" defer></script>
-  <link rel="stylesheet" href="/admin/admin.css?v=20261103">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" defer></script>
+  <link rel="stylesheet" href="/admin/admin.css?v=20261103b">
 </head>
 <body>
 
@@ -134,10 +135,16 @@
             </div>
 
             <div id="preview-payment" class="doc-preview__payment">
-              <strong>How to Pay</strong>
-              <span><b>Zelle:</b> (510) 253-3887 (Meli Garcia Bautista)</span>
-              <span><b>Venmo:</b> (510) 932-3088</span>
-              <span><b>Check or cash:</b> payable to Tino's Tree Service</span>
+              <div>
+                <strong>How to Pay</strong>
+                <span><b>Zelle:</b> (510) 253-3887 (Meli Garcia Bautista)</span>
+                <span><b>Venmo:</b> <a id="preview-venmo-link" href="https://venmo.com/Juventino-Crusostomo">@Juventino-Crusostomo</a> (510) 932-3088</span>
+                <span><b>Check or cash:</b> payable to Tino's Tree Service</span>
+              </div>
+              <div class="doc-preview__qr">
+                <img id="preview-venmo-qr" alt="QR code to pay with Venmo">
+                <span>Scan to pay<br>with Venmo</span>
+              </div>
             </div>
 
             <p class="doc-preview__footer">Thank you for choosing <strong>Tino's Tree Service</strong>!<em>Quality Service. Stronger Communities.</em></p>
@@ -155,6 +162,6 @@
     </section>
   </div>
 
-  <script src="/admin/admin.js?v=20261103" defer></script>
+  <script src="/admin/admin.js?v=20261103b" defer></script>
 </body>
 </html>
