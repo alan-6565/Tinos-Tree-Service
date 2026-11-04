@@ -37,8 +37,12 @@
         <label>Through <span class="muted">(optional)</span><input type="date" class="job-end-date"></label>
       </div>
       <input type="text" class="job-address" placeholder="Job address (leave blank if same as client)">
-      <textarea class="job-description" rows="3" placeholder="Job description (optional): a short paragraph explaining the job, e.g. why it's needed for safety"></textarea>
-      <textarea class="job-tasks" rows="3" placeholder="One per line, e.g.&#10;Complete pruning on a magnolia tree&#10;Remove a bottlebrush tree and grind the stump"></textarea>
+      <label class="job-card__field">Job description <span class="muted">(optional)</span>
+        <textarea class="job-description" rows="3" placeholder="A short paragraph explaining the job, e.g. why it's needed for safety"></textarea>
+      </label>
+      <label class="job-card__field">Work to be done <span class="muted">(one per line)</span>
+        <textarea class="job-tasks" rows="3" placeholder="One per line, e.g.&#10;Complete pruning on a magnolia tree&#10;Remove a bottlebrush tree and grind the stump"></textarea>
+      </label>
       <label class="job-card__price">Price for this job
         <input type="number" class="job-price" placeholder="0.00" min="0" step="0.01">
       </label>
@@ -136,9 +140,10 @@
         tr.innerHTML = `
           <td>
             ${heading ? `<div class="job-row__head">${escapeHtml(heading)}</div>` : ""}
-            ${job.description ? `<p class="job-row__desc">${escapeHtml(job.description)}</p>` : ""}
+            ${job.description ? `<div class="job-row__label">Overview</div><p class="job-row__desc">${escapeHtml(job.description)}</p>` : ""}
+            ${job.description || job.priceNote ? `<div class="job-row__label">Scope of Work</div>` : ""}
             <ul class="job-row__tasks">${job.tasks.map((t) => `<li>${escapeHtml(t)}</li>`).join("")}</ul>
-            ${job.priceNote ? `<p class="job-row__price-note">${escapeHtml(job.priceNote)}</p>` : ""}
+            ${job.priceNote ? `<div class="job-row__pricing"><div class="job-row__label">Pricing</div><p class="job-row__price-note">${escapeHtml(job.priceNote)}</p></div>` : ""}
           </td>
           <td>${money(job.price)}</td>`;
         tbody.appendChild(tr);

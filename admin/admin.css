@@ -192,8 +192,8 @@ body{
 .ai-result ul{margin:8px 0 0; padding-left:18px; color:#8a5a00;}
 .ai-result ul:empty{display:none;}
 .doc-preview__payment .muted-line{color:var(--muted); font-size:.78rem; margin-top:4px;}
-.job-row__desc{margin:2px 0 8px; color:var(--ink); line-height:1.5;}
-.job-row__price-note{margin:8px 0 0; color:var(--muted); font-size:.85rem; font-style:italic;}
+.job-row__desc{margin:0 0 14px; color:var(--ink); line-height:1.55;}
+.job-row__price-note{margin:0; color:var(--ink); font-size:.88rem;}
 .job-card__price-note{margin-top:10px;}
 .job-card__price-note input{margin-bottom:0;}
 .job-card .muted{font-weight:400;}
@@ -202,3 +202,8 @@ body{
 .doc-preview--measure .doc-preview__bottom{position:static !important; margin-top:32px;}
 .doc-preview--multipage{height:auto !important;}
 .doc-preview--multipage .doc-preview__bottom{position:static !important; margin-top:32px;}
+.job-row__label{font-size:.72rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--brand); margin:6px 0 4px;}
+.job-row__pricing{margin-top:14px; padding:8px 12px; background:#f3f5f1; border-left:3px solid var(--brand); border-radius:4px;}
+.job-row__pricing .job-row__label{margin-top:0;}
+.job-card__field{margin-top:10px; margin-bottom:0;}
+.job-card__field textarea{margin-top:4px;}
