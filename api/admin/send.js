@@ -2,10 +2,9 @@ const crypto = require("crypto");
 const { requireAuth } = require("../../lib/auth");
 const { getSupabase } = require("../../lib/supabase");
 const business = require("../../lib/business");
-const { sendEmail, documentEmail, reviewEmail, EmailNotConfiguredError } = require("../../lib/email");
+const { sendEmail, documentEmail, reviewEmail, parseEmails, EmailNotConfiguredError } = require("../../lib/email");
 
 const UUID_RE = /^[0-9a-f-]{36}$/i;
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // POST { id, kind: "document", pdf: <base64> } emails an invoice/proposal
 // with its PDF attached; POST { id, kind: "review" } sends the thank-you +
@@ -37,7 +36,8 @@ module.exports = async function handler(req, res) {
     if (withToken) Object.assign(doc, withToken);
   }
 
-  if (!EMAIL_RE.test(doc.client_email || "")) {
+  const recipients = parseEmails(doc.client_email);
+  if (recipients.length === 0) {
     res.status(400).json({ error: "This client has no email address on file." });
     return;
   }
@@ -45,7 +45,7 @@ module.exports = async function handler(req, res) {
   try {
     let update;
     if (body.kind === "review") {
-      await sendEmail({ to: doc.client_email, ...reviewEmail(doc) });
+      await sendEmail({ to: recipients, ...reviewEmail(doc) });
       update = { review_requested_at: new Date().toISOString() };
     } else {
       const pdf = String(body.pdf || "").replace(/^data:[^,]*,/, "");
@@ -57,9 +57,9 @@ module.exports = async function handler(req, res) {
         ? `${business.siteUrl}/proposal.html?t=${encodeURIComponent(doc.share_token)}`
         : null;
       await sendEmail({
-        to: doc.client_email,
+        to: recipients,
         // Tino gets the same email (hidden copy) as a sent receipt + backup.
-        bcc: doc.client_email.toLowerCase() === business.email.toLowerCase() ? undefined : [business.email],
+        bcc: recipients.includes(business.email.toLowerCase()) ? undefined : [business.email],
         ...documentEmail(doc, { approvalUrl }),
         attachments: [{ filename: `${doc.type}-${doc.number}.pdf`, content: pdf }],
       });

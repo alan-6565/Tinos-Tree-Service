@@ -13,7 +13,7 @@ const DraftSchema = z.object({
   client: z.object({
     name: z.string().describe("Client full name, properly capitalized; empty if not given"),
     address: z.string().describe("Client mailing/service address, formatted like '2600 Mission Bell Dr, San Pablo, CA 94806'; empty if not given"),
-    email: z.string().describe("Client email, lowercase; empty if not given"),
+    email: z.string().describe("Client email(s), lowercase; if more than one person should get it, separate with ', '; empty if not given"),
     phone: z.string().describe("Client phone formatted (XXX) XXX-XXXX; empty if not given"),
   }),
   jobs: z.array(z.object({

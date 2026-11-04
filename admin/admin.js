@@ -652,7 +652,14 @@
     if (willEmail) {
       const label = state.docType === "proposal" ? "proposal" : "invoice";
       const total = money(state.jobs.reduce((sum, j) => sum + j.price, 0));
-      if (!confirm(`Ready to send?\n\nThis ${label} for ${total} will be emailed to ${state.clientName} at ${state.clientEmail}.`)) return;
+      const list = state.clientEmail.split(/[,;\s]+/).filter(Boolean);
+      const bad = list.filter((e) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e));
+      if (bad.length) {
+        formError.textContent = `This email doesn't look right: ${bad.join(", ")}. Separate two emails with a comma.`;
+        formError.classList.remove("hidden");
+        return;
+      }
+      if (!confirm(`Ready to send?\n\nThis ${label} for ${total} will be emailed to:\n${list.join("\n")}`)) return;
     }
 
     generateBtn.disabled = true;

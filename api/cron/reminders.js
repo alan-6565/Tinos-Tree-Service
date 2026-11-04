@@ -1,5 +1,5 @@
 const { getSupabase } = require("../../lib/supabase");
-const { isEmailConfigured, sendEmail, reminderEmail } = require("../../lib/email");
+const { isEmailConfigured, sendEmail, reminderEmail, parseEmails } = require("../../lib/email");
 
 const REMIND_AFTER_DAYS = 7;
 
@@ -37,7 +37,9 @@ module.exports = async function handler(req, res) {
   const failed = [];
   for (const doc of invoices) {
     try {
-      await sendEmail({ to: doc.client_email, ...reminderEmail(doc) });
+      const recipients = parseEmails(doc.client_email);
+      if (recipients.length === 0) continue;
+      await sendEmail({ to: recipients, ...reminderEmail(doc) });
       await supabase.from("documents").update({ reminder_sent_at: new Date().toISOString() }).eq("id", doc.id);
       sent += 1;
     } catch (err) {
