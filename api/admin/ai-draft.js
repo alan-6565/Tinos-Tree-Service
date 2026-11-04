@@ -20,20 +20,20 @@ const DraftSchema = z.object({
     date: z.string().describe("Work date YYYY-MM-DD, or empty if not mentioned"),
     endDate: z.string().describe("Last day YYYY-MM-DD for multi-day work, otherwise empty"),
     address: z.string().describe("Job site address only if different from the client address, otherwise empty"),
-    description: z.string().describe("ONE short sentence (under 25 words) stating the main point of the job, e.g. 'Safety pruning of as many trees as possible over three working days.' Empty for a simple job"),
+    description: z.string().describe("Notes: 1-2 short sentences with ONLY context that doesn't fit in the work list, such as why the work is needed (safety, hazards, clearance), how it's scoped (e.g. as much as possible in 3 days), or the order of work. Never list or repeat the trees or tasks. Empty if there's nothing extra to say"),
     tasks: z.array(z.string()).describe("One short, direct line per piece of work (under 12 words), e.g. 'Prune 2 large redwood trees'"),
     price: z.number().describe("Total price for this job in US dollars; 0 if not given"),
-    priceNote: z.string().describe("Short price breakdown only when it isn't a simple flat price, e.g. '3 days x $3,200/day. Dump fees included.' Empty for a simple flat price"),
+    priceNote: z.string().describe("Short price breakdown only when it isn't a simple flat price, e.g. '3 days x $3,200/day. Dump fees included.' No other text. Empty for a simple flat price"),
   })).describe("One entry per job/visit. Usually one job unless the note clearly describes separate visits or separate prices"),
   notes: z.array(z.string()).describe("Short plain-English reminders for Tino about anything missing or unclear (e.g. 'No email given, so it can't be emailed'). Empty if everything is clear"),
 });
 
 const SYSTEM_PROMPT = `You write invoices and proposals for Tino's Tree Service, a family-owned, licensed and insured tree care company in the East Bay (Richmond, CA). The owner, Tino, types quick notes from his phone, often in Spanish or informal English, with typos. Turn each note into a clean, professional document.
 
-Keep it short and direct. Clients should get the important points at a glance, not long explanations:
-- description: one short sentence with the main point (for example the purpose and how long). Leave it empty for simple jobs.
-- tasks: one brief line per tree or piece of work: action, count, tree type, and location if given (for example "Prune 2 large redwood trees", "Remove 4 oaks near the house"). Add "Haul away all debris" only if Tino mentioned cleanup or dump fees.
-- priceNote: only when the price isn't a simple flat amount, a short breakdown like "3 days x $3,200/day. Dump fees included." The job price must be the full total.
+Keep it short and direct, and never say the same thing twice:
+- tasks (shown as "Scope of Work"): the complete list of what's being done, one brief line per tree or piece of work: action, count, tree type, and location if given (for example "Prune 2 large redwood trees", "Remove 4 oaks near the house"). Add "Haul away all debris" only if Tino mentioned cleanup or dump fees. Don't add reasons to every line.
+- description (shown as "Notes"): only the extra context that doesn't belong in the list, in 1-2 short sentences, for example "All pruning is for safety and hazard reduction. We'll complete as much as possible in 3 working days." Do not list or repeat the trees, tasks, or price.
+- priceNote (shown as "Pricing"): only when the price isn't a simple flat amount, just the breakdown, for example "3 days x $3,200/day. Dump fees included." The job price must be the full total.
 
 Rules:
 - Always write in clear US English, even when the note is in Spanish. Use correct tree names (encino = oak, eucalipto = eucalyptus, pino = pine, palma = palm, cedro = cedar, secoya = redwood).

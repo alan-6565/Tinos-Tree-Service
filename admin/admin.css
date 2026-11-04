@@ -207,3 +207,5 @@ body{
 .job-row__pricing .job-row__label{margin-top:0;}
 .job-card__field{margin-top:10px; margin-bottom:0;}
 .job-card__field textarea{margin-top:4px;}
+.job-row__label--notes{margin-top:12px;}
+.job-row__desc{margin-bottom:0;}
