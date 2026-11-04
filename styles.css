@@ -456,3 +456,9 @@ footer{background:var(--dark);}
 .redirect-notice{min-height:60vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:40px 20px;}
 .redirect-notice__box{max-width:420px;}
 .redirect-notice__box p{color:var(--muted); margin-top:10px;}
+
+/* Estimate form validation */
+.req{color:#b3261e;}
+.form-group .is-invalid{border-color:#b3261e !important; background:#fff7f6;}
+.field-error{color:#b3261e; font-size:.84rem; font-weight:600; margin-top:6px;}
+.form-summary{background:#fdecea; border:1px solid #f3b8b1; color:#8c1d13; border-radius:10px; padding:10px 14px; font-size:.9rem; font-weight:600; margin-bottom:12px;}

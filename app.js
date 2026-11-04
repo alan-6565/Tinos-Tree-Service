@@ -74,11 +74,74 @@
     });
   }
 
+  // Estimate form: show a clear message under each field that needs fixing
+  // (the browser's own bubbles were hidden under the sticky header).
+  function initEstimateForm() {
+    const form = $("#estimate-form");
+    if (!form) return;
+    const rules = [
+      { id: "fullname", check: (v) => v.length >= 2, msg: "Please enter your name." },
+      { id: "phone", check: (v) => v.replace(/\D/g, "").length >= 10, msg: "Please enter a phone number with area code, e.g. (510) 555-1234." },
+      { id: "email", check: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), msg: "Please enter a valid email, e.g. you@example.com." },
+      { id: "details", check: (v) => v.length >= 5, msg: "Please tell us a little about the job." },
+    ];
+    const summary = $("#form-summary");
+
+    function setError(input, msg) {
+      let el = input.parentElement.querySelector(".field-error");
+      if (!el) {
+        el = document.createElement("p");
+        el.className = "field-error";
+        el.id = `${input.id}-error`;
+        input.insertAdjacentElement("afterend", el);
+      }
+      el.textContent = msg || "";
+      el.hidden = !msg;
+      input.classList.toggle("is-invalid", Boolean(msg));
+      input.setAttribute("aria-invalid", msg ? "true" : "false");
+      if (msg) input.setAttribute("aria-describedby", el.id);
+    }
+
+    function validate(rule) {
+      const input = $(`#${rule.id}`);
+      const ok = rule.check(input.value.trim());
+      setError(input, ok ? "" : rule.msg);
+      return ok;
+    }
+
+    rules.forEach((rule) => {
+      const input = $(`#${rule.id}`);
+      // Re-check as they fix it, once it has been flagged.
+      input.addEventListener("input", () => {
+        if (input.classList.contains("is-invalid")) validate(rule);
+        if (!form.querySelector(".is-invalid")) summary.hidden = true;
+      });
+      input.addEventListener("blur", () => { if (input.value.trim()) validate(rule); });
+    });
+
+    form.addEventListener("submit", (e) => {
+      const failed = rules.filter((rule) => !validate(rule));
+      if (failed.length === 0) {
+        summary.hidden = true;
+        return;
+      }
+      e.preventDefault();
+      summary.textContent = failed.length === 1
+        ? "One thing needs fixing before we can send your request (marked in red above)."
+        : `${failed.length} things need fixing before we can send your request (marked in red above).`;
+      summary.hidden = false;
+      const first = $(`#${failed[0].id}`);
+      first.scrollIntoView({ behavior: "smooth", block: "center" });
+      first.focus({ preventScroll: true });
+    });
+  }
+
   // Defer init until DOM ready
   document.addEventListener("DOMContentLoaded", function () {
     initMobileMenu();
     initRotatingLogos();
     initYear();
     initGalleryFilters();
+    initEstimateForm();
   });
 })();
