@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Pay Your Invoice | Tino's Tree Service</title>
+  <link rel="icon" type="image/jpg" href="/images/hero-pic-1.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a4ccdfdc17.js" crossorigin="anonymous" defer></script>
+  <style>
+    :root{--dark:#0c1f13; --brand:#0b7a2a; --cream:#f6f2e8; --ink:#172317; --muted:#5c6b5f; --line:rgba(23,35,23,.12);}
+    *{box-sizing:border-box; margin:0; padding:0;}
+    body{font-family:"Kumbh Sans", system-ui, -apple-system, sans-serif; background:var(--cream); color:var(--ink); line-height:1.5;}
+    .hidden{display:none !important;}
+    .top{background:var(--dark); color:#fff; padding:16px; text-align:center; font-weight:700; font-size:1.05rem;}
+    .top span{display:block; font-weight:400; font-size:.8rem; color:#b9c8bc;}
+    main{max-width:480px; margin:0 auto; padding:24px 16px 48px;}
+    .card{background:#fff; border:1px solid var(--line); border-radius:16px; padding:22px; margin-bottom:16px;}
+    .amount{text-align:center;}
+    .amount small{display:block; color:var(--muted); font-size:.9rem;}
+    .amount strong{display:block; font-size:2.4rem; line-height:1.15; margin:4px 0;}
+    h2{font-size:1rem; margin-bottom:12px; text-align:center;}
+    .pay-btn{display:flex; align-items:center; justify-content:center; gap:.6rem; width:100%; padding:15px; border-radius:12px; border:0; font:inherit; font-size:1.05rem; font-weight:700; cursor:pointer; text-decoration:none; margin-bottom:10px;}
+    .pay-btn--venmo{background:#008cff; color:#fff;}
+    .pay-btn--zelle{background:#6d1ed4; color:#fff;}
+    .pay-btn i{font-size:1.15rem;}
+    .zelle-panel{border:1px solid #d9c6f5; background:#faf6ff; border-radius:12px; padding:14px; margin:-2px 0 10px;}
+    .zelle-panel ol{padding-left:20px; font-size:.92rem;}
+    .zelle-panel li{margin:6px 0;}
+    .copy-row{display:flex; align-items:center; justify-content:space-between; gap:8px; background:#fff; border:1px solid var(--line); border-radius:8px; padding:8px 10px; margin-top:4px;}
+    .copy-row b{font-size:1rem;}
+    .copy-btn{border:1px solid #6d1ed4; background:#fff; color:#6d1ed4; border-radius:8px; padding:6px 10px; font:inherit; font-size:.8rem; font-weight:700; cursor:pointer; white-space:nowrap;}
+    .other{text-align:center; color:var(--muted); font-size:.88rem; margin-top:6px;}
+    .paid{text-align:center; color:#1f6b2c;}
+    .paid i{font-size:2.4rem; margin-bottom:8px;}
+    .paid strong{display:block; font-size:1.2rem;}
+    .help{text-align:center; color:var(--muted); font-size:.9rem;}
+    .help a{color:var(--brand); font-weight:700;}
+    .state-msg{text-align:center; padding:60px 16px; color:var(--muted);}
+  </style>
+</head>
+<body>
+  <div class="top">Tino's Tree Service<span>Family owned &amp; operated &middot; Richmond, CA</span></div>
+  <main>
+    <p id="state-msg" class="state-msg">Loading your invoice&hellip;</p>
+
+    <div id="page" class="hidden">
+      <div class="card amount">
+        <small id="greeting"></small>
+        <strong id="total"></strong>
+        <small id="invoice-label"></small>
+      </div>
+
+      <div id="paid-card" class="card paid hidden">
+        <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+        <strong>Paid. Thank you!</strong>
+        <span>This invoice has been marked as paid.</span>
+      </div>
+
+      <div id="pay-card" class="card">
+        <h2>How would you like to pay?</h2>
+
+        <a id="venmo-btn" class="pay-btn pay-btn--venmo hidden" href="#"><i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i> Pay with Venmo</a>
+
+        <button id="zelle-btn" class="pay-btn pay-btn--zelle hidden" type="button" aria-expanded="false" aria-controls="zelle-panel"><i class="fa-solid fa-bolt" aria-hidden="true"></i> Pay with Zelle</button>
+        <div id="zelle-panel" class="zelle-panel hidden">
+          <ol>
+            <li>Open your bank's app and choose <b>Zelle</b>.</li>
+            <li>Send to this number:
+              <div class="copy-row"><b id="zelle-to"></b><button class="copy-btn" type="button" data-copy="zelle-to">Copy</button></div>
+            </li>
+            <li>Check the name shows as <b id="zelle-name"></b>.</li>
+            <li>Amount:
+              <div class="copy-row"><b id="zelle-amount"></b><button class="copy-btn" type="button" data-copy="zelle-amount">Copy</button></div>
+            </li>
+            <li>In the memo, write <b id="zelle-memo"></b>.</li>
+          </ol>
+        </div>
+
+        <p id="other-way" class="other"></p>
+      </div>
+
+      <p class="help">Questions? Call or text <a id="phone-link" href="tel:+15109323088">(510) 932-3088</a></p>
+    </div>
+  </main>
+
+  <script>
+  (function () {
+    "use strict";
+    const $ = (sel) => document.querySelector(sel);
+    const token = new URLSearchParams(location.search).get("t") || "";
+    const money = (n) => `$${Number(n || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+    function showMessage(text) {
+      $("#state-msg").textContent = text;
+    }
+
+    function render({ invoice, payment }) {
+      $("#greeting").textContent = invoice.clientFirstName ? `Hi ${invoice.clientFirstName}, your total is` : "Your total is";
+      $("#total").textContent = money(invoice.total);
+      $("#invoice-label").textContent = `Invoice #${invoice.number}`;
+
+      if (invoice.paid) {
+        $("#paid-card").classList.remove("hidden");
+        $("#pay-card").classList.add("hidden");
+      } else {
+        if (payment.venmoUrl) {
+          $("#venmo-btn").href = payment.venmoUrl;
+          $("#venmo-btn").classList.remove("hidden");
+        }
+        if (payment.zelleTo) {
+          $("#zelle-to").textContent = payment.zelleTo;
+          $("#zelle-name").textContent = payment.zelleName || "Tino's Tree Service";
+          $("#zelle-amount").textContent = money(invoice.total);
+          $("#zelle-memo").textContent = `Invoice #${invoice.number}`;
+          $("#zelle-btn").classList.remove("hidden");
+        }
+        $("#other-way").textContent = `You can also pay by check or cash, payable to ${payment.checksPayableTo}.`;
+      }
+
+      $("#state-msg").classList.add("hidden");
+      $("#page").classList.remove("hidden");
+    }
+
+    $("#zelle-btn").addEventListener("click", () => {
+      const panel = $("#zelle-panel");
+      const open = panel.classList.toggle("hidden") === false;
+      $("#zelle-btn").setAttribute("aria-expanded", String(open));
+    });
+
+    document.addEventListener("click", async (e) => {
+      const btn = e.target.closest("[data-copy]");
+      if (!btn) return;
+      const text = $(`#${btn.dataset.copy}`).textContent.replace(/^\$/, "").replace(/,/g, "");
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = "Copied!";
+        setTimeout(() => { btn.textContent = "Copy"; }, 1500);
+      } catch {
+        prompt("Copy this:", text);
+      }
+    });
+
+    async function load() {
+      if (!token) {
+        showMessage("This link is missing its invoice code. Please use the full link you were sent.");
+        return;
+      }
+      try {
+        const res = await fetch(`/api/pay?t=${encodeURIComponent(token)}`);
+        if (res.status === 404) {
+          showMessage("We couldn't find this invoice. Please call (510) 932-3088.");
+          return;
+        }
+        if (!res.ok) throw new Error();
+        render(await res.json());
+      } catch {
+        showMessage("Something went wrong loading your invoice. Please try again or call (510) 932-3088.");
+      }
+    }
+
+    load();
+  })();
+  </script>
+</body>
+</html>

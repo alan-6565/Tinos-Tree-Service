@@ -77,7 +77,8 @@ module.exports = async function handler(req, res) {
       client_phone: body.clientPhone || null,
       line_items: jobs,
       total: computeTotal(jobs),
-      share_token: type === "proposal" ? newShareToken() : null,
+      // Private link: proposal approval page, or invoice pay page.
+      share_token: newShareToken(),
     };
 
     const { data, error } = await supabase.from("documents").insert(row).select().single();

@@ -135,27 +135,29 @@
       });
     }
     $("#preview-total").textContent = money(total);
-    if (state.docType !== "proposal") updateVenmo(total, meta && meta.number);
+    if (state.docType !== "proposal") updatePayLink(meta);
   }
 
-  // Venmo payment link (amount + invoice number pre-filled) and its QR code
-  // for the invoice. Keep the username in sync with lib/business.js.
-  const VENMO_USERNAME = "Juventino-Crusostomo";
-  function updateVenmo(total, number) {
-    const params = new URLSearchParams({ txn: "pay" });
-    if (total > 0) params.set("amount", total.toFixed(2));
-    params.set("note", number ? `Invoice #${number}` : "Tino's Tree Service");
-    const url = `https://venmo.com/${VENMO_USERNAME}?${params.toString()}`;
-    $("#preview-venmo-link").href = url;
-    const img = $("#preview-venmo-qr");
+  // Small QR code + link to the invoice's pay page (client picks Venmo or
+  // Zelle there). The link exists once the invoice is saved.
+  function updatePayLink(meta) {
+    const qrWrap = $("#preview-pay-qr").closest(".doc-preview__qr");
+    const url = meta && meta.share_token ? `${location.origin}/pay.html?t=${encodeURIComponent(meta.share_token)}` : null;
+    if (!url) {
+      $("#preview-pay-text").textContent = "The pay link and QR code are added when you save.";
+      qrWrap.classList.add("hidden");
+      return;
+    }
+    $("#preview-pay-text").innerHTML = 'Scan the code or <a id="preview-pay-link" href="">tap here to pay</a>.';
+    $("#preview-pay-link").href = url;
     if (window.qrcode) {
       const qr = window.qrcode(0, "M");
       qr.addData(url);
       qr.make();
-      img.src = qr.createDataURL(4, 2);
-      img.closest(".doc-preview__qr").classList.remove("hidden");
+      $("#preview-pay-qr").src = qr.createDataURL(3, 1);
+      qrWrap.classList.remove("hidden");
     } else {
-      img.closest(".doc-preview__qr").classList.add("hidden");
+      qrWrap.classList.add("hidden");
     }
   }
 

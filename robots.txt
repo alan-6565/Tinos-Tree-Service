@@ -2,5 +2,6 @@ User-agent: *
 Disallow: /admin/
 Disallow: /api/
 Disallow: /proposal.html
+Disallow: /pay.html
 
 Sitemap: https://www.tinostreeservice.net/sitemap.xml

@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const { requireAuth } = require("../../lib/auth");
 const { getSupabase } = require("../../lib/supabase");
 const business = require("../../lib/business");
@@ -28,6 +29,14 @@ module.exports = async function handler(req, res) {
     res.status(404).json({ error: "Document not found" });
     return;
   }
+  // Older documents were saved before every one had a private link.
+  if (!doc.share_token) {
+    const token = crypto.randomBytes(18).toString("base64url");
+    const { data: withToken } = await supabase.from("documents").update({ share_token: token })
+      .eq("id", doc.id).is("share_token", null).select().single();
+    if (withToken) Object.assign(doc, withToken);
+  }
+
   if (!EMAIL_RE.test(doc.client_email || "")) {
     res.status(400).json({ error: "This client has no email address on file." });
     return;
