@@ -37,15 +37,21 @@
         <label>Through <span class="muted">(optional)</span><input type="date" class="job-end-date"></label>
       </div>
       <input type="text" class="job-address" placeholder="Job address (leave blank if same as client)">
+      <textarea class="job-description" rows="3" placeholder="Job description (optional): a short paragraph explaining the job, e.g. why it's needed for safety"></textarea>
       <textarea class="job-tasks" rows="3" placeholder="One per line, e.g.&#10;Complete pruning on a magnolia tree&#10;Remove a bottlebrush tree and grind the stump"></textarea>
       <label class="job-card__price">Price for this job
         <input type="number" class="job-price" placeholder="0.00" min="0" step="0.01">
+      </label>
+      <label class="job-card__price-note">Price note <span class="muted">(optional)</span>
+        <input type="text" class="job-price-note" placeholder="e.g. 3 days at $3,200 per day, dump fees included">
       </label>
     `;
     card.querySelector(".job-date").value = job.date || "";
     card.querySelector(".job-end-date").value = job.endDate || "";
     card.querySelector(".job-address").value = job.address || "";
+    card.querySelector(".job-description").value = job.description || "";
     card.querySelector(".job-tasks").value = (job.tasks || []).join("\n");
+    card.querySelector(".job-price-note").value = job.priceNote || "";
     card.querySelector(".job-price").value = job.price ?? "";
     card.querySelector(".remove-job").addEventListener("click", () => {
       if (jobsEl.children.length > 1) card.remove();
@@ -86,8 +92,10 @@
       date: card.querySelector(".job-date").value,
       endDate: card.querySelector(".job-end-date").value,
       address: card.querySelector(".job-address").value.trim(),
+      description: card.querySelector(".job-description").value.trim(),
       tasks: card.querySelector(".job-tasks").value.split("\n").map((t) => t.trim()).filter(Boolean),
       price: parseFloat(card.querySelector(".job-price").value) || 0,
+      priceNote: card.querySelector(".job-price-note").value.trim(),
     }));
     return {
       docType,
@@ -128,7 +136,9 @@
         tr.innerHTML = `
           <td>
             ${heading ? `<div class="job-row__head">${escapeHtml(heading)}</div>` : ""}
+            ${job.description ? `<p class="job-row__desc">${escapeHtml(job.description)}</p>` : ""}
             <ul class="job-row__tasks">${job.tasks.map((t) => `<li>${escapeHtml(t)}</li>`).join("")}</ul>
+            ${job.priceNote ? `<p class="job-row__price-note">${escapeHtml(job.priceNote)}</p>` : ""}
           </td>
           <td>${money(job.price)}</td>`;
         tbody.appendChild(tr);
@@ -332,8 +342,10 @@
       date: job.date || "",
       endDate: job.endDate || "",
       address: job.address || "",
+      description: job.description || "",
       tasks: job.tasks || [],
       price: job.price,
+      priceNote: job.priceNote || "",
     })));
     updatePreview();
     updateGenerateLabel();
@@ -572,6 +584,13 @@
       el.id = newId;
     });
     document.body.appendChild(clone);
+    // Long documents: let them flow onto more pages instead of overlapping
+    // the total/footer pinned to the bottom of a single page.
+    const pageHeight = clone.clientHeight;
+    clone.classList.add("doc-preview--measure");
+    const multipage = clone.scrollHeight > pageHeight;
+    if (multipage) clone.classList.add("doc-preview--multipage");
+    clone.classList.remove("doc-preview--measure");
     const restoreScrollX = window.scrollX;
     const restoreScrollY = window.scrollY;
     window.scrollTo(0, 0);
@@ -581,7 +600,8 @@
         filename,
         html2canvas: { scale: 2 },
         jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-        pagebreak: { mode: ["css", "legacy"], avoid: "tr" },
+        // A long job is one tall table row; split it between lines, not rows.
+        pagebreak: { mode: ["css", "legacy"], avoid: multipage ? "li" : "tr" },
       });
       return asBase64 ? await worker.outputPdf("datauristring") : await worker.save();
     } finally {
@@ -608,8 +628,10 @@
         date: job.date || "",
         endDate: job.endDate || "",
         address: job.address || "",
+        description: job.description || "",
         tasks: job.tasks || [],
         price: Number(job.price) || 0,
+        priceNote: job.priceNote || "",
       })),
     };
   }
@@ -723,8 +745,10 @@
         date: job.date || "",
         endDate: job.endDate || "",
         address: job.address || "",
+        description: job.description || "",
         tasks: job.tasks,
         price: job.price || "",
+        priceNote: job.priceNote || "",
       })));
     }
     updatePreview();

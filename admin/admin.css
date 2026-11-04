@@ -192,3 +192,13 @@ body{
 .ai-result ul{margin:8px 0 0; padding-left:18px; color:#8a5a00;}
 .ai-result ul:empty{display:none;}
 .doc-preview__payment .muted-line{color:var(--muted); font-size:.78rem; margin-top:4px;}
+.job-row__desc{margin:2px 0 8px; color:var(--ink); line-height:1.5;}
+.job-row__price-note{margin:8px 0 0; color:var(--muted); font-size:.85rem; font-style:italic;}
+.job-card__price-note{margin-top:10px;}
+.job-card__price-note input{margin-bottom:0;}
+.job-card .muted{font-weight:400;}
+/* Measuring / multi-page export (see exportPdf) */
+.doc-preview--measure{height:auto !important;}
+.doc-preview--measure .doc-preview__bottom{position:static !important; margin-top:32px;}
+.doc-preview--multipage{height:auto !important;}
+.doc-preview--multipage .doc-preview__bottom{position:static !important; margin-top:32px;}

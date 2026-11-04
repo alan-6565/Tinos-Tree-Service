@@ -24,8 +24,10 @@ function normalizeJobs(jobs) {
       date: DATE_RE.test(job.date) ? job.date : null,
       endDate: DATE_RE.test(job.endDate) ? job.endDate : null,
       address: job.address ? String(job.address) : null,
+      description: job.description ? String(job.description).trim().slice(0, 2000) : null,
       tasks: job.tasks.map((t) => String(t).trim()).filter(Boolean),
       price: Number(job.price) || 0,
+      priceNote: job.priceNote ? String(job.priceNote).trim().slice(0, 300) : null,
     }))
     .filter((job) => job.tasks.length > 0);
 }
