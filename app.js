@@ -136,6 +136,27 @@
     });
   }
 
+  // Pre-fill the estimate form from the homepage "Size up your tree" tool
+  // (signup.html?service=...&height=...&urgency=...).
+  function initPrefill() {
+    const form = $("#estimate-form");
+    if (!form) return;
+    const q = new URLSearchParams(location.search);
+    const service = q.get("service");
+    const select = $("#service");
+    if (service && select && Array.from(select.options).some((o) => o.value === service)) select.value = service;
+    const urgency = q.get("urgency");
+    if (urgency) {
+      const radio = $$('input[name="urgency"]', form).find((r) => r.value === urgency);
+      if (radio) radio.checked = true;
+    }
+    const height = q.get("height");
+    const details = $("#details");
+    if (height && /^\d{1,3}\+?$/.test(height) && details && !details.value) {
+      details.value = `Tree height: about ${height} ft.\n`;
+    }
+  }
+
   // Defer init until DOM ready
   document.addEventListener("DOMContentLoaded", function () {
     initMobileMenu();
@@ -143,5 +164,6 @@
     initYear();
     initGalleryFilters();
     initEstimateForm();
+    initPrefill();
   });
 })();

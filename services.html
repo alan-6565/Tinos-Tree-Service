@@ -16,11 +16,15 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/jpg" href="/images/hero-pic-1.jpg">
-  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700;800;900&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a4ccdfdc17.js" crossorigin="anonymous" defer></script>
   <link rel="stylesheet" href="/styles.css?v=20261103">
+  <link rel="stylesheet" href="/immersive.css?v=20261113">
+  <link rel="stylesheet" href="/pages.css?v=20261113">
 </head>
 <body>
+  <canvas class="world" aria-hidden="true" data-frames="96" data-dir="/video/descent/" data-dir-mobile="/video/descent-m/" data-ext="webp"></canvas>
+  <div class="flash" aria-hidden="true"></div>
   <a href="#main" class="visually-hidden">Skip to content</a>
   <header>
     <nav class="navbar" role="navigation" aria-label="Main">
@@ -67,140 +71,135 @@
     </nav>
   </header>
 
-  <main id="main">
-    <section class="split-hero">
-      <div class="split-hero__text">
-        <span class="hero__eyebrow">Our Services</span>
-        <h1>Complete Tree Care.<br>One Trusted Crew.</h1>
-        <p>Professional tree services done right&mdash;safely, efficiently, and with respect for your property.</p>
+  <main id="main" class="climb">
+    <div class="rope" aria-hidden="true">
+      <div class="rope__line"><div class="rope__done"></div></div>
+      <div class="rope__clip">
+        <svg viewBox="0 0 40 64" width="26" height="42"><path d="M20 4c-8 0-12 6-12 13v26c0 9 5 17 12 17s12-8 12-17V17C32 10 28 4 20 4Z" fill="none" stroke="currentColor" stroke-width="5"/><path d="M8 30h7" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg>
+        <span class="rope__read"><b class="rope__ft">65</b><small>ft</small><em class="rope__zone">Canopy</em></span>
+      </div>
+    </div>
+
+    <section class="pg-hero" data-zone="Canopy" data-ft="65">
+      <div class="pg-hero__inner">
+        <span class="hero__eyebrow">Our services</span>
+        <h1 class="pg-title"><span class="ih-line"><span>Every job,</span></span><span class="ih-line"><span>top to <em>bottom.</em></span></span></h1>
+        <p>Climb down the tree with us. Each service shows up at the height we do it&mdash;from the canopy to a clean curb.</p>
         <div class="hero__cta">
-          <a class="button button--cream" href="/signup.html">Request a Free Estimate</a>
-          <a class="button button--outline-cream" href="tel:+15109323088"><i class="fa-solid fa-phone" aria-hidden="true"></i> Emergency? Call Now</a>
+          <a class="button button--cream" href="/signup.html">Request a free estimate</a>
+          <a class="button button--outline-cream" href="tel:+15109323088"><i class="fa-solid fa-phone" aria-hidden="true"></i> Emergency? Call now</a>
         </div>
+        <nav class="pg-jump" aria-label="Jump to a service">
+          <a href="#trimming">Trimming</a><a href="#emergency">Emergency</a><a href="#removal">Removal</a><a href="#brush">Brush clearing</a><a href="#stump">Stump grinding</a><a href="#cleanup">Cleanup</a>
+        </nav>
       </div>
-      <div class="split-hero__photo" style="background-image:url('/images/work-13.jpg'); background-position:65% center;"></div>
+      <a class="ih-scroll" href="#trimming"><span>Scroll to climb down</span><i class="fa-solid fa-arrow-down" aria-hidden="true"></i></a>
     </section>
 
-    <section class="services-detail">
-      <div class="container">
-
-        <div class="service-block">
-          <div class="service-block__visual service-block__visual--photo"><img src="/images/work-2.jpg" alt="Climber working high in an oak tree" loading="lazy"></div>
-          <div class="service-block__body">
-            <h3>Tree removal</h3>
-            <p>Safe removal of dead, hazardous, or unwanted trees. We protect your property, use professional equipment and techniques, and perform a full cleanup when we're done.</p>
-            <ul>
-              <li>Dead, damaged, or hazardous tree removal</li>
-              <li>Careful rigging to protect fences, roofs, and landscaping</li>
-              <li>Debris hauled away&mdash;your property left clean</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="service-block">
-          <div class="service-block__visual service-block__visual--photo"><img src="/images/work-6.jpg" alt="Cedar after crown thinning" loading="lazy"></div>
-          <div class="service-block__body">
-            <h3>Tree trimming &amp; pruning</h3>
-            <p>Structural pruning and hazard reduction to improve safety, appearance, and long&#8209;term health. Regular care keeps trees strong and looking their best.</p>
-            <ul>
-              <li>Deadwood and hazard-limb removal</li>
-              <li>Crown shaping and thinning</li>
-              <li>Health-focused pruning for long-term growth</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="service-block">
-          <div class="service-block__visual service-block__visual--photo"><img src="/images/work-1.jpg" alt="Crew and chipper at a front-yard job" loading="lazy"></div>
-          <div class="service-block__body">
-            <h3>Stump grinding &amp; cleanup</h3>
-            <p>After a tree comes down, we don't leave you with the stump. We grind stumps below grade, clearing space for new landscaping or clean, usable ground.</p>
-            <ul>
-              <li>Grinding below ground level</li>
-              <li>Full site cleanup and haul-away</li>
-              <li>Property ready for replanting or hardscape</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="service-block">
-          <div class="service-block__visual service-block__visual--photo"><img src="/images/work-3.jpg" alt="Yard cleared of overgrown branches" loading="lazy"></div>
-          <div class="service-block__body">
-            <h3>Brush &amp; fire hazard clearing</h3>
-            <p>Reduce wildfire risk and overgrowth around your property with thinning, cutback, and lot clearing.</p>
-            <ul>
-              <li>Vegetation thinning and defensible-space clearing</li>
-              <li>Overgrown lot and brush cutback</li>
-              <li>Debris removal after clearing</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="service-block">
-          <div class="service-block__visual service-block__visual--photo"><img src="/images/work-11.jpg" alt="Storm-broken oak limb across a backyard deck" loading="lazy"></div>
-          <div class="service-block__body">
-            <h3>Emergency tree service</h3>
-            <p>24/7 response for storm damage, fallen trees, and urgent safety hazards&mdash;when you can't wait for a scheduled appointment.</p>
-            <ul>
-              <li>Storm damage and fallen tree response</li>
-              <li>Hazardous limb and leaning tree removal</li>
-              <li>Fast turnaround to protect your property</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="service-block">
-          <div class="service-block__visual service-block__visual--photo"><img src="/images/work-13.jpg" alt="Tino's crew feeding branches into the chipper for haul-away" loading="lazy"></div>
-          <div class="service-block__body">
-            <h3>Cleanup &amp; hauling</h3>
-            <p>Complete cleanup and haul-away after any job&mdash;leaving your property safe, clean, and ready to enjoy.</p>
-            <ul>
-              <li>Branch, log, and debris removal</li>
-              <li>Full site cleanup</li>
-              <li>Haul-away included</li>
-            </ul>
-          </div>
-        </div>
-
+    <section class="svc" id="trimming" data-zone="Canopy" data-ft="58">
+      <figure class="svc__photo">
+        <canvas class="wind" data-srcs="/images/work-6.jpg"></canvas>
+        <img class="wind-fallback" src="/images/work-6.jpg" alt="Cedar after a crown thinning by Tino's crew" loading="lazy">
+      </figure>
+      <div class="svc__card">
+        <span class="svc__ft"><b>58</b> ft &middot; Canopy</span>
+        <h2>Tree trimming &amp; pruning</h2>
+        <p>Structural pruning and hazard reduction to improve safety, appearance, and long&#8209;term health. Regular care keeps trees strong and looking their best.</p>
+        <ul><li>Deadwood and hazard-limb removal</li><li>Crown shaping and thinning</li><li>Health-focused pruning for long-term growth</li></ul>
+        <a class="svc__go" href="/signup.html?service=Trimming+%26+Pruning">Get a trimming estimate <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+      </div>
+    </section>
+    <section class="svc svc--flip" id="emergency" data-zone="Crown" data-ft="46" data-storm>
+      <figure class="svc__photo">
+        <canvas class="wind" data-srcs="/images/work-11.jpg"></canvas>
+        <img class="wind-fallback" src="/images/work-11.jpg" alt="Storm-broken oak limb across a backyard deck" loading="lazy">
+      </figure>
+      <div class="svc__card">
+        <span class="svc__ft"><b>46</b> ft &middot; Crown</span>
+        <h2>Emergency tree service</h2>
+        <p>24/7 response for storm damage, fallen trees, and urgent safety hazards&mdash;when you can't wait for a scheduled appointment.</p>
+        <ul><li>Storm damage and fallen tree response</li><li>Hazardous limb and leaning tree removal</li><li>Fast turnaround to protect your property</li></ul>
+        <a class="svc__go" href="/signup.html?service=Emergency+%2F+Storm+Damage&amp;urgency=Emergency+%2F+Hazard">Get emergency help <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+      </div>
+    </section>
+    <section class="svc" id="removal" data-zone="Trunk" data-ft="32">
+      <figure class="svc__photo">
+        <canvas class="wind" data-srcs="/images/work-2.jpg"></canvas>
+        <img class="wind-fallback" src="/images/work-2.jpg" alt="Climber working high in an oak tree" loading="lazy">
+      </figure>
+      <div class="svc__card">
+        <span class="svc__ft"><b>32</b> ft &middot; Trunk</span>
+        <h2>Tree removal</h2>
+        <p>Safe removal of dead, hazardous, or unwanted trees. We protect your property, use professional equipment and techniques, and perform a full cleanup when we're done.</p>
+        <ul><li>Dead, damaged, or hazardous tree removal</li><li>Careful rigging to protect fences, roofs, and landscaping</li><li>Debris hauled away&mdash;your property left clean</li></ul>
+        <a class="svc__go" href="/signup.html?service=Tree+Removal">Get a removal estimate <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+      </div>
+    </section>
+    <section class="svc svc--flip" id="brush" data-zone="Brush" data-ft="16">
+      <figure class="svc__photo">
+        <canvas class="wind" data-srcs="/images/work-3.jpg"></canvas>
+        <img class="wind-fallback" src="/images/work-3.jpg" alt="Yard cleared of overgrown branches" loading="lazy">
+      </figure>
+      <div class="svc__card">
+        <span class="svc__ft"><b>16</b> ft &middot; Brush</span>
+        <h2>Brush &amp; fire hazard clearing</h2>
+        <p>Reduce wildfire risk and overgrowth around your property with thinning, cutback, and lot clearing.</p>
+        <ul><li>Vegetation thinning and defensible-space clearing</li><li>Overgrown lot and brush cutback</li><li>Debris removal after clearing</li></ul>
+        <a class="svc__go" href="/signup.html?service=Not+sure+yet">Ask about clearing <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+      </div>
+    </section>
+    <section class="svc" id="stump" data-zone="Ground" data-ft="5">
+      <figure class="svc__photo">
+        <canvas class="wind" data-srcs="/images/work-1.jpg"></canvas>
+        <img class="wind-fallback" src="/images/work-1.jpg" alt="Crew and chipper at a front-yard job" loading="lazy">
+      </figure>
+      <div class="svc__card">
+        <span class="svc__ft"><b>5</b> ft &middot; Ground</span>
+        <h2>Stump grinding &amp; cleanup</h2>
+        <p>After a tree comes down, we don't leave you with the stump. We grind stumps below grade, clearing space for new landscaping or clean, usable ground.</p>
+        <ul><li>Grinding below ground level</li><li>Full site cleanup and haul-away</li><li>Property ready for replanting or hardscape</li></ul>
+        <a class="svc__go" href="/signup.html?service=Stump+Grinding+%26+Cleanup">Get a stump estimate <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+      </div>
+    </section>
+    <section class="svc svc--flip" id="cleanup" data-zone="Curb" data-ft="0">
+      <figure class="svc__photo">
+        <canvas class="wind" data-srcs="/images/work-13.jpg"></canvas>
+        <img class="wind-fallback" src="/images/work-13.jpg" alt="Tino's crew feeding branches into the chipper for haul-away" loading="lazy">
+      </figure>
+      <div class="svc__card">
+        <span class="svc__ft"><b>0</b> ft &middot; Curb</span>
+        <h2>Cleanup &amp; hauling</h2>
+        <p>Complete cleanup and haul-away after any job&mdash;leaving your property safe, clean, and ready to enjoy.</p>
+        <ul><li>Branch, log, and debris removal</li><li>Full site cleanup</li><li>Haul-away included</li></ul>
+        <a class="svc__go" href="/signup.html?service=Not+sure+yet">Request an estimate <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
       </div>
     </section>
 
-    <section class="process">
-      <div class="process__inner">
-        <div class="process__heading">
-          <h2>What to Expect</h2>
-          <div class="rule"></div>
+    <section class="knots" data-zone="Curb">
+      <div class="knots__inner">
+        <div class="section-head">
+          <span class="eyebrow">What to expect</span>
+          <h2>Four knots, tied in order.</h2>
+          <p>Every job follows the same simple steps&mdash;no surprises.</p>
         </div>
-        <div class="process__steps">
-          <div class="process__step">
-            <span class="badge"><i class="fa-solid fa-phone" aria-hidden="true"></i><span class="num">01</span></span>
-            <span><h3>Request</h3><p>Contact us by phone or online. We'll gather a few quick details.</p></span>
-          </div>
-          <div class="process__step">
-            <span class="badge"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i><span class="num">02</span></span>
-            <span><h3>Inspection</h3><p>We inspect the site, assess the work, and discuss your goals.</p></span>
-          </div>
-          <div class="process__step">
-            <span class="badge"><i class="fa-solid fa-file-lines" aria-hidden="true"></i><span class="num">03</span></span>
-            <span><h3>Written Estimate</h3><p>You'll receive a clear, detailed estimate&mdash;no surprises.</p></span>
-          </div>
-          <div class="process__step">
-            <span class="badge"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span class="num">04</span></span>
-            <span><h3>Safe Completion</h3><p>Our crew gets the job done safely with complete cleanup.</p></span>
-          </div>
-        </div>
+        <ol class="knots__list">
+          <li><span class="knot" aria-hidden="true"></span><i class="fa-solid fa-phone" aria-hidden="true"></i><h3>Request</h3><p>Call, text, or send the form. We gather a few quick details.</p></li>
+          <li><span class="knot" aria-hidden="true"></span><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i><h3>Inspection</h3><p>We look at the site, assess the work, and talk through your goals.</p></li>
+          <li><span class="knot" aria-hidden="true"></span><i class="fa-solid fa-file-lines" aria-hidden="true"></i><h3>Written estimate</h3><p>A clear, detailed estimate&mdash;free and no obligation.</p></li>
+          <li><span class="knot" aria-hidden="true"></span><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><h3>Safe completion</h3><p>The crew does the work safely and leaves a clean curb.</p></li>
+        </ol>
       </div>
     </section>
 
-    <section class="cta-black">
-      <div class="cta-black__inner">
+    <section class="cta-band" data-zone="Curb">
+      <div class="cta-band__inner">
         <div>
-          <h2>Not Sure What Service You Need?</h2>
-          <p>Send us a few photos and we'll point you in the right direction.</p>
+          <h2>Not sure what you need?</h2>
+          <p>Text us a few photos and we'll point you in the right direction&mdash;free.</p>
         </div>
-        <div class="cta-black__actions">
-          <a class="button button--outline-cream" href="/signup.html"><i class="fa-solid fa-upload" aria-hidden="true"></i> Upload Tree Photos</a>
-          <a class="button button--cream" href="tel:+15109323088"><i class="fa-solid fa-phone" aria-hidden="true"></i> Call Our Team</a>
+        <div class="cta-band__actions">
+          <a class="button button--ghost" style="background:#fff;color:var(--brand);" href="sms:+15109323088"><i class="fa-solid fa-comment" aria-hidden="true"></i> Text us photos</a>
+          <a class="button button--ghost" href="tel:+15109323088"><i class="fa-solid fa-phone" aria-hidden="true"></i> (510) 932-3088</a>
         </div>
       </div>
     </section>
@@ -233,6 +232,13 @@
     </div>
   </footer>
 
-  <script src="/app.js?v=20261103" defer></script>
+  <script src="/app.js?v=20261113" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+  <script src="/wind.js?v=20261111" defer></script>
+  <script src="/immersive.js?v=20261113" defer></script>
+  <script src="/pages.js?v=20261113" defer></script>
+  <script src="/scrub.js?v=20261113" defer></script>
 </body>
 </html>

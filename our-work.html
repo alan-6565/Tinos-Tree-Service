@@ -16,11 +16,15 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/jpg" href="/images/hero-pic-1.jpg">
-  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700;800;900&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a4ccdfdc17.js" crossorigin="anonymous" defer></script>
   <link rel="stylesheet" href="/styles.css?v=20261103">
+  <link rel="stylesheet" href="/immersive.css?v=20261113">
+  <link rel="stylesheet" href="/pages.css?v=20261113">
 </head>
 <body>
+  <canvas class="world" aria-hidden="true" data-frames="96" data-dir="/video/descent/" data-dir-mobile="/video/descent-m/" data-ext="webp" data-ft="8"></canvas>
+  <div class="flash" aria-hidden="true"></div>
   <a href="#main" class="visually-hidden">Skip to content</a>
   <header>
     <nav class="navbar" role="navigation" aria-label="Main">
@@ -67,22 +71,61 @@
     </nav>
   </header>
 
-  <main id="main">
-    <section class="split-hero">
-      <div class="split-hero__text">
-        <span class="hero__eyebrow">Our Work</span>
-        <h1>Real Work.<br>Real Results.</h1>
-        <p>See how we help East Bay homeowners protect their property and improve their outdoor space.</p>
+  <main id="main" class="climb">
+    <section class="pg-hero pg-hero--work">
+      <div class="pg-hero__inner">
+        <span class="hero__eyebrow">Our work</span>
+        <h1 class="pg-title"><span class="ih-line"><span>Real jobs.</span></span><span class="ih-line"><span>Real <em>results.</em></span></span></h1>
+        <p>Every photo here is from a real Tino's job around the East Bay&mdash;no stock photos. Drag the before-and-afters, then browse the line.</p>
+        <div class="pg-stats">
+          <div><b>25+</b><span>years</span></div>
+          <div><b>13</b><span>job photos</span></div>
+          <div><b>100%</b><span>cleanup</span></div>
+        </div>
       </div>
-      <div class="split-hero__photo" style="background-image:url('/images/work-6.jpg'); background-position:center 55%;"></div>
+      <a class="ih-scroll" href="#compare"><span>See the difference</span><i class="fa-solid fa-arrow-down" aria-hidden="true"></i></a>
     </section>
 
-    <section class="gallery">
+    <section class="cmp-sec" id="compare">
+      <div class="cmp-sec__inner">
+        <div class="section-head">
+          <span class="eyebrow">Before &amp; after</span>
+          <h2>Drag the line.</h2>
+          <p>Slide across each photo to see the same tree before and after the crew was there.</p>
+        </div>
+        <div class="cmp-grid">
+          <figure class="cmp">
+            <div class="cmp__frame">
+              <img src="/images/work-3.jpg" alt="After: oak thinned and cleared away from the power lines" loading="lazy">
+              <img class="cmp__before" src="/images/work-1.jpg" alt="Before: overgrown oak growing into the power lines" loading="lazy">
+              <span class="cmp__lbl cmp__lbl--b">Before</span><span class="cmp__lbl cmp__lbl--a">After</span>
+              <span class="cmp__line"></span>
+              <input class="cmp__range" type="range" min="0" max="100" value="50" aria-label="Compare before and after: oak by the power lines">
+              <span class="cmp__knob" aria-hidden="true"><i class="fa-solid fa-arrows-left-right"></i></span>
+            </div>
+            <figcaption>Oak by the power lines</figcaption>
+          </figure>
+          <figure class="cmp">
+            <div class="cmp__frame">
+              <img src="/images/work-6.jpg" alt="After: cedar thinned out with an open, balanced crown" loading="lazy">
+              <img class="cmp__before" src="/images/work-5.jpg" alt="Before: large cedar ahead of a crown thinning" loading="lazy">
+              <span class="cmp__lbl cmp__lbl--b">Before</span><span class="cmp__lbl cmp__lbl--a">After</span>
+              <span class="cmp__line"></span>
+              <input class="cmp__range" type="range" min="0" max="100" value="50" aria-label="Compare before and after: cedar crown thinning">
+              <span class="cmp__knob" aria-hidden="true"><i class="fa-solid fa-arrows-left-right"></i></span>
+            </div>
+            <figcaption>Cedar crown thinning</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery line-sec">
       <div class="container">
         <div class="section-head">
           <span class="eyebrow">Project Gallery</span>
-          <h2>Recent jobs</h2>
-          <p>Real photos from jobs around the East Bay&mdash;trimming, cleanup, and emergency storm work.</p>
+          <h2>Hung out to dry.</h2>
+          <p>Real photos from jobs around the East Bay. Tap any photo to see it big.</p>
         </div>
         <div class="gallery__filters" role="tablist" aria-label="Filter gallery">
           <button class="active" type="button">All Projects</button>
@@ -219,6 +262,12 @@
     </div>
   </footer>
 
-  <script src="/app.js?v=20261103" defer></script>
+  <script src="/app.js?v=20261113" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+  <script src="/immersive.js?v=20261113" defer></script>
+  <script src="/pages.js?v=20261113" defer></script>
+  <script src="/scrub.js?v=20261113" defer></script>
 </body>
 </html>

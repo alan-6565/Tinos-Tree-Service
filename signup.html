@@ -16,11 +16,15 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/jpg" href="/images/hero-pic-1.jpg">
-  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700;800;900&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a4ccdfdc17.js" crossorigin="anonymous" defer></script>
   <link rel="stylesheet" href="/styles.css?v=20261103">
+  <link rel="stylesheet" href="/immersive.css?v=20261113">
+  <link rel="stylesheet" href="/pages.css?v=20261113">
 </head>
 <body>
+  <canvas class="world" aria-hidden="true" data-frames="96" data-dir="/video/descent/" data-dir-mobile="/video/descent-m/" data-ext="webp" data-ft="0"></canvas>
+  <div class="flash" aria-hidden="true"></div>
   <a href="#main" class="visually-hidden">Skip to content</a>
   <header>
     <nav class="navbar" role="navigation" aria-label="Main">
@@ -67,7 +71,7 @@
     </nav>
   </header>
 
-  <main id="main">
+  <main id="main" class="climb contact-page">
     <section class="signup-split">
       <div class="signup-split__photo">
         <span class="hero__eyebrow">Request an Estimate</span>
@@ -210,30 +214,18 @@
       </div>
     </section>
 
-    <section class="next-steps">
-      <div class="next-steps__inner">
-        <div class="next-steps__heading">
-          <h2>What Happens Next?</h2>
-          <p>We keep it simple and stress-free.</p>
+    <section class="knots">
+      <div class="knots__inner">
+        <div class="section-head">
+          <span class="eyebrow">What happens next</span>
+          <h2>Three knots and you're set.</h2>
+          <p>Simple and stress-free. Proudly serving the East Bay Area, CA.</p>
         </div>
-        <div class="next-steps__items">
-          <div class="next-steps__item">
-            <span class="circle">1</span>
-            <span><strong>We Review</strong><span>We'll review your information and photos.</span></span>
-          </div>
-          <div class="next-steps__item">
-            <span class="circle">2</span>
-            <span><strong>We Contact You</strong><span>We'll reach out to learn more and answer questions.</span></span>
-          </div>
-          <div class="next-steps__item">
-            <span class="circle">3</span>
-            <span><strong>On-Site Estimate</strong><span>We visit your property and provide a clear, no-obligation estimate.</span></span>
-          </div>
-        </div>
-        <div class="next-steps__area">
-          <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-          <span><strong>Proudly Serving East Bay Area, CA</strong><span>Local expertise. Reliable service.</span></span>
-        </div>
+        <ol class="knots__list">
+          <li><span class="knot" aria-hidden="true"></span><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><h3>We review</h3><p>We look over your details and any photos you texted.</p></li>
+          <li><span class="knot" aria-hidden="true"></span><i class="fa-solid fa-phone" aria-hidden="true"></i><h3>We contact you</h3><p>We reach out the way you picked to learn more and answer questions.</p></li>
+          <li><span class="knot" aria-hidden="true"></span><i class="fa-solid fa-file-lines" aria-hidden="true"></i><h3>On-site estimate</h3><p>We visit the property and give you a clear, no-obligation estimate.</p></li>
+        </ol>
       </div>
     </section>
   </main>
@@ -265,6 +257,12 @@
     </div>
   </footer>
 
-  <script src="/app.js?v=20261103" defer></script>
+  <script src="/app.js?v=20261113" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+  <script src="/immersive.js?v=20261113" defer></script>
+  <script src="/pages.js?v=20261113" defer></script>
+  <script src="/scrub.js?v=20261113" defer></script>
 </body>
 </html>

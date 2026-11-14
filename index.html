@@ -16,9 +16,10 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/jpg" href="/images/hero-pic-1.jpg">
-  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700;800;900&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a4ccdfdc17.js" crossorigin="anonymous" defer></script>
   <link rel="stylesheet" href="/styles.css?v=20261103">
+  <link rel="stylesheet" href="/immersive.css?v=20261113">
 
   <script type="application/ld+json">
 {
@@ -37,6 +38,8 @@
   </script>
 </head>
 <body>
+  <canvas class="world" aria-hidden="true" data-frames="96" data-dir="/video/descent/" data-dir-mobile="/video/descent-m/" data-ext="webp"></canvas>
+  <div class="flash" aria-hidden="true"></div>
   <a href="#main" class="visually-hidden">Skip to content</a>
   <header>
     <nav class="navbar" role="navigation" aria-label="Main">
@@ -83,24 +86,43 @@
     </nav>
   </header>
 
-  <main id="main">
-    <section class="home-hero">
-      <div class="home-hero__container">
-        <div class="hero__content">
-          <span class="hero__eyebrow">Serving the East Bay Area, CA</span>
-          <h1>Trusted Tree Care&mdash;Safe. Reliable. Local.</h1>
-          <p>First-time customers save 20% on select services. Get fast, professional help from a family business with 25+ years of experience.</p>
-          <div class="hero__cta">
-            <a class="button button--cream" href="/signup.html">Request a free estimate</a>
-            <a class="button button--outline-cream" href="tel:+15109323088"><i class="fa-solid fa-phone" aria-hidden="true"></i> Call now</a>
-          </div>
-          <div class="hero__trust">
-            <span><i class="fa-solid fa-award" aria-hidden="true"></i> 25+ years in business</span>
-            <span><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Fully insured</span>
-            <span><i class="fa-solid fa-house" aria-hidden="true"></i> Family owned</span>
-          </div>
+  <main id="main" class="climb">
+    <!-- The rope: a climber's line that runs down the whole page -->
+    <div class="rope" aria-hidden="true">
+      <div class="rope__line"><div class="rope__done"></div></div>
+      <div class="rope__clip">
+        <svg viewBox="0 0 40 64" width="26" height="42"><path d="M20 4c-8 0-12 6-12 13v26c0 9 5 17 12 17s12-8 12-17V17C32 10 28 4 20 4Z" fill="none" stroke="currentColor" stroke-width="5"/><path d="M8 30h7" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg>
+        <span class="rope__read"><b class="rope__ft">65</b><small>ft</small><em class="rope__zone">Canopy</em></span>
+      </div>
+    </div>
+
+    <!-- 1. HERO / canopy -->
+    <section class="ih-hero" data-zone="Canopy" data-ft="65">
+      <div class="ih-hero__bg"><img src="/images/hero-real.jpg" alt="" fetchpriority="high"></div>
+      <div class="ih-hero__inner">
+        <span class="hero__eyebrow">Family owned &middot; Serving the East Bay Area, CA</span>
+        <h1 class="ih-title">
+          <span class="ih-line"><span>From the top</span></span>
+          <span class="ih-line"><span>of the tree</span></span>
+          <span class="ih-line"><span>to a <em>clean curb.</em></span></span>
+        </h1>
+        <p class="ih-lead">Trusted tree care&mdash;safe, reliable, local. 25+ years of trimming, removals and cleanup. First-time customers save 20% on select services.</p>
+        <div class="hero__cta">
+          <a class="button button--cream" href="/signup.html">Request a free estimate</a>
+          <a class="button button--outline-cream" href="tel:+15109323088"><i class="fa-solid fa-phone" aria-hidden="true"></i> (510) 932-3088</a>
+        </div>
+        <div class="hero__trust">
+          <span><i class="fa-solid fa-award" aria-hidden="true"></i> 25+ years in business</span>
+          <span><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Fully insured</span>
+          <span><i class="fa-solid fa-house" aria-hidden="true"></i> Family owned</span>
         </div>
       </div>
+      <figure class="ih-card" aria-hidden="true">
+        <canvas class="wind" data-srcs="/images/hero-pic-1.jpg"></canvas>
+        <img class="wind-fallback" src="/images/hero-pic-1.jpg" alt="">
+        <figcaption>Tino's crew, 30 ft up</figcaption>
+      </figure>
+      <a class="ih-scroll" href="#descent"><span>Scroll to climb down</span><i class="fa-solid fa-arrow-down" aria-hidden="true"></i></a>
     </section>
 
     <div class="rotating-logos" aria-hidden="true">
@@ -114,129 +136,309 @@
       </div>
     </div>
 
-    <section class="trust-strip">
-      <div class="container trust-strip__grid">
-        <div class="trust-strip__item"><i class="fa-solid fa-star" aria-hidden="true"></i><strong>25+ Years</strong><span>In business</span></div>
-        <div class="trust-strip__item"><i class="fa-solid fa-user-shield" aria-hidden="true"></i><strong>Insured Crew</strong><span>Peace of mind</span></div>
-        <div class="trust-strip__item"><i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i><strong>Free Estimates</strong><span>No obligation</span></div>
-        <div class="trust-strip__item"><i class="fa-solid fa-location-dot" aria-hidden="true"></i><strong>East Bay Area</strong><span>Local &amp; nearby</span></div>
-      </div>
-    </section>
-
-    <section class="services">
+    <!-- 2. THE DESCENT / services by height -->
+    <section class="descent" id="descent">
       <div class="section-head">
         <span class="eyebrow">Our Services</span>
-        <h2>Complete tree care, one trusted crew</h2>
-        <p>Certified, insured tree care for every job&mdash;big or small.</p>
+        <h2>One crew, every height</h2>
+        <p>Certified, insured tree care for every job&mdash;from the canopy all the way down to the curb.</p>
       </div>
-      <div class="services-grid-photo">
-        <a class="service-tile" href="/services.html">
-          <div class="service-tile__info">
-            <span class="service-tile__icon"><i class="fa-solid fa-tree" aria-hidden="true"></i></span>
-            <span class="service-tile__body">
-              <h3>Tree Trimming &amp; Pruning</h3>
-              <p>Improve tree health, structure, and appearance with precise, professional pruning.</p>
-            </span>
-            <span class="service-tile__arrow"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+      <div class="descent__wrap">
+        <div class="descent__stage" aria-hidden="true">
+          <div class="descent__photos">
+            <img class="is-on" src="/images/work-2.jpg" alt="">
+            <img src="/images/work-12.jpg" alt="">
+            <img src="/images/hero-pic-1.jpg" alt="">
+            <img src="/images/work-9.jpg" alt="">
+            <img src="/images/work-13.jpg" alt="">
           </div>
-        </a>
-
-        <a class="service-tile" href="/services.html">
-          <div class="service-tile__info">
-            <span class="service-tile__icon"><i class="fa-solid fa-truck" aria-hidden="true"></i></span>
-            <span class="service-tile__body">
-              <h3>Tree Removal</h3>
-              <p>Safe removal of hazardous, dead, or unwanted trees&mdash;protecting your home and property.</p>
-            </span>
-            <span class="service-tile__arrow"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+          <canvas class="wind descent__gl" data-srcs="/images/work-2.jpg,/images/work-12.jpg,/images/hero-pic-1.jpg,/images/work-9.jpg,/images/work-13.jpg"></canvas>
+          <div class="descent__meter">
+            <span class="descent__ft">65</span><small>ft</small>
+            <span class="descent__zone">Canopy</span>
           </div>
-        </a>
-
-        <a class="service-tile" href="/services.html">
-          <div class="service-tile__info">
-            <span class="service-tile__icon"><i class="fa-solid fa-gear" aria-hidden="true"></i></span>
-            <span class="service-tile__body">
-              <h3>Stump Grinding</h3>
-              <p>Grind stumps below ground level to eliminate tripping hazards and allow replanting.</p>
-            </span>
-            <span class="service-tile__arrow"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
-          </div>
-        </a>
-
-        <a class="service-tile" href="/services.html">
-          <div class="service-tile__info">
-            <span class="service-tile__icon"><i class="fa-solid fa-fire" aria-hidden="true"></i></span>
-            <span class="service-tile__body">
-              <h3>Brush &amp; Fire Hazard Clearing</h3>
-              <p>Reduce wildfire risk and overgrowth with thinning, cutback, and lot clearing.</p>
-            </span>
-            <span class="service-tile__arrow"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
-          </div>
-        </a>
-
-        <a class="service-tile" href="/services.html">
-          <div class="service-tile__info">
-            <span class="service-tile__icon"><i class="fa-solid fa-bolt" aria-hidden="true"></i></span>
-            <span class="service-tile__body">
-              <h3>Emergency Tree Service</h3>
-              <p>24/7 response for storm damage, fallen trees, and urgent safety hazards.</p>
-            </span>
-            <span class="service-tile__arrow"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
-          </div>
-        </a>
-
-        <a class="service-tile" href="/services.html">
-          <div class="service-tile__info">
-            <span class="service-tile__icon"><i class="fa-solid fa-leaf" aria-hidden="true"></i></span>
-            <span class="service-tile__body">
-              <h3>Cleanup &amp; Hauling</h3>
-              <p>Complete cleanup and haul-away&mdash;leaving your property safe, clean, and ready to enjoy.</p>
-            </span>
-            <span class="service-tile__arrow"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
-          </div>
-        </a>
-      </div>
-      <div class="services__foot">
-        <a class="button button--outline" href="/services.html">See all services</a>
+          <div class="descent__ticks"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <ol class="descent__steps">
+          <li class="descent__step is-on" data-zone="Canopy" data-ft="65">
+            <img class="descent__mob" src="/images/work-2.jpg" alt="Climber working high in an oak canopy" loading="lazy">
+            <span class="descent__tag">65 ft &middot; The canopy</span>
+            <h3>Tree Trimming &amp; Pruning</h3>
+            <p>Our climbers go up into the crown to thin, shape and lift your trees&mdash;better health, more light, and limbs kept off the roof and the lines.</p>
+            <a href="/services.html">More about trimming <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+          </li>
+          <li class="descent__step" data-zone="Crown" data-ft="45" data-storm>
+            <img class="descent__mob" src="/images/work-12.jpg" alt="Fallen oak limbs resting on a house roof" loading="lazy">
+            <span class="descent__tag">45 ft &middot; Storm damage</span>
+            <h3>Emergency Tree Service</h3>
+            <p>24/7 response for storm damage, fallen trees and urgent hazards. We take limbs off roofs and decks carefully, piece by piece.</p>
+            <a href="tel:+15109323088">Call (510) 932-3088 <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+          </li>
+          <li class="descent__step" data-zone="Trunk" data-ft="30">
+            <img class="descent__mob" src="/images/hero-pic-1.jpg" alt="Climber cutting a section off a tree trunk with a chainsaw" loading="lazy">
+            <span class="descent__tag">30 ft &middot; The trunk</span>
+            <h3>Tree Removal</h3>
+            <p>Hazardous, dead or unwanted trees taken down in controlled sections&mdash;protecting your home, your fence and your neighbors.</p>
+            <a href="/services.html">More about removals <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+          </li>
+          <li class="descent__step" data-zone="Brush" data-ft="10">
+            <img class="descent__mob" src="/images/work-9.jpg" alt="Tall privacy hedge trimmed to a clean, even line" loading="lazy">
+            <span class="descent__tag">10 ft &middot; Brush line</span>
+            <h3>Brush &amp; Fire Hazard Clearing</h3>
+            <p>Thinning, cutback and lot clearing to reduce wildfire risk and overgrowth&mdash;hedges finished to a clean, even line.</p>
+            <a href="/services.html">More about clearing <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+          </li>
+          <li class="descent__step" data-zone="Ground" data-ft="0">
+            <img class="descent__mob" src="/images/work-13.jpg" alt="Tino's crew feeding branches into the chipper" loading="lazy">
+            <span class="descent__tag">0 ft &middot; The ground</span>
+            <h3>Stump Grinding, Cleanup &amp; Hauling</h3>
+            <p>Stumps ground below grade, every branch through the chipper, and the street swept. We leave the yard ready to enjoy.</p>
+            <a href="/services.html">See all services <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+          </li>
+        </ol>
       </div>
     </section>
 
-    <section class="testimonials" aria-labelledby="testimonials-heading">
-      <div class="testimonials__container">
-        <div class="section-head">
-          <span class="eyebrow">Reviews</span>
-          <h2 id="testimonials-heading" style="color:#fff;">What neighbors say</h2>
+
+    <!-- JOB DAY / sideways timeline with a clock -->
+    <section class="day" data-zone="Ground" data-ft="0">
+      <div class="day__pin">
+        <div class="day__head">
+          <div>
+            <span class="eyebrow">A typical job day</span>
+            <h2>From first cone<br>to a clean curb.</h2>
+          </div>
+          <div class="day__clock" aria-hidden="true">
+            <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="#f6f2e8" stroke="#0c1f13" stroke-width="6"/>
+              <g class="day__ticks" stroke="#0c1f13" stroke-width="3" stroke-linecap="round"></g>
+              <line class="day__hour" x1="60" y1="60" x2="60" y2="32" stroke="#0c1f13" stroke-width="6" stroke-linecap="round"/>
+              <line class="day__min" x1="60" y1="60" x2="60" y2="18" stroke="#0b7a2a" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="60" cy="60" r="5" fill="#f2b705"/></svg>
+            <b class="day__time">7:00 am</b>
+          </div>
         </div>
-        <div class="testimonials__grid">
-          <figure class="testimonial">
+        <div class="day__track">
+          <article class="day__card" data-h="7"><img src="/images/work-13.jpg" alt="Tino's crew setting up the chipper at the curb" loading="lazy"><div><span>7:00 am</span><h3>Arrive &amp; set up</h3><p>Cones out, chipper parked, a quick walk-around with you to confirm the plan.</p></div></article>
+          <article class="day__card" data-h="8"><img src="/images/work-2.jpg" alt="Climber tied in high in an oak canopy" loading="lazy"><div><span>8:00 am</span><h3>Climb &amp; tie in</h3><p>Our climber ropes up into the canopy with a safe anchor point.</p></div></article>
+          <article class="day__card" data-h="10"><img src="/images/hero-crew.jpg" alt="Crew working in the tree" loading="lazy"><div><span>10:00 am</span><h3>Rig &amp; lower</h3><p>Big limbs are roped and lowered under control&mdash;nothing gets dropped on your roof.</p></div></article>
+          <article class="day__card" data-h="12"><img src="/images/hero-pic-1.jpg" alt="Cutting a trunk section with a chainsaw" loading="lazy"><div><span>12:00 pm</span><h3>Cut in sections</h3><p>Trunks come down piece by piece, sized to carry out safely.</p></div></article>
+          <article class="day__card" data-h="13.5"><img src="/images/work-4.jpg" alt="Cut branches stacked at the curb next to the chipper" loading="lazy"><div><span>1:30 pm</span><h3>Chip it all</h3><p>Every branch goes through the chipper and gets hauled away.</p></div></article>
+          <article class="day__card" data-h="15"><img src="/images/hero-real.jpg" alt="Crew cleaning up in front of a house" loading="lazy"><div><span>3:00 pm</span><h3>Sweep the curb</h3><p>Rake, blow and sweep&mdash;the yard and street left cleaner than we found them.</p></div></article>
+        </div>
+        <p class="day__note">Every job is different&mdash;this is what a typical removal day looks like.</p>
+      </div>
+    </section>
+
+    <!-- 3. GROWTH RINGS / 25 years -->
+    <section class="rings" id="years" data-zone="Ground">
+      <div class="rings__pin">
+        <div class="rings__text">
+          <span class="eyebrow">Since day one</span>
+          <h2>Every ring is a year<br>of East Bay jobs.</h2>
+          <p>Count them. Tino's has been climbing, cutting and cleaning up for neighbors for more than 25 years&mdash;family owned and operated the whole way.</p>
+          <div class="rings__count"><b class="rings__num">0</b><span>years<br>in business</span></div>
+        </div>
+        <div class="rings__slice">
+          <canvas class="rings__canvas" aria-hidden="true"></canvas>
+          <ul class="rings__notes">
+            <li style="--a:-60deg"><i class="fa-solid fa-house" aria-hidden="true"></i> Family owned</li>
+            <li style="--a:10deg"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Licensed &amp; insured</li>
+            <li style="--a:80deg"><i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i> Free estimates</li>
+            <li style="--a:150deg"><i class="fa-solid fa-id-card" aria-hidden="true"></i> License #1094445</li>
+            <li style="--a:220deg"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> East Bay Area, CA</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. CLEAN CUT / before & after on scroll -->
+    <section class="cut" data-zone="Ground">
+      <div class="cut__pin">
+        <div class="cut__head">
+          <span class="eyebrow">Real jobs</span>
+          <h2>Watch the clean cut.</h2>
+          <div class="cut__tabs" role="tablist">
+            <button class="is-on" role="tab" aria-selected="true" data-pair="0">Oak by the power lines</button>
+            <button role="tab" aria-selected="false" data-pair="1">Cedar crown thinning</button>
+          </div>
+        </div>
+        <div class="cut__frame">
+          <img class="cut__before" src="/images/work-1.jpg" alt="Before: overgrown oak in a front yard growing into the power lines">
+          <img class="cut__after" src="/images/work-3.jpg" alt="After: oak thinned and cleared away from the power lines">
+          <div class="cut__line" aria-hidden="true"></div>
+          <canvas class="cut__dust" aria-hidden="true"></canvas>
+          <span class="cut__label cut__label--b">Before</span>
+          <span class="cut__label cut__label--a">After</span>
+        </div>
+        <p class="cut__hint">Keep scrolling &mdash; the cut follows you. <a href="/our-work.html">See all our work &rarr;</a></p>
+      </div>
+    </section>
+
+
+    <!-- HEDGE GAME -->
+    <section class="hedge" data-zone="Ground">
+      <div class="hedge__inner">
+        <div class="hedge__text">
+          <span class="eyebrow">Your turn</span>
+          <h2>Trim this hedge.</h2>
+          <p>Rub across the overgrowth to trim it back to a clean line. (We do the real ones.)</p>
+          <div class="hedge__meter"><div class="hedge__bar"><i></i></div><b class="hedge__pct">0%</b> trimmed</div>
+          <div class="hedge__win" hidden>
+            <strong>Clean line. Nice work.</strong>
+            <p>That's the real hedge we trimmed. Want yours to look like that?</p>
+            <a class="button" href="/signup.html?service=Trimming+%26+Pruning">Get a free trimming estimate</a>
+          </div>
+        </div>
+        <div class="hedge__stage">
+          <img class="hedge__photo" src="/images/work-9.jpg" alt="Tall privacy hedge trimmed to a clean, even line by Tino's crew" loading="lazy">
+          <canvas class="hedge__canvas" aria-label="Hedge trimming mini game"></canvas>
+          <button type="button" class="hedge__reset">Grow it back</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. REVIEWS / hanging from a branch -->
+    <section class="branch" data-zone="Ground" aria-labelledby="testimonials-heading">
+      <div class="section-head">
+        <span class="eyebrow">Reviews</span>
+        <h2 id="testimonials-heading">Hanging on every word</h2>
+        <p>Real Google reviews from neighbors around the East Bay.</p>
+      </div>
+      <div class="branch__wrap">
+        <svg class="branch__wood" viewBox="0 0 1200 90" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M-10 52 C 180 30, 330 62, 520 44 S 860 22, 1000 40 S 1160 50, 1215 30 L 1215 46 C 1150 64, 1010 60, 990 56 S 860 42, 700 58 S 330 80, 170 66 S 20 70, -10 70 Z" fill="#3b2a1c"/>
+          <path d="M980 44 c 30 -20 60 -28 90 -26" stroke="#3b2a1c" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <path d="M300 56 c -20 -22 -40 -30 -70 -34" stroke="#3b2a1c" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <ellipse cx="1072" cy="16" rx="16" ry="7" fill="#0e8c31" transform="rotate(-20 1072 16)"/>
+          <ellipse cx="226" cy="22" rx="15" ry="6" fill="#0b7a2a" transform="rotate(18 226 22)"/>
+          <ellipse cx="640" cy="40" rx="13" ry="5" fill="#0e8c31" transform="rotate(-30 640 40)"/>
+        </svg>
+        <div class="branch__cards">
+          <figure class="testimonial hang">
+            <span class="hang__rope" aria-hidden="true"></span>
             <div class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <blockquote>
-              &ldquo;Fast, professional, and left the yard spotless. We'll definitely call again.&rdquo;
-            </blockquote>
+            <blockquote>&ldquo;Fast, professional, and left the yard spotless. We'll definitely call again.&rdquo;</blockquote>
             <figcaption>&mdash; Maria G.</figcaption>
           </figure>
-          <figure class="testimonial">
+          <figure class="testimonial hang">
+            <span class="hang__rope" aria-hidden="true"></span>
             <div class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <blockquote>
-              &ldquo;They safely removed a dangerous oak leaning over our fence. Fair price and great communication.&rdquo;
-            </blockquote>
+            <blockquote>&ldquo;They safely removed a dangerous oak leaning over our fence. Fair price and great communication.&rdquo;</blockquote>
             <figcaption>&mdash; Kevin L.</figcaption>
           </figure>
-          <figure class="testimonial">
+          <figure class="testimonial hang">
+            <span class="hang__rope" aria-hidden="true"></span>
             <div class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <blockquote>
-              &ldquo;Super friendly crew. The pruning made our trees look healthier and let in more light.&rdquo;
-            </blockquote>
+            <blockquote>&ldquo;Super friendly crew. The pruning made our trees look healthier and let in more light.&rdquo;</blockquote>
             <figcaption>&mdash; April S.</figcaption>
           </figure>
         </div>
-        <div class="testimonials__more">
-          <a class="button button--cream" href="https://share.google/BmWV8PMSILavNV3VV" target="_blank" rel="noopener">Read more reviews on Google</a>
+      </div>
+      <div class="testimonials__more">
+        <a class="button" href="https://share.google/BmWV8PMSILavNV3VV" target="_blank" rel="noopener">Read more reviews on Google</a>
+      </div>
+    </section>
+
+    <!-- 6. SIZE UP YOUR TREE / prefill the estimate form -->
+    <section class="sizeup" id="size-up" data-zone="Curb">
+      <div class="sizeup__inner">
+        <div class="sizeup__panel">
+          <span class="eyebrow">Free estimate</span>
+          <h2>Size up your tree.</h2>
+          <p class="sizeup__sub">Three quick taps and we'll fill in the estimate form for you.</p>
+
+          <fieldset class="sizeup__q">
+            <legend><b>1</b> What do you need?</legend>
+            <div class="sizeup__chips" data-q="service">
+              <button type="button" data-v="Trimming &amp; Pruning" aria-pressed="false"><i class="fa-solid fa-scissors" aria-hidden="true"></i> Trim / prune</button>
+              <button type="button" data-v="Tree Removal" aria-pressed="false"><i class="fa-solid fa-tree" aria-hidden="true"></i> Remove a tree</button>
+              <button type="button" data-v="Stump Grinding &amp; Cleanup" aria-pressed="false"><i class="fa-solid fa-gear" aria-hidden="true"></i> Stump / cleanup</button>
+              <button type="button" data-v="Emergency / Storm Damage" aria-pressed="false"><i class="fa-solid fa-bolt" aria-hidden="true"></i> Storm damage</button>
+              <button type="button" data-v="Not sure yet" aria-pressed="false"><i class="fa-solid fa-circle-question" aria-hidden="true"></i> Not sure</button>
+            </div>
+          </fieldset>
+
+          <fieldset class="sizeup__q">
+            <legend><b>2</b> About how tall is it?</legend>
+            <input class="sizeup__range" type="range" min="10" max="100" step="5" value="35" aria-label="Tree height in feet">
+            <div class="sizeup__readout"><b class="sizeup__h">35 ft</b> <span class="sizeup__like">about a 3-story house</span></div>
+          </fieldset>
+
+          <fieldset class="sizeup__q">
+            <legend><b>3</b> How soon?</legend>
+            <div class="sizeup__chips" data-q="urgency">
+              <button type="button" data-v="Standard Service" aria-pressed="true"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Whenever works</button>
+              <button type="button" data-v="Emergency / Hazard" aria-pressed="false"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> It's urgent</button>
+            </div>
+          </fieldset>
+
+          <div class="sizeup__go">
+            <a class="button sizeup__send" href="/signup.html">Continue to my free estimate <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+            <a class="button button--outline" href="sms:+15109323088"><i class="fa-solid fa-comment" aria-hidden="true"></i> Text us photos</a>
+          </div>
+        </div>
+        <div class="sizeup__scene" aria-hidden="true">
+          <svg class="sizeup__svg" viewBox="0 0 400 460">
+            <defs>
+              <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6efe0"/><stop offset="1" stop-color="#f6f2e8"/></linearGradient>
+            </defs>
+            <rect width="400" height="460" rx="22" fill="url(#skyG)"/>
+            <g class="sizeup__marks" font-size="11" fill="#5c6b5f" font-family="Kumbh Sans, sans-serif"></g>
+            <!-- house for scale (3 stories ~ 35ft) -->
+            <g class="sizeup__house" transform="translate(40,0)">
+              <rect x="0" y="292" width="92" height="128" fill="#d9cfb8"/>
+              <polygon points="-8,296 46,258 100,296" fill="#7a5c3e"/>
+              <rect x="14" y="312" width="20" height="20" fill="#f6f2e8"/><rect x="58" y="312" width="20" height="20" fill="#f6f2e8"/>
+              <rect x="14" y="350" width="20" height="20" fill="#f6f2e8"/><rect x="58" y="350" width="20" height="20" fill="#f6f2e8"/>
+              <rect x="36" y="388" width="20" height="32" fill="#0b7a2a"/>
+            </g>
+            <!-- the tree that grows -->
+            <g class="sizeup__tree" transform="translate(262,420)">
+              <g class="sizeup__grow">
+                <rect x="-7" y="-100" width="14" height="100" fill="#5a3e28" rx="3"/>
+                <circle cx="0" cy="-118" r="44" fill="#0b7a2a"/>
+                <circle cx="-30" cy="-92" r="30" fill="#0e8c31"/>
+                <circle cx="30" cy="-96" r="32" fill="#0a6a25"/>
+                <circle cx="2" cy="-152" r="30" fill="#0e8c31"/>
+              </g>
+            </g>
+            <!-- person for scale -->
+            <g transform="translate(176,420)" fill="#172317"><circle cx="0" cy="-48" r="6"/><rect x="-5" y="-41" width="10" height="24" rx="4"/><rect x="-5" y="-19" width="4" height="19"/><rect x="1" y="-19" width="4" height="19"/></g>
+            <rect x="0" y="420" width="400" height="40" fill="#0c1f13"/>
+            <rect x="0" y="420" width="400" height="5" fill="#0b7a2a"/>
+          </svg>
+          <p class="sizeup__note">Not sure of the height? Just guess&mdash;we'll measure it on the free visit.</p>
         </div>
       </div>
     </section>
 
-    <section class="cta-band">
+
+    <!-- FINALE / everything through the chipper -->
+    <section class="finale" id="last-step" data-zone="Curb">
+      <div class="finale__scene">
+        <video class="finale__video" muted loop playsinline preload="none" aria-hidden="true"
+          poster="/images/fx/log-poster.webp" data-src="/video/log-loop.mp4"
+          data-src-mobile="/video/log-loop-m.mp4" data-poster-mobile="/images/fx/log-poster-m.webp"></video>
+        <div class="finale__hang">
+          <span class="finale__rope" aria-hidden="true"></span>
+          <span class="finale__bar" aria-hidden="true"></span>
+          <figure class="logtag logtag--l"><img src="/images/work-11.jpg" alt="Storm-fallen oak limb across a backyard, before Tino's crew removed it" loading="lazy"><figcaption>Storm cleanup</figcaption></figure>
+          <figure class="logtag logtag--c"><img src="/images/work-13.jpg" alt="Tino's crew feeding branches into their green chipper at the curb" loading="lazy"><figcaption>Into the chipper</figcaption></figure>
+          <figure class="logtag logtag--r"><img src="/images/work-7.jpg" alt="Tall palm freshly trimmed by Tino's crew" loading="lazy"><figcaption>Palm trim</figcaption></figure>
+        </div>
+      </div>
+      <div class="finale__inner">
+        <span class="eyebrow">The last step</span>
+        <h2>Every piece comes down<br>on a rope.</h2>
+        <p class="finale__cuts">You cut a few branches on the way in. We'll rig the rest down safely, chip it, and leave a clean curb.</p>
+        <div class="hero__cta">
+          <a class="button button--cream" href="/signup.html">Request a free estimate</a>
+          <a class="button button--outline-cream" href="tel:+15109323088"><i class="fa-solid fa-phone" aria-hidden="true"></i> (510) 932-3088</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-band" data-zone="Curb">
       <div class="cta-band__inner">
         <div>
           <h2>Have a tree project in mind?</h2>
@@ -277,6 +479,15 @@
     </div>
   </footer>
 
-  <script src="/app.js?v=20261103" defer></script>
+  <script src="/app.js?v=20261111" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+  <script src="/wind.js?v=20261111" defer></script>
+  <script src="/immersive.js?v=20261113" defer></script>
+  <script src="/intro.js?v=20261113" defer></script>
+  <script src="/sections.js?v=20261113" defer></script>
+  <script src="/sound.js?v=20261111" defer></script>
+  <script src="/scrub.js?v=20261113" defer></script>
 </body>
 </html>
