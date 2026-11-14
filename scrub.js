@@ -53,14 +53,25 @@
     return null;
   }
 
-  let W = 0, H = 0, dpr = 1;
+  // Resizing a canvas wipes it, so every real resize forces a redraw.
+  // Size from the canvas's own CSS box (100vh), which stays put when a
+  // phone's address bar slides in and out, so those don't clear it at all.
+  let W = 0, H = 0, dpr = 1, dirty = true;
   function size() {
-    dpr = Math.min(devicePixelRatio || 1, 2);
-    W = innerWidth; H = innerHeight;
-    cv.width = W * dpr; cv.height = H * dpr;
+    const d = Math.min(devicePixelRatio || 1, 2);
+    const w = cv.clientWidth || innerWidth, h = cv.clientHeight || innerHeight;
+    if (w === W && h === H && d === dpr) return;
+    W = w; H = h; dpr = d;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    dirty = true;
   }
   addEventListener('resize', size);
+  addEventListener('orientationchange', () => setTimeout(size, 250));
+  // the browser can drop a canvas while the tab is in the background
+  cv.addEventListener('contextrestored', () => { dirty = true; });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) dirty = true; });
+  addEventListener('pageshow', () => { dirty = true; });
   size();
 
   // rain drops (screen space)
@@ -76,10 +87,10 @@
     cur += (target - cur) * (reduce ? 1 : 0.18);
     const storm = s.storm || 0, end = s.end || 0;
     const idx = Math.round(cur);
-    if (idx === lastDrawn && storm < 0.01 && lastStorm < 0.01 && Math.abs(end - lastEnd) < 0.002) return;
+    if (!dirty && idx === lastDrawn && storm < 0.01 && lastStorm < 0.01 && Math.abs(end - lastEnd) < 0.002) return;
     const img = nearest(idx);
     if (!img) return;
-    lastDrawn = idx; lastStorm = storm; lastEnd = end;
+    lastDrawn = idx; lastStorm = storm; lastEnd = end; dirty = false;
 
     // cover-fit, with a slow push-out in the finale
     const zoom = 1 + (1 - end) * 0 + end * 0.0;
