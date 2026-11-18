@@ -331,6 +331,8 @@ footer{background:var(--dark);}
 #footer-logo i{color:var(--brand-2);}
 .social__media{border-top:1px solid var(--line); margin-top:36px; padding-top:24px;}
 .website__rights{color:var(--muted-on-dark); font-size:.85rem;}
+.website__rights a{color:inherit; text-decoration:none;}
+.website__rights a:hover{color:#fff;}
 
 /* Testimonials */
 .testimonials{background:var(--dark); padding:80px 20px;}
